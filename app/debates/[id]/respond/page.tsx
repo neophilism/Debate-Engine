@@ -42,7 +42,7 @@ export default function RespondPage({params}:{params:Promise<{id:string}>}){
    const mappedAnswers=priorQuestions.filter(q=>answers[q.id]!==undefined&&answers[q.id]!=="").map(q=>({questionId:q.id,...position(answers[q.id])}));
    const questions=questionText.trim()?[{text:questionText.trim(),...position(questionPosition)}]:[];
    const response=await fetch("/api/debates/"+debateId+"/contributions",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({
-     candidacyId,modality,mediaAssetId:writing?undefined:mediaAssetId,writtenContent:writing?writtenContent:undefined,
+     candidacyId:candidateId,modality,mediaAssetId:writing?undefined:mediaAssetId,writtenContent:writing?writtenContent:undefined,
      parentSubmissionId,answers:mappedAnswers,questions,archiveConsent,sequenceConsent
    })});
    const result=await response.json();if(!response.ok)throw Error(result.error||"Could not publish your response.");
