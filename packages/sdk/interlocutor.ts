@@ -7,7 +7,8 @@ export interface PublicDebateSummary {
 }
 export interface PageResult<T>{schemaVersion:string;items:T[];nextCursor:string|null}
 export class InterlocutorReadClient{
- constructor(private origin:string){
+ private origin:string;
+ constructor(origin:string){
   const u=new URL(origin);
   if(u.protocol!=="https:"||u.username||u.password||u.search||u.hash||u.pathname!=="/")throw Error("Public Debate Engine origin must be an HTTPS root.");
   this.origin=u.origin;
