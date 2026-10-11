@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-11T22:47:03.581Z",
+  "observedAt": "2026-10-11T22:50:08.724Z",
   "units": [
     {
       "id": "PDE-01",
@@ -337,7 +337,8 @@
       "title": "Written speeches, answers, publication and immutable revisions",
       "origin": "addition",
       "prs": [
-        38
+        38,
+        66
       ]
     },
     {
@@ -420,6 +421,21 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4822978746,
+      "number": 66,
+      "title": "PDE-36: Author-attributed permanent corrections without overwriting speech",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/66",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-11T22:48:28Z",
+      "updatedAt": "2026-10-11T22:49:58Z",
+      "closedAt": "2026-10-11T22:49:58Z",
+      "mergedAt": "2026-10-11T22:49:58Z",
+      "headSha": "c52fa3d822c99a70ea8b9b9ac37439ab1178e1a7",
+      "baseRef": "main",
+      "mergeCommitSha": "98ade6ec3dc7db8b91aa4c6a97f175adb8c7ae44"
+    },
     {
       "id": 4822962221,
       "number": 65,
