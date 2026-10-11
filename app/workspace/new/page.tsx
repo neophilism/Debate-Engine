@@ -35,7 +35,7 @@ export default function NewDebatePage(){
    if(modality!=="writing"&&!mediaAssetId)throw Error("Validate your original recording first.");
    const mapped=questions.map(q=>modality==="writing"?{text:q.text,characterOffset:Number(q.position)}:{text:q.text,timestamp:Number(q.position)});
    const res=await fetch("/api/debates",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({
-     candidacyId,modality,allowedModalities:allowed,mediaAssetId:modality==="writing"?undefined:mediaAssetId,
+     candidacyId:candidateId,modality,allowedModalities:allowed,mediaAssetId:modality==="writing"?undefined:mediaAssetId,
      writtenContent:modality==="writing"?writtenContent:undefined,title,proposition,maxResponseSeconds,replyWindowHours,
      questions:mapped,archiveConsent,sequenceConsent
    })});const out=await res.json();if(!res.ok)throw Error(out.error||"Publication failed.");
