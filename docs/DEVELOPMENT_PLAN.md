@@ -497,3 +497,45 @@ These sources ground current infrastructure constraints and existing repository 
 - S5. W3C WAI, Making Audio and Video Media Accessible: https://www.w3.org/WAI/media/av/
 - S6. W3C WAI, Understanding SC 1.2.2 Captions (Prerecorded): https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html
 - S7. Existing Engine Room README, retrieved through GitHub: https://github.com/neophilism/Engine-Room/blob/main/README.md (retrieved blob SHA 3f6ff61d931bc8764652fdafa1d812c88c42ad6f).
+
+
+## Approved October 11, 2026 expansion — multimodal public debate and private Debate Assistant
+
+**Approval:** The owner approved PDE-31–PDE-44; the authoritative total is **44 planned work units** in [`registry/roadmap.json`](../registry/roadmap.json). The original 30 items remain fully preserved. Actual PR numbers and CI acceptance are linked in the registry, not inferred from milestone ordinals.
+
+### Universal media protocol
+
+Debates are video-only by default. A candidate initiating a debate selects any nonempty subset of **Video**, **Audio**, and **Writing**; these permitted forms remain immutable after public opening. All contender and originator contributions may use **any permitted medium**, and participants may change medium on each reply. No medium confers extra validity, access, response time, or eligibility.
+
+The canonical reciprocal answer/assessment rules remain identical. For written responses, question/answer references use stable text offsets or section anchors rather than video timestamps. Audio and video use timestamps. An opening candidate must identify the same one-to-three specific opening questions in the submitted content. The selected format is permanent metadata on the full public record and qualifying sequence. A response in an unselected format is rejected *before publication*; originator may not arbitrarily reject a permitted medium. Every published response remains public even if the questioner later judges an answer inadequate. Unedited published writing is immutable; corrections are added as linked historical versions.
+
+### Private Debate Assistant — editorial aid, not a public judge
+
+The Debate Assistant performs a **private, opt-in preliminary analysis of a pending draft before its owner approves publication** and a **private, distinct final analysis of exactly the published content** after approval. It may identify possible reasoning gaps, ambiguity, cognitive biases, evidence limitations, unaddressed questions, inflammatory phrasing, or a possible ad hominem argument. Suggestions use calibrated, nonbinding language and highlight quoted passages and uncertainty. The author can ignore, revise or reject any or all suggestions without penalties. The owner—not the assistant—controls final edits and publication. Automatic textual or synthetic media replacements are expressly a **later optional capability**, require granular consent, must never replace source originals, and are outside the current release gate.
+
+The preliminary and final model runs are separate nondeterministic analyses; they can disagree. Neither private run influences public qualifying sequence eligibility, the questioner’s independent answer assessment, or a public winner/score. The system will not publish numerical grades, private findings, assessment transcripts, model prompts, draft media, or private suggestions to public feeds, archives, embeds, or opponent accounts.
+
+**Privacy and improvement:** Assessments remain account-private with strong candidate-scope authorization, encrypted storage where practicable, retention limits, controlled deletion, and access audit. They can inform future assistant improvements using bounded feedback and explicit consent, with policy-defined de-identification; no automatic cross-user training or sharing of unreleased speech. Third-party inference/transcription requires a separate, specific disclosure and opt-in; if no provider is configured the interface must state assessment unavailable and never fabricate findings.
+
+### Renaming and Interlocutor
+
+The reusable engine’s product name is **Public Debate Engine**. The intended repository slug is `neophilism/Public-Debate-Engine`; perform the GitHub rename before replacing existing source links, preserve old-path redirect recognition and Render deployment settings, and confirm Engine Room canonical project identity after changing the URL. Until the administrative rename is verified, links continue to use the existing actual repository location to avoid breakage. A separate branded application, **Interlocutor**, will consume stable public APIs, embeds and neutral components without forking debate-protocol or private assessment authorization logic.
+
+### Added roadmap (approved)
+
+- **PDE-31** — Rename GitHub repository and preserve integration continuity
+- **PDE-32** — Standardize Public Debate Engine product name and repository references
+- **PDE-33** — Per-debate Video, Audio and Writing selection (video default)
+- **PDE-34** — Unified submissions and reciprocal protocol across all media
+- **PDE-35** — Audio upload, processing, playback and preservation
+- **PDE-36** — Written speeches, answers, publication and immutable revisions
+- **PDE-37** — Multimodal candidate composer, workspace and public rendering
+- **PDE-38** — Private preliminary Debate Assistant with bias and reasoning analysis
+- **PDE-39** — Candidate-controlled suggestion review, revision and confirmation
+- **PDE-40** — Private final assessment of exactly the approved publication
+- **PDE-41** — Assessment privacy, access controls, retention and training-consent governance
+- **PDE-42** — Nondeterministic assistant evaluation and improvement-feedback controls
+- **PDE-43** — Interlocutor thin branded application integration contract
+- **PDE-44** — End-to-end multimodal security, privacy, accessibility and production acceptance
+
+**Release gate:** Real multimodal browser tests, inaccessible private-assessment data from every public API, candidate-only preflight/final results, preservation tests, model false-positive and variation audits, provider permission tests, secure media review, backup/restore checks, accessibility, independent security review, and verified Render/Neon operations must pass. PR merge != product acceptance.
