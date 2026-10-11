@@ -78,7 +78,7 @@ export async function transcribePrivateSpeech(draftId:string,authSubject:string)
  const transcript=result.text as string;
  return transaction(async db=>{
   const fresh=await loadPrivateDraft(draftId,authSubject,true,db);
-  if(fresh.content_sha256!==draft.content_sha256||fresh.status!==draft.status)
+  if(!fresh.provider_consent||fresh.content_sha256!==draft.content_sha256||fresh.status!==draft.status)
    throw new HttpError(409,"Draft changed during transcription. The generated text was not saved.");
   const hash=draftFingerprint(fresh.payload,transcript);
   await db.query("UPDATE private_submission_drafts SET transcript_text=$2,content_sha256=$3,status='draft',skipped_preliminary=false,updated_at=now() WHERE id=$1",
