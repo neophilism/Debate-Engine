@@ -439,5 +439,13 @@
     "independentBackupRestore": "pending",
     "securityReview": "pending",
     "productionRelease": "not_authorized"
-  }
+  },
+  "repository": "neophilism/Debate-Engine",
+  "planVerified": true,
+  "plannedPrCount": 30,
+  "sourceFiles": [
+    "docs/DEVELOPMENT_PLAN.md",
+    "registry/roadmap.json"
+  ],
+  "canonicalRoadmapNotice": "All new PRs should be appended as distinct approved work units; pending media/writing/assistant features are awaiting owner approval and are NOT counted yet."
 }
