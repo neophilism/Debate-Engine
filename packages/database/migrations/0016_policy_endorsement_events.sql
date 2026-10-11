@@ -6,13 +6,14 @@ CREATE TABLE policy_endorsement_events (
  candidacy_id uuid NOT NULL REFERENCES candidacies(id),
  action text NOT NULL CHECK(action IN ('accept','withdraw')),
  occurred_at timestamptz NOT NULL DEFAULT now(),
+ event_order bigint GENERATED ALWAYS AS IDENTITY UNIQUE,
  FOREIGN KEY (policy_version_id,content_sha256) REFERENCES policy_versions(id,content_sha256)
 );
 -- Existing immutable policy_acceptances represent the first historical acceptance by each candidate.
 INSERT INTO policy_endorsement_events(policy_version_id,content_sha256,candidacy_id,action,occurred_at)
  SELECT policy_version_id,content_sha256,candidacy_id,'accept',signed_at FROM policy_acceptances;
 CREATE INDEX policy_endorsement_latest_idx ON policy_endorsement_events
- (policy_version_id,candidacy_id,occurred_at DESC,id DESC);
+ (policy_version_id,candidacy_id,event_order DESC);
 CREATE OR REPLACE FUNCTION pde_guard_policy_endorsement() RETURNS trigger LANGUAGE plpgsql AS $$
 DECLARE originator uuid;contender uuid;actual_digest char(64);
 BEGIN

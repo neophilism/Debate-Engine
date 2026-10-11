@@ -32,13 +32,13 @@ export async function proposePolicy(input:{branchId:string;candidateId:string;au
 }
 async function endorsementState(db:import("pg").PoolClient,versionId:string){
  const q=await db.query<{candidacy_id:string;action:string}>(
-  "SELECT DISTINCT ON (candidacy_id) candidacy_id,action FROM policy_endorsement_events WHERE policy_version_id=$1 ORDER BY candidacy_id,occurred_at DESC,id DESC",
+  "SELECT DISTINCT ON (candidacy_id) candidacy_id,action FROM policy_endorsement_events WHERE policy_version_id=$1 ORDER BY candidacy_id,event_order DESC",
   [versionId]);
  return new Set(q.rows.filter(x=>x.action==="accept").map(x=>x.candidacy_id));
 }
 async function latestEndorsement(db:import("pg").PoolClient,versionId:string,candidateId:string){
  const q=await db.query<{action:string}>(
-  "SELECT action FROM policy_endorsement_events WHERE policy_version_id=$1 AND candidacy_id=$2 ORDER BY occurred_at DESC,id DESC LIMIT 1",
+  "SELECT action FROM policy_endorsement_events WHERE policy_version_id=$1 AND candidacy_id=$2 ORDER BY event_order DESC LIMIT 1",
   [versionId,candidateId]);
  return q.rows[0]?.action||null;
 }

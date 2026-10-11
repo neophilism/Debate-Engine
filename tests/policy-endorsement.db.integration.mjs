@@ -27,7 +27,7 @@ test("withdrawal is append-only, independently attributable and does not remove 
    await db.query(sql,[version,hash,who,"accept"]);
   }
   const withdrawal=(await db.query(sql,[version,hash,candidates[0],"withdraw"])).rows[0].id;
-  const latest=(await db.query("SELECT DISTINCT ON (candidacy_id) candidacy_id,action FROM policy_endorsement_events WHERE policy_version_id=$1 ORDER BY candidacy_id,occurred_at DESC,id DESC",[version])).rows;
+  const latest=(await db.query("SELECT DISTINCT ON (candidacy_id) candidacy_id,action FROM policy_endorsement_events WHERE policy_version_id=$1 ORDER BY candidacy_id,event_order DESC",[version])).rows;
   assert.equal(latest.filter(x=>x.action==="accept").length,1);
   assert.equal((await db.query("SELECT count(*)::integer AS n FROM policy_acceptances WHERE policy_version_id=$1",[version])).rows[0].n,2);
   await db.query("SAVEPOINT immutable");

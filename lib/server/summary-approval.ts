@@ -64,7 +64,7 @@ export async function releaseSummary(input:{branchId:string;artifactId:string;ca
    "SELECT rendered_storage_key FROM derivative_artifacts WHERE id=$1 AND branch_id=$2 AND status='approved' FOR UPDATE",[input.artifactId,input.branchId]);
   if(!art.rowCount||!art.rows[0].rendered_storage_key)throw new HttpError(409,"Both candidate approvals of a rendered file are required.");
   const policy=await db.query<{id:string}>(
-   "SELECT p.id FROM policy_versions p WHERE p.branch_id=$1 AND (SELECT e.action FROM policy_endorsement_events e WHERE e.policy_version_id=p.id AND e.candidacy_id=$2 ORDER BY e.occurred_at DESC,e.id DESC LIMIT 1)='accept' AND (SELECT e.action FROM policy_endorsement_events e WHERE e.policy_version_id=p.id AND e.candidacy_id=$3 ORDER BY e.occurred_at DESC,e.id DESC LIMIT 1)='accept' LIMIT 1",
+   "SELECT p.id FROM policy_versions p WHERE p.branch_id=$1 AND (SELECT e.action FROM policy_endorsement_events e WHERE e.policy_version_id=p.id AND e.candidacy_id=$2 ORDER BY e.event_order DESC LIMIT 1)='accept' AND (SELECT e.action FROM policy_endorsement_events e WHERE e.policy_version_id=p.id AND e.candidacy_id=$3 ORDER BY e.event_order DESC LIMIT 1)='accept' LIMIT 1",
    [input.branchId,p.originator_candidacy_id,p.responder_candidacy_id]);
   if(!policy.rowCount)throw new HttpError(409,"No jointly accepted policy exists for this branch.");
   await db.query("UPDATE derivative_artifacts SET status='released' WHERE id=$1",[input.artifactId]);
