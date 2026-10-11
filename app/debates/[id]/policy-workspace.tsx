@@ -16,13 +16,13 @@ export default function PolicyWorkspace({branches}:{branches:Branch[]}){
  useEffect(()=>{if(!branchId)return;fetch("/api/branches/"+branchId+"/policies",{cache:"no-store"}).then(r=>r.json()).then(j=>setPolicies(j.policies||[])).catch(()=>setMessage("Could not load proposals."))},[branchId]);
  async function submit(e:FormEvent){
   e.preventDefault();setBusy(true);setMessage("");
-  try{const r=await fetch("/api/branches/"+branchId+"/policies",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({candidacyId,policyBody:body})});const j=await r.json();if(!r.ok)throw Error(j.error||"Proposal failed.");setBody("");setMessage("Policy proposal published with immutable version identifier.");const response=await fetch("/api/branches/"+branchId+"/policies",{cache:"no-store"});setPolicies((await response.json()).policies||[]);
+  try{const r=await fetch("/api/branches/"+branchId+"/policies",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({candidacyId:candidateId,policyBody:body})});const j=await r.json();if(!r.ok)throw Error(j.error||"Proposal failed.");setBody("");setMessage("Policy proposal published with immutable version identifier.");const response=await fetch("/api/branches/"+branchId+"/policies",{cache:"no-store"});setPolicies((await response.json()).policies||[]);
   }catch(e){setMessage(e instanceof Error?e.message:"Proposal failed.");}finally{setBusy(false);}
  }
  async function accept(v:Version){
   if(confirmed!==v.id){setConfirmed(v.id);return;}
   setBusy(true);setMessage("");
-  try{const r=await fetch("/api/branches/"+branchId+"/policies/"+v.id+"/accept",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({candidacyId,sha256:v.content_sha256})});const j=await r.json();if(!r.ok)throw Error(j.error||"Approval failed.");setMessage(j.jointlyAgreed?"Both candidates have accepted this exact policy version.":"Acceptance recorded. Waiting for the other candidate's consent.");setConfirmed(null);const response=await fetch("/api/branches/"+branchId+"/policies",{cache:"no-store"});setPolicies((await response.json()).policies||[]);
+  try{const r=await fetch("/api/branches/"+branchId+"/policies/"+v.id+"/accept",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({candidacyId:candidateId,sha256:v.content_sha256})});const j=await r.json();if(!r.ok)throw Error(j.error||"Approval failed.");setMessage(j.jointlyAgreed?"Both candidates have accepted this exact policy version.":"Acceptance recorded. Waiting for the other candidate's consent.");setConfirmed(null);const response=await fetch("/api/branches/"+branchId+"/policies",{cache:"no-store"});setPolicies((await response.json()).policies||[]);
   }catch(e){setMessage(e instanceof Error?e.message:"Approval failed.");}finally{setBusy(false);}
  }
  if(!branches.length)return null;
