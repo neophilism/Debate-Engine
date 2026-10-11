@@ -1,0 +1,3 @@
+# Real FFmpeg integration test
+
+The CI real-media job generates clearly fictional video clips with deliberately different frame rates, dimensions and sound: one silent MP4 and one with a sine-wave audio track. It invokes the SAME encode/concatenate helpers used by the production candidate-summary worker, verifies output duration and both audio/video streams, and checks that the original source SHA-256 digests remain identical after rendering. No candidate media or actual political content is used. This complements but does not replace a deployed worker, storage streaming tests or manual review of real output.
