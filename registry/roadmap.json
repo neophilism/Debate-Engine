@@ -1,6 +1,6 @@
 {
   "title": "Public Debate Engine",
-  "version": 3,
+  "version": 4,
   "scope": "All work merged and unmerged shares one roadmap denominator.",
   "source": "docs/DEVELOPMENT_PLAN.md",
   "milestones": [
@@ -453,10 +453,13 @@
       "id": "PDE-33",
       "title": "Per-debate Video, Audio and Writing selection (video default)",
       "origin": "addition",
-      "state": "approved_not_started",
+      "state": "implementation_merged_acceptance_pending",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/37",
+        "https://github.com/neophilism/Debate-Engine/pull/43"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -464,10 +467,13 @@
       "id": "PDE-34",
       "title": "Unified submissions and reciprocal protocol across all media",
       "origin": "addition",
-      "state": "approved_not_started",
+      "state": "implementation_merged_acceptance_pending",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/37",
+        "https://github.com/neophilism/Debate-Engine/pull/38"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -475,10 +481,12 @@
       "id": "PDE-35",
       "title": "Audio upload, processing, playback and preservation",
       "origin": "addition",
-      "state": "approved_not_started",
+      "state": "implementation_merged_acceptance_pending",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/38"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -486,10 +494,12 @@
       "id": "PDE-36",
       "title": "Written speeches, answers, publication and immutable revisions",
       "origin": "addition",
-      "state": "approved_not_started",
+      "state": "implementation_merged_acceptance_pending",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/38"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -497,10 +507,14 @@
       "id": "PDE-37",
       "title": "Multimodal candidate composer, workspace and public rendering",
       "origin": "addition",
-      "state": "approved_not_started",
+      "state": "implementation_open",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/42",
+        "https://github.com/neophilism/Debate-Engine/pull/43",
+        "https://github.com/neophilism/Debate-Engine/pull/45"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -508,10 +522,13 @@
       "id": "PDE-38",
       "title": "Private preliminary Debate Assistant with bias and reasoning analysis",
       "origin": "addition",
-      "state": "approved_not_started",
+      "state": "implementation_open",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/39",
+        "https://github.com/neophilism/Debate-Engine/pull/45"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -519,10 +536,12 @@
       "id": "PDE-39",
       "title": "Candidate-controlled suggestion review, revision and confirmation",
       "origin": "addition",
-      "state": "approved_not_started",
+      "state": "implementation_open",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/45"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -530,10 +549,13 @@
       "id": "PDE-40",
       "title": "Private final assessment of exactly the approved publication",
       "origin": "addition",
-      "state": "approved_not_started",
+      "state": "implementation_open",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/39",
+        "https://github.com/neophilism/Debate-Engine/pull/45"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -584,7 +606,7 @@
   ],
   "production_ready": false,
   "lastReviewed": "2026-10-11",
-  "implementationNote": "PR references show source work, not security/operational acceptance. The milestone count is not equal to individual PR counts.",
+  "implementationNote": "PR references show source work, not security/operational acceptance. The milestone count is not equal to individual PR counts.\nPDE-33–40 explicit PR evidence mapped. PDE-31 slug rename requires repository Settings authority; PDE-41/42/43/44 remain unfulfilled. Do not conflate merged code with operational acceptance.",
   "operationalAcceptance": {
     "candidateIdentity": "pending",
     "browserPilot": "pending",
