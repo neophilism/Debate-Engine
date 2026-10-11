@@ -98,6 +98,7 @@ async function probeFile(path){
 async function fetchSource(key){
  const response=await s3.send(new GetObjectCommand({Bucket:bucket,Key:key}));
  if(!response.Body)throw Error("Source media unavailable");
+ if(Number(response.ContentLength)>MAX_SOURCE_BYTES)throw Error("Source media exceeds allowed size before streaming.");
  const bytes=Buffer.from(await response.Body.transformToByteArray());
  if(bytes.length>MAX_SOURCE_BYTES)throw Error("Excessive source media size");
  return bytes;
@@ -126,7 +127,7 @@ async function processJob(job){
    args.push("-t",String(clip.endSeconds-clip.startSeconds),"-map","0:v:0","-map",source.hasAudio?"0:a:0":"1:a:0",
     "-c:v","libx264","-preset","veryfast","-crf","24","-pix_fmt","yuv420p",
     "-vf","scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1",
-    "-c:a","aac","-ar","48000","-ac","2","-shortest","-movflags","+faststart",target);
+    "-c:a","aac","-ar","48000","-ac","2","-af","apad","-movflags","+faststart",target);
    await runFfmpeg(args,120000);
    segments.push(target);
   }
@@ -137,7 +138,8 @@ async function processJob(job){
   const analyzedOutput=await probeFile(output);
   const measuredDuration=Number(analyzedOutput.format?.duration);
   const maxDuration={master:1200,five_minutes:300,three_minutes:180,one_minute:60,thirty_seconds:30}[m.outputKind];
-  if(!Number.isFinite(measuredDuration)||measuredDuration<=0||measuredDuration>maxDuration+1)
+  const intendedDuration=m.clips.reduce((n,x)=>n+x.endSeconds-x.startSeconds,0);
+  if(!Number.isFinite(measuredDuration)||measuredDuration<=0||measuredDuration>maxDuration+1||Math.abs(measuredDuration-intendedDuration)>1.5)
    throw Error("Rendered video duration exceeds the selected output format.");
   const bytes=await readFile(output);if(bytes.length===0||bytes.length>150000000)throw Error("Invalid summary output size.");
   const sha=createHash("sha256").update(bytes).digest("hex");
