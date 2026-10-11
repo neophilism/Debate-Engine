@@ -1,6 +1,6 @@
 {
   "title": "Public Debate Engine",
-  "version": 5,
+  "version": 6,
   "scope": "All work merged and unmerged shares one roadmap denominator.",
   "source": "docs/DEVELOPMENT_PLAN.md",
   "milestones": [
@@ -513,7 +513,7 @@
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/42",
         "https://github.com/neophilism/Debate-Engine/pull/43",
-        "https://github.com/neophilism/Debate-Engine/pull/45"
+        "https://github.com/neophilism/Debate-Engine/pull/48"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
@@ -527,7 +527,8 @@
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/39",
-        "https://github.com/neophilism/Debate-Engine/pull/45"
+        "https://github.com/neophilism/Debate-Engine/pull/48",
+        "https://github.com/neophilism/Debate-Engine/pull/53"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
@@ -540,7 +541,7 @@
       "implementation": "not_started",
       "acceptance": "pending",
       "pullRequests": [
-        "https://github.com/neophilism/Debate-Engine/pull/45"
+        "https://github.com/neophilism/Debate-Engine/pull/48"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
@@ -554,7 +555,7 @@
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/39",
-        "https://github.com/neophilism/Debate-Engine/pull/45"
+        "https://github.com/neophilism/Debate-Engine/pull/48"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
@@ -566,7 +567,12 @@
       "state": "approved_not_started",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/39",
+        "https://github.com/neophilism/Debate-Engine/pull/50",
+        "https://github.com/neophilism/Debate-Engine/pull/54",
+        "https://github.com/neophilism/Debate-Engine/pull/57"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -577,7 +583,9 @@
       "state": "approved_not_started",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/52"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -588,7 +596,9 @@
       "state": "approved_not_started",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/49"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -599,7 +609,10 @@
       "state": "approved_not_started",
       "implementation": "not_started",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/58",
+        "https://github.com/neophilism/Debate-Engine/pull/56"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     }
