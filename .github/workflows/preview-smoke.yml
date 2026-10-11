@@ -1,0 +1,20 @@
+name: Public Preview Smoke
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  public-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PDE_PREVIEW_URL: https://public-debate-engine-preview.onrender.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify live public preview and deny unauthorized mutations
+        run: node scripts/smoke-preview.mjs
