@@ -1,3 +1,5 @@
+> **Canonical PR roadmap:** [`registry/roadmap.json`](../registry/roadmap.json). The full detailed plan below remains intact; all new PR milestones, mappings and total counts are maintained in the canonical registry. Pending multimodal, private AI-assessment and repository-rename proposals are not yet approved.
+
 # Public Debate Engine
 ## Full development plan and implementation handoff
 
