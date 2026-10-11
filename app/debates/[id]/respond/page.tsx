@@ -55,7 +55,7 @@ export default function RespondPage({params}:{params:Promise<{id:string}>}){
   try{
    if(!mediaAssetId)throw Error("Upload and validate your original video before publishing.");
    if(!parent)throw Error("Select your opponent’s most recent relevant video.");
-   if(parent.kind==="opening"&&!questionText.trim())throw Error("Your first response must pose at least one reciprocal question.");
+   
    if(questionText.trim()&&questionTimestamp==="")throw Error("Provide the video timestamp for your question.");
    const newQuestions=questionText.trim()?[{text:questionText.trim(),timestamp:Number(questionTimestamp)}]:[];
    const answerRefs=questions.filter(q=>answers[q.id]!==undefined&&answers[q.id]!=="").map(q=>({questionId:q.id,timestamp:Number(answers[q.id])}));
@@ -70,7 +70,7 @@ export default function RespondPage({params}:{params:Promise<{id:string}>}){
  return <div className="interior-page"><p className="eyebrow dark">PUBLIC DEBATE / YOUR RESPONSE</p>
   <h1>Answer the<br/><em>question.</em></h1>
   <p className="interior-lead">{record?.debate.title||"Loading debate…"} · Every published response remains accessible to the public, even if its opponent judges it nonresponsive.</p>
-  {record&&<p>The same maximum video duration of {record.debate.max_response_seconds} seconds applies to both participants. {record.debate.reply_window_hours===null?"No reply deadline was set.":"The reciprocal response window is "+record.debate.reply_window_hours+" hours."}</p>}
+  {record&&<p>The same qualifying video-duration limit of {record.debate.max_response_seconds} seconds applies to both participants. Technically valid longer videos may remain publicly archived with a format footnote. {record.debate.reply_window_hours===null?"No reply deadline was set.":"The reciprocal response window is "+record.debate.reply_window_hours+" hours."}</p>}
   <form className="action-form" onSubmit={submit}>
    <label>Your verified candidacy<select required value={candidateId} onChange={e=>{setCandidateId(e.target.value);setParentSubmissionId("");setAnswers({});setMediaAssetId("");}}>
     <option value="">Choose candidate seeking this office</option>{candidates.map(x=><option key={x.id} value={x.id}>{x.public_name}</option>)}
@@ -82,8 +82,9 @@ export default function RespondPage({params}:{params:Promise<{id:string}>}){
     {questions.length===0&&<p>The preceding contribution contains no specific questions.</p>}
     {questions.map(q=><label key={q.id}>{q.question_text}<input type="number" min="0" step=".1" placeholder="Leave blank if you do not answer" value={answers[q.id]||""} onChange={e=>setAnswers({...answers,[q.id]:e.target.value})}/></label>)}
     </fieldset>}
-   <label>Your reciprocal question for your opponent<textarea maxLength={600} required={parent?.kind==="opening"} value={questionText} onChange={e=>setQuestionText(e.target.value)} placeholder="Pose a focused question in the response video."/></label>
+   <label>Your reciprocal question for your opponent<textarea maxLength={600}  value={questionText} onChange={e=>setQuestionText(e.target.value)} placeholder="Pose a focused question in the response video."/></label>
    {questionText.trim()&&<label>Video timestamp at which you pose the question (seconds)<input required type="number" min="0" step=".1" value={questionTimestamp} onChange={e=>setQuestionTimestamp(e.target.value)}/></label>}
+   {parent?.kind==="opening"&&!questionText.trim()&&<p role="status" className="form-alert">You may publish without a reciprocal question, but your full video will be footnoted rather than included in the qualifying sequence.</p>}
    <label>Unedited response video (MP4, MOV or WebM)<input type="file" required={!mediaAssetId} accept="video/mp4,video/quicktime,video/webm" onChange={e=>{setFile(e.target.files?.[0]||null);setMediaAssetId("");}}/></label>
    <button type="button" className="button button-dark" disabled={busy||!file||!candidateId||Boolean(mediaAssetId)} onClick={async()=>{
     setBusy(true);setMessage("");try{await upload();setMessage("Original video stored and validated. Review all answers before publication.");}catch(err){setMessage(err instanceof Error?err.message:"Upload failed.");}finally{setBusy(false);}

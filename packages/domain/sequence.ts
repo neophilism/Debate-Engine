@@ -1,5 +1,5 @@
 import {qualifyExchange, type Assessment as ProtocolAssessment, type ExchangeInput, type Question, type RecordedAnswer} from "./debate.ts";
-export interface PublishedSubmission {id:string;branch_id:string|null;parent_submission_id:string|null;candidacy_id:string;kind:string;published_at:string}
+export interface PublishedSubmission {id:string;branch_id:string|null;parent_submission_id:string|null;candidacy_id:string;kind:string;published_at:string;format_issues?:string[]}
 export interface PublishedQuestion {id:string;submission_id:string;asked_by_candidacy_id:string;question_text:string}
 export interface PublishedAnswer {question_id:string;submission_id:string;video_timestamp_seconds:string|number}
 export interface PublishedAssessment {question_id:string;answer_submission_id:string;reviewer_candidacy_id:string;decision:string;reasoning:string;created_at:string;id:string}
@@ -20,6 +20,11 @@ export function branchSequence(
    const response=submissions.find(s=>s.branch_id===branchId&&s.parent_submission_id===current.id&&s.candidacy_id===contenderId);
    if(!response)break;
    const reply=submissions.find(s=>s.branch_id===branchId&&s.parent_submission_id===response.id&&s.candidacy_id===originatorId);
+   const nonqualifying=[...(response.format_issues||[]),...(reply?.format_issues||[])];
+   if(nonqualifying.length){
+     exchanges.push({responseId:response.id,originatorReplyId:reply?.id||null,state:"footnoted_format",reason:nonqualifying.join(" ")});
+     break;
+   }
    const initialQuestions:Question[]=questions.filter(q=>q.submission_id===current.id).map(q=>({id:q.id,askedBy:q.asked_by_candidacy_id,text:q.question_text}));
    const reciprocal:Question[]=questions.filter(q=>q.submission_id===response.id).map(q=>({id:q.id,askedBy:q.asked_by_candidacy_id,text:q.question_text}));
    const toAnswers=(id:string):RecordedAnswer[]=>answers.filter(a=>a.submission_id===id).map(a=>({questionId:a.question_id,candidateId:id===response.id?contenderId:originatorId,videoTimestampSeconds:Number(a.video_timestamp_seconds)}));
