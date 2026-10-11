@@ -15,7 +15,7 @@ export async function GET(_request:Request,{params}:{params:Promise<{id:string}>
   COALESCE((SELECT array_agg(candidate_id) FROM (
     SELECT DISTINCT ON (candidate_id) candidate_id,action FROM policy_endorsement_events e
      WHERE e.policy_version_id=p.id ORDER BY candidate_id,event_order DESC
-   ) decisions WHERE action='accept'),ARRAY[]::uuid[]) AS active_approvers FROM policy_versions p JOIN candidacies c ON c.id=p.proposed_by_candidacy_id JOIN debate_branches b ON b.id=p.branch_id JOIN debates d ON d.id=b.debate_id WHERE p.branch_id=$1 AND d.status='published' ORDER BY p.created_at DESC,p.id DESC LIMIT 100",[id]);
+   ) decisions WHERE action='accept'),ARRAY[]::uuid[]) AS active_approvers FROM policy_versions p JOIN candidacies c ON c.id=p.proposed_by_candidacy_id JOIN debate_branches b ON b.id=p.branch_id JOIN debates d ON d.id=b.debate_id WHERE p.branch_id=$1 AND d.status='published' ORDER BY p.created_at DESC,p.id DESC LIMIT 100`,[id]);
   return NextResponse.json({policies:q.rows},{headers:{"Cache-Control":"public,max-age=20"}});
  }catch(e){return jsonError(e);}
 }
