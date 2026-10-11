@@ -24,6 +24,7 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
  const [providerConsent,setProviderConsent]=useState(false),[improvementConsent,setImprovementConsent]=useState(false);
  const [draft,setDraft]=useState<Draft|null>(null),[review,setReview]=useState<PrivateReview|null>(null),[phase,setPhase]=useState<"edit"|"review">("edit");
  const [busy,setBusy]=useState(false),[notice,setNotice]=useState("");
+ const [uploadProgress,setUploadProgress]=useState("");
  useEffect(()=>{
   Promise.all([fetch("/api/account/me",{cache:"no-store"}).then(r=>r.json()),debateId?fetch("/api/debates/"+debateId,{cache:"no-store"}).then(r=>r.json()):Promise.resolve(null)])
   .then(([account,debate])=>{
@@ -52,13 +53,56 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
     {answers:pendingQuestions.filter(q=>answers[q.id]!==undefined&&answers[q.id]!=="").map(q=>({questionId:q.id,[mode==="writing"?"characterOffset":"timestamp"]:Number(answers[q.id])}))})};
  }
  async function upload(){
-  if(!file||!candidateId)throw Error("Select a candidate and original file first.");
-  if(file.size>60*1024*1024)throw Error("The current upload limit is 60 MiB.");
-  const data=new FormData();data.set("candidacyId",candidateId);data.set("modality",mode);data.set("original",file);
-  const r=await fetch("/api/media/upload",{method:"POST",body:data}),j=await r.json();
-  if(!r.ok)throw Error(j.error||"Original upload failed.");
-  setMediaId(j.mediaAssetId as string);
-  return j.mediaAssetId as string;
+  if(!file||!candidateId)throw Error("Select a verified candidate and original media file.");
+  if(file.size<64||file.size>60*1024*1024)throw Error("Choose an original between 64 bytes and 60 MiB.");
+  // A digest binds a resumed session to the exact original, not just a filename.
+  setUploadProgress("Checking the selected original...");
+  const digestBytes=new Uint8Array(await crypto.subtle.digest("SHA-256",await file.arrayBuffer()));
+  const sha256=Array.from(digestBytes,x=>x.toString(16).padStart(2,"0")).join("");
+  const storageKey="pde-original-v1:"+candidateId+":"+mode+":"+file.name+":"+file.size+":"+file.lastModified+":"+sha256;
+  let id="";try{id=window.localStorage.getItem(storageKey)||""}catch{}
+  let session:{sessionId:string;partCount:number;partSizeBytes:number;status?:string;expectedSha256?:string;sizeBytes?:number;uploadedParts?:number[];mediaAssetId?:string|null}|null=null;
+  if(id){
+   const response=await fetch("/api/media/uploads/"+id,{cache:"no-store"});
+   if(response.ok){
+    const previous=await response.json();
+    if(previous.expectedSha256===sha256&&previous.sizeBytes===file.size&&previous.status!=="aborted"&&previous.status!=="failed")session=previous;
+   }
+   if(!session){try{window.localStorage.removeItem(storageKey)}catch{}}
+  }
+  if(session?.status==="completed"&&session.mediaAssetId){
+   setMediaId(session.mediaAssetId);setUploadProgress("Original already validated.");return session.mediaAssetId;
+  }
+  if(session?.status==="finalizing")throw Error("Your previous upload is finishing validation. Retry in a moment.");
+  if(!session){
+   const response=await fetch("/api/media/uploads",{method:"POST",headers:{"content-type":"application/json"},
+    body:JSON.stringify({candidacyId:candidateId,modality:mode,sizeBytes:file.size,mimeType:file.type||"application/octet-stream",sha256})});
+   const data=await response.json();
+   if(!response.ok)throw Error(data.error||"Cannot begin original upload.");
+   session=data;
+   try{window.localStorage.setItem(storageKey,data.sessionId)}catch{}
+  }
+  if(!session)throw Error("Storage session unavailable.");
+  const completed=new Set(session.uploadedParts||[]);
+  for(let n=1;n<=session.partCount;n++){
+   if(completed.has(n))continue;
+   setUploadProgress("Saving original chunk "+n+" of "+session.partCount+". Interrupted uploads can resume.");
+   const from=(n-1)*session.partSizeBytes,to=Math.min(n*session.partSizeBytes,file.size);
+   const response=await fetch("/api/media/uploads/"+session.sessionId+"/parts/"+n,{
+    method:"PUT",headers:{"content-type":"application/octet-stream"},body:file.slice(from,to)
+   });
+   const result=await response.json();
+   if(!response.ok)throw Error((result.error||"Part upload failed.")+" Reselect the same original and retry to resume.");
+   completed.add(n);
+  }
+  setUploadProgress("Checking the complete unedited original...");
+  const response=await fetch("/api/media/uploads/"+session.sessionId+"/complete",{method:"POST"});
+  const result=await response.json();
+  if(!response.ok)throw Error((result.error||"Could not validate the original.")+" You may retry after checking your connection.");
+  try{window.localStorage.removeItem(storageKey)}catch{}
+  setUploadProgress("Original stored and verified.");
+  setMediaId(result.mediaAssetId as string);
+  return result.mediaAssetId as string;
  }
  async function prepare(e:FormEvent){
   e.preventDefault();setBusy(true);setNotice("");
@@ -145,7 +189,7 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
     {enabled.map(opt=><option key={opt} value={opt}>{opt[0].toUpperCase()+opt.slice(1)}</option>)}
    </select></label>
    {mode==="writing"?<label>Complete written speech<textarea className="speech-textarea" required maxLength={100000} value={speech} onChange={e=>setSpeech(e.target.value)}/><small>{speech.trim()?speech.trim().split(/\s+/).length:0} words · {speech.length} characters</small></label>:
-    <><label>Unedited original {mode} (60 MiB maximum)<input required={!mediaId} type="file" accept={mode==="audio"?"audio/*,.m4a,.mp3,.wav,.flac,.ogg,.webm":"video/mp4,video/quicktime,video/webm"} onChange={e=>{setFile(e.target.files?.[0]||null);setMediaId("");setDraft(null);}}/></label>
+    <><label>Unedited original {mode} (resumable, 60 MiB maximum)<input required={!mediaId} type="file" accept={mode==="audio"?"audio/*,.m4a,.mp3,.wav,.flac,.ogg,.webm":"video/mp4,video/quicktime,video/webm"} onChange={e=>{setFile(e.target.files?.[0]||null);setMediaId("");setDraft(null);}}/></label>
      <label>Private speech transcript for optional AI analysis<textarea value={transcript} maxLength={48000} onChange={e=>setTranscript(e.target.value)} placeholder="Add an accurate transcript of your speech. Without one, the assistant will not pretend to have analyzed the audio/video."/></label></>}
    {kind==="opening"?<fieldset><legend>Opening questions (one to three)</legend>{questions.map((q,i)=><div className="question-editor" key={i}>
     <label>Question {i+1}<textarea required maxLength={600} value={q.text} onChange={e=>setQuestions(questions.map((v,n)=>i===n?{...v,text:e.target.value}:v))}/></label>
@@ -160,6 +204,7 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
    <label className="checkline"><input type="checkbox" checked={providerConsent} onChange={e=>setProviderConsent(e.target.checked)}/>I consent to sending my speech text or supplied transcript to the configured private AI provider for optional assessment.</label>
    <label className="checkline"><input type="checkbox" checked={improvementConsent} onChange={e=>setImprovementConsent(e.target.checked)}/>I opt in to the use of my assessment feedback to improve the assistant, subject to the privacy policy.</label>
    <button className="button button-dark" disabled={busy||!candidateId}>{busy?"Preparing…":"Prepare private assessment ↗"}</button>
+   {mode!=="writing"&&uploadProgress&&<p role="status" aria-live="polite">{uploadProgress}</p>}
    {notice&&<p role="alert" className="form-alert">{notice}</p>}
   </form>}
   <p><Link href={kind==="opening"?"/workspace":"/debates/"+debateId} className="inline-arrow">← Return without publishing</Link></p>
