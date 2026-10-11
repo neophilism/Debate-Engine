@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
 import AssessmentTools from "./assessment-tools";
+import PolicyWorkspace from "./policy-workspace";
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import {loadPublicDebate} from "../../../lib/server/public-debates";
@@ -34,6 +35,7 @@ export default async function DebateDetail({params}:{params:Promise<{id:string}>
    <AssessmentTools submissions={submissions} questions={questions}/>
    <section className="branch-summary"><h2>Candidate-to-candidate branches</h2>{branches.length===0?<p>No contender has published a response yet.</p>:branches.map(b=><p key={b.id}>{b.contender_name} · {submissions.filter(s=>s.branch_id===b.id).length} published contributions</p>)}
    </section>
+   <PolicyWorkspace branches={branches}/>
    <Link href="/debates" className="inline-arrow">← All debates</Link>
  </div>;
 }
