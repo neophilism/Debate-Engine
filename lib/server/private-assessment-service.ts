@@ -44,10 +44,12 @@ export async function submitPrivateFeedback(input:{
 }){
  if(input.note && input.note.length>2000)throw new HttpError(400,"Feedback note too long.");
  return transaction(async db=>{
-  const r=await db.query<{owner_account_id:string;improvement_consent:boolean}>(
-   "SELECT p.owner_account_id,p.improvement_consent FROM private_debate_assessments a JOIN private_submission_drafts p ON p.id=a.draft_id JOIN accounts actor ON actor.id=p.owner_account_id WHERE a.id=$1 AND actor.identity_provider='neon-auth' AND actor.external_subject=$2 FOR UPDATE OF p",
+  const r=await db.query<{owner_account_id:string;improvement_consent:boolean;findings:{findings?:Array<{id:string}>}}>(
+   "SELECT p.owner_account_id,p.improvement_consent,a.findings FROM private_debate_assessments a JOIN private_submission_drafts p ON p.id=a.draft_id JOIN accounts actor ON actor.id=p.owner_account_id WHERE a.id=$1 AND actor.identity_provider='neon-auth' AND actor.external_subject=$2 FOR UPDATE OF p",
    [input.assessmentId,input.authSubject]);
   if(!r.rowCount)throw new HttpError(404,"Private report not found.");
+  const validatedFinding=r.rows[0].findings?.findings?.some(f=>f.id===input.findingId);
+  if(!validatedFinding)throw new HttpError(400,"Feedback must reference a finding in this private report.");
   const f=await db.query<{id:string}>(
    "INSERT INTO private_assessment_feedback(assessment_id,owner_account_id,finding_id,choice,note,improvement_opt_in) VALUES($1,$2,$3,$4,$5,$6) RETURNING id",
    [input.assessmentId,r.rows[0].owner_account_id,input.findingId,input.choice,input.note,r.rows[0].improvement_consent]);
