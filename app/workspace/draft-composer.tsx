@@ -86,6 +86,23 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
    }else setNotice("No provider access consent was granted. You may skip the optional assistant review.");
   }catch(err){setNotice(err instanceof Error?err.message:"Draft review failed.");}finally{setBusy(false);}
  }
+ async function transcribe(){
+  if(!draft||mode==="writing")return;
+  setBusy(true);setNotice("");
+  try{
+   const response=await fetch("/api/private/drafts/"+draft.draftId+"/transcribe",{method:"POST"});
+   const result=await response.json();
+   if(!response.ok)throw Error(result.error||"Transcription unavailable.");
+   setTranscript(result.transcript);
+   setDraft({...draft,sha256:result.sha256,status:"draft"});
+   const reviewResult=await fetch("/api/private/drafts/"+draft.draftId+"/assess",{method:"POST",
+     headers:{"content-type":"application/json"},body:JSON.stringify({stage:"preliminary"})});
+   const analysis=await reviewResult.json();
+   if(reviewResult.ok){setReview(analysis as PrivateReview);setNotice("You may accept or reject every editorial suggestion.");}
+   else setNotice((analysis.error||"Optional analysis could not run.")+" The transcript remains yours; you can skip assessment.");
+  }catch(error){setNotice(error instanceof Error?error.message:"Could not transcribe speech.");}
+  finally{setBusy(false);}
+ }
  async function skip(){
   if(!draft)return;setBusy(true);
   try{const r=await fetch("/api/private/drafts/"+draft.draftId+"/skip",{method:"POST"}),j=await r.json();if(!r.ok)throw Error(j.error);setDraft({...draft,status:"reviewed"});setNotice("Optional analysis skipped. You retain full editorial control.");}
@@ -102,7 +119,7 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
  const summary=kind==="opening"?"Present a specific policy in an enabled medium, supported by a few precise questions.":"Reply in any permitted medium, while answering the previous candidate's questions and asking your own.";
  return <div className="interior-page">
   <p className="eyebrow dark">PRIVATE CANDIDATE WORKSPACE / {kind==="opening"?"OPEN A DEBATE":"YOUR RESPONSE"}</p><h1>{kind==="opening"?"Put forward":"Make your"}<br/><em>{kind==="opening"?"a policy.":"case."}</em></h1><p className="interior-lead">{summary}</p>
-  {phase==="review"&&draft?<DraftReview review={review} busy={busy} notice={notice} onRevise={()=>{setPhase("edit");setNotice("Edit your original, then prepare a fresh private review.");}} onSkip={skip} onConfirm={confirm}/>:
+  {phase==="review"&&draft?<DraftReview review={review} busy={busy} notice={notice} onRevise={()=>{setPhase("edit");setNotice("Edit your original, then prepare a fresh private review.");}} onSkip={skip} onConfirm={confirm} onTranscribe={mode==="writing"||!providerConsent?undefined:transcribe}/>:
   <form className="action-form wide-composer" onSubmit={prepare}>
    <label>Verified candidate<select required value={candidateId} onChange={e=>{setCandidateId(e.target.value);setDraft(null);setMediaId("");}}>
     <option value="">Select candidate and office</option>{candidates.map(c=><option key={c.id} value={c.id}>{c.public_name} — {c.office_title}</option>)}
