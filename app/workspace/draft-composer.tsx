@@ -43,7 +43,7 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
  },[record,candidateId]);
  const pendingQuestions=(record?.questions||[]).filter(q=>q.submission_id===parentId);
  const positionLabel=mode==="writing"?"Character offset within your written speech":"Timestamp in your original (seconds)";
- const updatedQuestions=kind==="opening"?questions.map(q=>({...q.text?{text:q.text}: {text:""},[mode==="writing"?"characterOffset":"timestamp"]:Number(q.position)})):
+ const updatedQuestions=kind==="opening"?questions.map(q=>({text:q.text,[mode==="writing"?"characterOffset":"timestamp"]:Number(q.position)})):
   myQuestion.trim()?[{text:myQuestion.trim(),[mode==="writing"?"characterOffset":"timestamp"]:Number(myQuestionPosition)}]:[];
  function payload(sourceId:string|null){
   return {candidacyId,modality:mode,mediaAssetId:mode==="writing"?null:sourceId,writtenContent:mode==="writing"?speech:null,
