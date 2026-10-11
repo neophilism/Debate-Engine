@@ -63,6 +63,10 @@ test("PostgreSQL migrations enforce permanent evidence and party attribution", a
   await refused("INSERT INTO policy_acceptances(policy_version_id,content_sha256,candidacy_id) VALUES($1,$2,$3)",[version.rows[0].id,"d".repeat(64),candidates[1]],"23503");
   await db.query("INSERT INTO policy_acceptances(policy_version_id,content_sha256,candidacy_id) VALUES($1,$2,$3)",[version.rows[0].id,"c".repeat(64),candidates[0]]);
   await db.query("INSERT INTO policy_acceptances(policy_version_id,content_sha256,candidacy_id) VALUES($1,$2,$3)",[version.rows[0].id,"c".repeat(64),candidates[1]]);
+  await refused("UPDATE policy_versions SET policy_body='tampered' WHERE id=$1",[version.rows[0].id]);
+  await refused("INSERT INTO policy_acceptances(policy_version_id,content_sha256,candidacy_id) VALUES($1,$2,$3)",[version.rows[0].id,"c".repeat(64),candidates[2]],"23514");
+  await refused("INSERT INTO media_permissions(candidate_id,media_asset_id,permission) VALUES($1,$2,'edit')",[candidates[2],videos[0]],"23514");
+
   await refused("DELETE FROM policy_acceptances WHERE policy_version_id=$1",[version.rows[0].id]);
   const ev=await db.query("INSERT INTO publication_events(debate_id,branch_id,kind,object_id) VALUES($1,$2,'fixture',$3) RETURNING id",[did,branch,responseId]);
   await refused("DELETE FROM publication_events WHERE id=$1",[ev.rows[0].id]);
