@@ -1,6 +1,6 @@
 import {branchSequence} from "../../../packages/domain/sequence";
 type Data={originatorId:string;branches:Array<{id:string;contender_name:string;responder_candidacy_id:string}>;
- submissions:Array<{id:string;candidate_name:string;branch_id:string|null;parent_submission_id:string|null;candidacy_id:string;kind:string;published_at:string;media_asset_id:string}>;
+ submissions:Array<{id:string;candidate_name:string;branch_id:string|null;parent_submission_id:string|null;candidacy_id:string;kind:string;published_at:string;media_asset_id:string;format_issues?:string[]}>;
  questions:Array<{id:string;submission_id:string;asked_by_candidacy_id:string;question_text:string}>;
  answers:Array<{question_id:string;submission_id:string;video_timestamp_seconds:string|number}>;
  assessments:Array<{id:string;question_id:string;answer_submission_id:string;reviewer_candidacy_id:string;decision:string;reasoning:string;created_at:string}>;
