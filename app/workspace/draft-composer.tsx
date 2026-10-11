@@ -76,6 +76,14 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
     payload:currentPayload,transcriptText:mode==="writing"?null:transcript||null,providerConsent,improvementConsent
    })});
    const j=await r.json();if(!r.ok)throw Error(j.error||"Private draft preparation failed.");
+   if(draft){
+    const consentResponse=await fetch("/api/private/drafts/"+draft.draftId+"/consent",{
+      method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify({providerConsent,improvementConsent})
+    });
+    const consentResult=await consentResponse.json();
+    if(!consentResponse.ok)throw Error(consentResult.error||"Could not update private assistant consent.");
+   }
    const next={draftId:j.draftId as string,sha256:j.sha256 as string,status:"draft"};setDraft(next);
    setReview(null);setPhase("review");
    if(providerConsent){
