@@ -33,6 +33,12 @@ test("PostgreSQL migrations enforce permanent evidence and party attribution", a
   const q=await db.query("INSERT INTO questions(submission_id,asked_by_candidacy_id,ordinal,question_text,video_timestamp_seconds) VALUES($1,$2,1,'How?',10) RETURNING id",[opening,candidates[0]]);
   await db.query("UPDATE submissions SET published_at=now() WHERE id=$1",[opening]);
   await db.query("UPDATE debates SET status='published',published_at=now() WHERE id=$1",[did]);
+  const publishedSubmission=await db.query("SELECT published_at FROM submissions WHERE id=$1",[opening]);
+  const publishedDebate=await db.query("SELECT status,published_at FROM debates WHERE id=$1",[did]);
+  assert.ok(publishedSubmission.rows[0].published_at,"Draft-to-public submission transition must persist.");
+  assert.equal(publishedDebate.rows[0].status,"published","Debate publication state must persist.");
+  assert.ok(publishedDebate.rows[0].published_at,"Debate publication timestamp must persist.");
+
   const b=await db.query("INSERT INTO debate_branches(debate_id,responder_candidacy_id) VALUES($1,$2) RETURNING id",[did,candidates[1]]);
   const branch=b.rows[0].id;
   const response=await db.query("INSERT INTO submissions(debate_id,branch_id,candidacy_id,parent_submission_id,media_asset_id,kind) VALUES($1,$2,$3,$4,$5,'response') RETURNING id",[did,branch,candidates[1],opening,videos[1]]);
