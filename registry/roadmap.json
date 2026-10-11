@@ -240,10 +240,11 @@
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/14",
-        "https://github.com/neophilism/Debate-Engine/pull/20"
+        "https://github.com/neophilism/Debate-Engine/pull/20",
+        "https://github.com/neophilism/Debate-Engine/pull/60"
       ],
       "openPullRequests": [],
-      "acceptanceNote": "Verified candidate directory and profiles; office/topic filtering and performance work remain."
+      "acceptanceNote": "Candidate directory and profiles plus merged office/election/topic and published-writing search with stable cursor pagination (PR #60). Live browser/mobile, >20 record paging and performance acceptance pending."
     },
     {
       "id": "PDE-18",
