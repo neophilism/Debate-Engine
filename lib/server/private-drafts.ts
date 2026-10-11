@@ -11,7 +11,7 @@ export type PrivateDraft={
  id:string;kind:DraftKind;candidacy_id:string;owner_account_id:string;debate_id:string|null;
  parent_submission_id:string|null;modality:"video"|"audio"|"writing";payload:Record<string,unknown>;
  transcript_text:string|null;content_sha256:string;provider_consent:boolean;improvement_consent:boolean;
- skipped_preliminary:boolean;status:string;published_debate_id:string|null;published_submission_id:string|null;
+ skipped_preliminary:boolean;status:string;published_debate_id:string|null;published_submission_id:string|null;privacy_erased_at:Date|null;
 };
 export async function privateOwner(db:PoolClient,candidacyId:string,authSubject:string){
  const r=await db.query<{account_id:string;election_id:string}>(
@@ -71,6 +71,7 @@ export async function updatePrivateDraft(draftId:string,authSubject:string,paylo
  if(mode==="writing"&&typeof payload.writtenContent!=="string")throw new HttpError(400,"Written speech is required.");
  return transaction(async db=>{
   const existing=await loadPrivateDraft(draftId,authSubject,true,db);
+  if(existing.privacy_erased_at)throw new HttpError(410,"Private draft content was erased.");
   if(existing.status==="published"||existing.status==="confirming")throw new HttpError(409,"Confirmed or published drafts cannot be changed.");
   if(payload.candidacyId!==existing.candidacy_id||mode!==existing.modality)
    throw new HttpError(409,"Cannot replace a draft's author or medium; create a new draft.");
@@ -86,6 +87,7 @@ export async function updatePrivateDraft(draftId:string,authSubject:string,paylo
 export async function markAssistantSkipped(draftId:string,authSubject:string){
  return transaction(async db=>{
   const current=await loadPrivateDraft(draftId,authSubject,true,db);
+  if(current.privacy_erased_at)throw new HttpError(410,"Draft was erased.");
   if(!["draft","reviewed"].includes(current.status))throw new HttpError(409,"Draft is no longer editable.");
   await db.query("UPDATE private_submission_drafts SET status='reviewed',skipped_preliminary=true,updated_at=now() WHERE id=$1",[draftId]);
   return {draftId,sha256:current.content_sha256,status:"reviewed",assessment:"skipped_by_candidate"};
