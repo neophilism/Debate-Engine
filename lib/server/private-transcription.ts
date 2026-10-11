@@ -75,13 +75,14 @@ export async function transcribePrivateSpeech(draftId:string,authSubject:string)
  const result=await response.json() as {text?:unknown};
  if(typeof result.text!=="string"||!result.text.trim()||result.text.length>48000)
   throw new HttpError(502,"Provider returned no valid transcript.");
+ const transcript=result.text as string;
  return transaction(async db=>{
   const fresh=await loadPrivateDraft(draftId,authSubject,true,db);
   if(fresh.content_sha256!==draft.content_sha256||fresh.status!==draft.status)
    throw new HttpError(409,"Draft changed during transcription. The generated text was not saved.");
-  const hash=draftFingerprint(fresh.payload,result.text);
+  const hash=draftFingerprint(fresh.payload,transcript);
   await db.query("UPDATE private_submission_drafts SET transcript_text=$2,content_sha256=$3,status='draft',skipped_preliminary=false,updated_at=now() WHERE id=$1",
-   [draftId,result.text,hash]);
-  return {draftId,transcript:result.text,sha256:hash,private:true};
+   [draftId,transcript,hash]);
+  return {draftId,transcript,sha256:hash,private:true};
  });
 }
