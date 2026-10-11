@@ -17,3 +17,34 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+
+  postgres-integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: debate_ci
+          POSTGRES_PASSWORD: test_only_password
+          POSTGRES_DB: debate_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U debate_ci -d debate_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      DATABASE_URL: postgresql://debate_ci:test_only_password@localhost:5432/debate_ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - name: Apply every numbered database migration
+        run: npm run db:migrate
+      - name: Verify migration hashes and order
+        run: npm run db:check
+      - name: Run transactional database integrity tests
+        run: npm run test:db
