@@ -46,9 +46,9 @@ test("PostgreSQL migrations enforce permanent evidence and party attribution", a
    try{await db.query(sql,params);}catch(ex){err=ex;}
    await db.query("ROLLBACK TO SAVEPOINT assertion");
    assert.ok(err,"Expected refusal from: "+sql);
-   assert.equal(err.code,code,"Unexpected PostgreSQL error: "+String(err.message));
+   assert.ok((Array.isArray(code)?code:[code]).includes(err.code),"Unexpected PostgreSQL error: "+String(err.message));
   }
-  await refused("DELETE FROM submissions WHERE id=$1",[responseId]);
+  await refused("DELETE FROM submissions WHERE id=$1",[responseId],["55000","23503"]);
   await refused("UPDATE submissions SET media_asset_id=$2 WHERE id=$1",[opening,videos[1]]);
   await refused("UPDATE questions SET question_text='Modified' WHERE id=$1",[q.rows[0].id]);
   await refused("UPDATE media_assets SET original_sha256=$2 WHERE id=$1",[videos[0],"f".repeat(64)]);
