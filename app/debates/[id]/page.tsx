@@ -1,6 +1,8 @@
 import type {Metadata} from "next";
 import AssessmentTools from "./assessment-tools";
 import PolicyWorkspace from "./policy-workspace";
+import SupportingDocuments from "./supporting-documents";
+import { publicDocuments } from "../../../lib/server/documents";
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import {loadPublicDebate} from "../../../lib/server/public-debates";
@@ -11,6 +13,7 @@ export default async function DebateDetail({params}:{params:Promise<{id:string}>
  if(!/^[0-9a-f-]{36}$/i.test(id))notFound();
  const data=await loadPublicDebate(id).catch(()=>null);if(!data)notFound();
  const {debate:d,submissions,questions,answers,assessments,objections,branches}=data;
+ const documents=await publicDocuments(id).catch(()=>[]);
  const opening=submissions.find(s=>s.kind==="opening");
  return <div className="interior-page debate-detail">
    <p className="eyebrow dark">PUBLIC DEBATE / {d.office_name} / {d.election_label}</p>
@@ -35,6 +38,7 @@ export default async function DebateDetail({params}:{params:Promise<{id:string}>
    <AssessmentTools submissions={submissions} questions={questions}/>
    <section className="branch-summary"><h2>Candidate-to-candidate branches</h2>{branches.length===0?<p>No contender has published a response yet.</p>:branches.map(b=><p key={b.id}>{b.contender_name} · {submissions.filter(s=>s.branch_id===b.id).length} published contributions</p>)}
    </section>
+   <section className="source-list"><h2>Published supporting materials</h2>{documents.length===0?<p>No supporting files published yet.</p>:<ul>{documents.map(x=><li key={x.id}><a href={"/api/documents/"+x.id+"/download"}>{x.label} — {x.filename} ↗</a> <small>SHA-256 {x.sha256}</small></li>)}</ul>}</section><SupportingDocuments submissions={submissions}/>
    <PolicyWorkspace branches={branches}/>
    <Link href="/debates" className="inline-arrow">← All debates</Link>
  </div>;
