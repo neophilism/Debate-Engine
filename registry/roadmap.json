@@ -86,7 +86,7 @@
       "id": "PDE-14",
       "title": "Reply deadlines and notifications",
       "state": "implementation_open",
-      "pr": null
+      "pr": "https://github.com/neophilism/Debate-Engine/pull/6"
     },
     {
       "id": "PDE-15",
