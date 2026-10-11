@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
 import AssessmentTools from "./assessment-tools";
+import ObjectionTools from "./objection-tools";
 import PolicyWorkspace from "./policy-workspace";
 import SupportingDocuments from "./supporting-documents";
 import QualifyingSequence from "./qualifying-sequence";
@@ -38,6 +39,7 @@ export default async function DebateDetail({params}:{params:Promise<{id:string}>
      </article>)}
    </section>
    <AssessmentTools submissions={submissions} questions={questions}/>
+   <ObjectionTools submissions={submissions} assessments={assessments} questions={questions} electionId={d.election_id}/>
    <section className="branch-summary"><h2>Candidate-to-candidate branches</h2>{branches.length===0?<p>No contender has published a response yet.</p>:branches.map(b=><p key={b.id}>{b.contender_name} · {submissions.filter(s=>s.branch_id===b.id).length} published contributions</p>)}
    </section>
    <section className="source-list"><h2>Published supporting materials</h2>{documents.length===0?<p>No supporting files published yet.</p>:<ul>{documents.map(x=><li key={x.id}><a href={"/api/documents/"+x.id+"/download"}>{x.label} — {x.filename} ↗</a> <small>SHA-256 {x.sha256}</small></li>)}</ul>}</section><SupportingDocuments submissions={submissions}/>
