@@ -8,6 +8,8 @@ test("PostgreSQL migrations enforce permanent evidence and party attribution", a
  await db.query("BEGIN");
  try {
   const applied=(await db.query("SELECT filename FROM schema_migrations")).rows.map(x=>x.filename);
+  const leaseColumns=await db.query("SELECT column_name FROM information_schema.columns WHERE table_name='durable_jobs' AND column_name IN('lease_owner','lease_token')");
+  assert.equal(leaseColumns.rows.length,2,"Render jobs require owner-scoped lease tokens.");
   for(const name of ["0001_foundation.sql","0002_debate_chain.sql","0003_reply_obligations.sql","0003_supporting_sources.sql","0004_captions.sql","0005_summary_rendering.sql"])assert.ok(applied.includes(name),"Missing migration: "+name);
   const actors=[];
   for(const label of ["Candidate A","Candidate B","Candidate C"]){
