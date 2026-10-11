@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-11T22:50:08.724Z",
+  "observedAt": "2026-10-11T22:54:16.593Z",
   "units": [
     {
       "id": "PDE-01",
@@ -255,7 +255,8 @@
       "prs": [
         18,
         22,
-        31
+        31,
+        67
       ]
     },
     {
@@ -421,6 +422,21 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4823000327,
+      "number": 67,
+      "title": "PDE-26: Full archive integrity audit with stable pagination and no silent omissions",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/67",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-11T22:52:36Z",
+      "updatedAt": "2026-10-11T22:54:07Z",
+      "closedAt": "2026-10-11T22:54:06Z",
+      "mergedAt": "2026-10-11T22:54:06Z",
+      "headSha": "1988e91210c18876dcbb0159bce3442bf29637b5",
+      "baseRef": "main",
+      "mergeCommitSha": "a2170ae38ec774e2878882ee79f90491b739834e"
+    },
     {
       "id": 4822978746,
       "number": 66,
