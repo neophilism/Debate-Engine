@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-11T22:54:16.593Z",
+  "observedAt": "2026-10-11T22:56:25.642Z",
   "units": [
     {
       "id": "PDE-01",
@@ -245,7 +245,8 @@
       "prs": [
         18,
         22,
-        29
+        29,
+        68
       ]
     },
     {
@@ -422,6 +423,21 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4823011344,
+      "number": 68,
+      "title": "PDE-25: Harden authenticated mutation origin validation and HTTPS enforcement",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/68",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-11T22:54:39Z",
+      "updatedAt": "2026-10-11T22:56:18Z",
+      "closedAt": "2026-10-11T22:56:18Z",
+      "mergedAt": "2026-10-11T22:56:17Z",
+      "headSha": "e8527d90f765ccf0169e2efe3a4ffaecd92dfa21",
+      "baseRef": "main",
+      "mergeCommitSha": "11746d98d6e2c782f865102dd714f1c256b9d5e7"
+    },
     {
       "id": 4823000327,
       "number": 67,
