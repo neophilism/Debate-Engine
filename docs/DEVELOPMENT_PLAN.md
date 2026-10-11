@@ -52,7 +52,7 @@ The user's unfinished sentence, "When a candidate uploads a video, whether the o
 
 ## 3. Repository and product organization
 
-Use `Public-Debate-Engine` as the proposed reusable repository name. A repository URL has not been provided for this project; do not assume it exists or create it before approval and authorization.
+The actual neutral repository is [`neophilism/Debate-Engine`](https://github.com/neophilism/Debate-Engine). The development preview is hosted at `https://public-debate-engine-preview.onrender.com`, backed by the supplied Neon project `rapid-moon-08277391`. The full product remains candidate-neutral; no candidate-specific source video is hardcoded here.
 
 Build a modular monolith, not a fleet of microservices. The engine can contain its neutral dedicated reference interface because that interface serves all offices and candidates. Candidate-branded integrations belong in a downstream repository, such as the existing `Galinsky-2028` campaign site, consuming a versioned SDK/API or embed.
 

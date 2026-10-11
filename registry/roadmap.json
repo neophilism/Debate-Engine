@@ -1,189 +1,443 @@
 {
   "title": "Public Debate Engine",
-  "version": 1,
+  "version": 2,
   "scope": "All work merged and unmerged shares one roadmap denominator.",
   "source": "docs/DEVELOPMENT_PLAN.md",
   "milestones": [
     {
       "id": "PDE-01",
       "title": "Plan and cross-account handoff",
-      "state": "documentation_committed_pending_engine_room",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/1"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Full source plan exists; Engine Room onboarding not independently verified."
     },
     {
       "id": "PDE-02",
       "title": "Neutral web foundation and CI",
-      "state": "merged_ci_passed",
-      "pr": "https://github.com/neophilism/Debate-Engine/pull/1"
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": "https://github.com/neophilism/Debate-Engine/pull/1",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/1"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Source foundation, public shell, test/build CI merged."
     },
     {
       "id": "PDE-03",
       "title": "Database schema, migration and integrity",
-      "state": "implementation_open",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/2",
+        "https://github.com/neophilism/Debate-Engine/pull/18",
+        "https://github.com/neophilism/Debate-Engine/pull/22"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "PostgreSQL schema + real migration/immutability CI; Neon development branch migrated."
     },
     {
       "id": "PDE-04",
       "title": "Authentication and campaign permissions",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/3"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Neon Auth and candidate registration work. Delegates and strengthened administrator MFA still missing."
     },
     {
       "id": "PDE-05",
       "title": "Election and candidacy verification",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/3",
+        "https://github.com/neophilism/Debate-Engine/pull/27",
+        "https://github.com/neophilism/Debate-Engine/pull/28"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Verified candidate workflow, decision reasons and independent appeals in source. Real human verification policy missing."
     },
     {
       "id": "PDE-06",
       "title": "Versioned reciprocal debate rules",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/1",
+        "https://github.com/neophilism/Debate-Engine/pull/5",
+        "https://github.com/neophilism/Debate-Engine/pull/18"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Core reciprocal rules exist, but explicit immutable rule-version negotiations and terminal-turn protocol are incomplete."
     },
     {
       "id": "PDE-07",
       "title": "Secure persistent video uploads",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/4"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Originals stored with SHA-256 and server validation, but upload limited to 60MiB and not resumable."
     },
     {
       "id": "PDE-08",
       "title": "Media processing and captions",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/4",
+        "https://github.com/neophilism/Debate-Engine/pull/13",
+        "https://github.com/neophilism/Debate-Engine/pull/17",
+        "https://github.com/neophilism/Debate-Engine/pull/29",
+        "https://github.com/neophilism/Debate-Engine/pull/30"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "FFmpeg source worker and captions implemented; isolated production worker not hosted and virus scanning incomplete."
     },
     {
       "id": "PDE-09",
       "title": "Supporting document versioning",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/12"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Append-only PDFs/TXT/DOCX; comprehensive malware scanning and corrections still incomplete."
     },
     {
       "id": "PDE-10",
       "title": "Debate initiation and publication",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/4"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Candidate opening composer and transactional publish implemented; multi-user authenticated pilot pending."
     },
     {
       "id": "PDE-11",
       "title": "Candidate response branches",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/5",
+        "https://github.com/neophilism/Debate-Engine/pull/21",
+        "https://github.com/neophilism/Debate-Engine/pull/32"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Contender response composer/public ledger implemented; safe nonqualifying archive enhancement in PR32."
     },
     {
       "id": "PDE-12",
       "title": "Question assessment and objections",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/5",
+        "https://github.com/neophilism/Debate-Engine/pull/21"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Attributed assessments and respondent objections implemented; video corrections not completed."
     },
     {
       "id": "PDE-13",
       "title": "Qualified reciprocal sequences",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/5",
+        "https://github.com/neophilism/Debate-Engine/pull/15",
+        "https://github.com/neophilism/Debate-Engine/pull/32"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Qualifying public sequence projection works; materialized historical manifests still missing."
     },
     {
       "id": "PDE-14",
       "title": "Reply deadlines and notifications",
-      "state": "implementation_open",
-      "pr": "https://github.com/neophilism/Debate-Engine/pull/8"
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": "https://github.com/neophilism/Debate-Engine/pull/8",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/6",
+        "https://github.com/neophilism/Debate-Engine/pull/7",
+        "https://github.com/neophilism/Debate-Engine/pull/8"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Database-backed obligations and deadline worker source implemented; no external notification adapter deployed."
     },
     {
       "id": "PDE-15",
       "title": "Full public debate pages",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/4",
+        "https://github.com/neophilism/Debate-Engine/pull/15",
+        "https://github.com/neophilism/Debate-Engine/pull/32"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Large original video, all responses, questions and footnotes shown; full usability acceptance pending."
     },
     {
       "id": "PDE-16",
       "title": "Accessible player and transcript search",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/13"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Public WebVTT and transcript search; independent caption review, manual accessibility testing pending."
     },
     {
       "id": "PDE-17",
       "title": "Public discovery and candidate pages",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/14",
+        "https://github.com/neophilism/Debate-Engine/pull/20"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Verified candidate directory and profiles; office/topic filtering and performance work remain."
     },
     {
       "id": "PDE-18",
       "title": "Candidate workspace",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/3",
+        "https://github.com/neophilism/Debate-Engine/pull/8",
+        "https://github.com/neophilism/Debate-Engine/pull/26",
+        "https://github.com/neophilism/Debate-Engine/pull/28"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Candidate workspace, obligations and media review available; delegates and draft/resume flow incomplete."
     },
     {
       "id": "PDE-19",
       "title": "Versioned synthesized policy agreements",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/9",
+        "https://github.com/neophilism/Debate-Engine/pull/10"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Hash-bound, versioned, joint policy acceptance implemented; scoped partial agreements and withdrawals pending."
     },
     {
       "id": "PDE-20",
       "title": "Media editing and usage permission",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/11",
+        "https://github.com/neophilism/Debate-Engine/pull/25",
+        "https://github.com/neophilism/Debate-Engine/pull/26"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Original-owner clip permission and exact rendered-file approvals implemented; revocation and full consent acceptance pending."
     },
     {
       "id": "PDE-21",
       "title": "Summary video production",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/16",
+        "https://github.com/neophilism/Debate-Engine/pull/17",
+        "https://github.com/neophilism/Debate-Engine/pull/29",
+        "https://github.com/neophilism/Debate-Engine/pull/30"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "FFmpeg worker source, test footage, review UI, lease safety. Worker hosting/media pilot remain unverified."
     },
     {
       "id": "PDE-22",
       "title": "Agreement press packages",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/19",
+        "https://github.com/neophilism/Debate-Engine/pull/20"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Downloadable press evidence ZIP, public press room and RSS implemented; operational acceptance pending."
     },
     {
       "id": "PDE-23",
       "title": "Authorized dissemination",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/20"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Passive RSS only; no externally authorized email/social provider or delivery evidence."
     },
     {
       "id": "PDE-24",
       "title": "Open API and campaign integration",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/20",
+        "https://github.com/neophilism/Debate-Engine/pull/24"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Versioned OpenAPI read-only SDK and embeds; separate downstream campaign integration pending."
     },
     {
       "id": "PDE-25",
       "title": "Security and E2EESA applicability review",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/18",
+        "https://github.com/neophilism/Debate-Engine/pull/22",
+        "https://github.com/neophilism/Debate-Engine/pull/29"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Negative SQL authorization tests and source integrity rules; external E2EESA/security audit missing."
     },
     {
       "id": "PDE-26",
       "title": "Preservation restrictions and restore",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/18",
+        "https://github.com/neophilism/Debate-Engine/pull/22",
+        "https://github.com/neophilism/Debate-Engine/pull/31"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Read-only checksum audit and immutable SQL constraints; offsite backup/recovery and safety restriction process missing."
     },
     {
       "id": "PDE-27",
       "title": "Full adversarial browser acceptance",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/18",
+        "https://github.com/neophilism/Debate-Engine/pull/23",
+        "https://github.com/neophilism/Debate-Engine/pull/30"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Real PostgreSQL CI, FFmpeg CI and Render smoke; genuine two-user browser acceptance pending."
     },
     {
       "id": "PDE-28",
       "title": "Accessibility and performance acceptance",
-      "state": "not_started",
-      "pr": null
+      "state": "pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Visual/mobile and WCAG/media manual acceptance not performed."
     },
     {
       "id": "PDE-29",
       "title": "Approved Render and Neon production deployment",
-      "state": "not_started",
-      "pr": null
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/23"
+      ],
+      "openPullRequests": [],
+      "acceptanceNote": "Only Render preview and Neon development resources wired. Production deployment not approved or completed."
     },
     {
       "id": "PDE-30",
       "title": "Production release and handoff",
-      "state": "not_started",
-      "pr": null
+      "state": "pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Do not mark complete until production acceptances and operational evidence are present."
     }
   ],
-  "production_ready": false
+  "production_ready": false,
+  "lastReviewed": "2026-10-11",
+  "implementationNote": "PR references show source work, not security/operational acceptance. The milestone count is not equal to individual PR counts.",
+  "operationalAcceptance": {
+    "candidateIdentity": "pending",
+    "browserPilot": "pending",
+    "workerDeployment": "blocked_paid_worker",
+    "externalDistribution": "unconfigured",
+    "independentBackupRestore": "pending",
+    "securityReview": "pending",
+    "productionRelease": "not_authorized"
+  }
 }
