@@ -79,7 +79,7 @@ export async function publishContinuation(input:ContinuationInput){
     opensReview:input.answers.length>0,opensReply:input.questions.length>0,
   });
   await db.query("INSERT INTO publication_events(debate_id,branch_id,actor_candidacy_id,kind,object_id,payload) VALUES($1,$2,$3,'contribution_published',$4,$5::jsonb)",[input.debateId,branchId,input.candidateId,sid,JSON.stringify({parentSubmissionId:prev.id,formatIssues,modality:input.source.modality})]);
-  await db.query("INSERT INTO audit_events(actor_account_id,action,target_kind,target_id) VALUES($1,'contribution_published','submission',$2)",[actor.rows[0].account_id,sid]);
+  await db.query("INSERT INTO audit_events(actor_account_id,action,target_kind,target_id) VALUES($1,'contribution_published','submission',$2)",[actor.account_id,sid]);
   return {submissionId:sid,branchId,published:true,qualifyingFormat:formatIssues.length===0,formatIssues};
  });
 }
