@@ -39,3 +39,7 @@ The user's interrupted sentence beginning `When a candidate uploads a video, whe
 ## Security and governance
 
 The candidate originator's power to assess questions never includes rights to delete others' records, impersonate approvals, operate platform-level restrictions, or edit others' media. Independent legal/security restrictions require a transparent process and are out of ordinary candidate roles.
+
+## Author-attributed public corrections
+
+A candidate may append a time-stamped correction or retraction to their own existing public video, audio or written speech. It is permanent and publicly attributable; no original speech, question, answer, assessment or qualifying sequence is replaced. Only the owner may publish a correction. Improvements to draft-review and archival-manifest linkage remain separate milestones.

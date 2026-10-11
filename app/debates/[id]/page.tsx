@@ -5,6 +5,7 @@ import ObjectionTools from "./objection-tools";
 import PolicyWorkspace from "./policy-workspace";
 import SupportingDocuments from "./supporting-documents";
 import QualifyingSequence from "./qualifying-sequence";
+import CorrectionTools from "./correction-tools";
 import { publicDocuments } from "../../../lib/server/documents";
 import Link from "next/link";
 import {notFound} from "next/navigation";
@@ -15,7 +16,7 @@ export default async function DebateDetail({params}:{params:Promise<{id:string}>
  const {id}=await params;
  if(!/^[0-9a-f-]{36}$/i.test(id))notFound();
  const data=await loadPublicDebate(id).catch(()=>null);if(!data)notFound();
- const {debate:d,submissions,questions,answers,assessments,objections,branches}=data;
+ const {debate:d,submissions,questions,answers,assessments,objections,branches,corrections}=data;
  const documents=await publicDocuments(id).catch(()=>[]);
  const opening=submissions.find(s=>s.kind==="opening");
  return <div className="interior-page debate-detail">
@@ -35,10 +36,12 @@ export default async function DebateDetail({params}:{params:Promise<{id:string}>
        <div><span className="small-label">{s.kind.toUpperCase()} · {s.candidate_name}</span><h3>{s.candidate_name}</h3>{Array.isArray(s.format_issues)&&s.format_issues.length>0&&<div className="format-footnote"><strong>Outside qualifying format — preserved in full</strong><ul>{s.format_issues.map((issue:string,i:number)=><li key={i}>{issue}</li>)}</ul></div>}<p>Published {new Date(s.published_at).toLocaleDateString("en-US")}</p><PublishedContribution submission={s}/></div>
        <div><h4>Questions</h4>{questions.filter(q=>q.submission_id===s.id).map(q=><p className="question-text" key={q.id}>“{q.question_text}”</p>)}
        <h4>Questions answered</h4>{answers.filter(a=>a.submission_id===s.id).map(a=><p key={a.id}>Q: {questions.find(q=>q.id===a.question_id)?.question_text||"Question"} · {(a.written_anchor||Math.round(Number(a.video_timestamp_seconds))+"s")}</p>)}
+       <h4>Corrections and clarifications</h4>{corrections.filter(c=>c.submission_id===s.id).length===0?<p>No corrections published.</p>:corrections.filter(c=>c.submission_id===s.id).map(c=><article className="assessment" key={c.id}><p className="small-label">PERMANENT CORRECTION · {new Date(c.created_at).toLocaleDateString("en-US")}</p><p>{c.correction_body}</p><p className="small-label">Original unchanged · Correction ID {c.id}</p></article>)}
        <h4>Responsiveness assessments</h4>{assessments.filter(a=>a.answer_submission_id===s.id).map(a=><div className="assessment" key={a.id}><strong>{a.decision.replace(/_/g," ")}</strong><p>{a.reasoning}</p>{objections.filter(o=>o.assessment_id===a.id).map(o=><p key={o.id}>Objection: {o.objection}</p>)}</div>)}
        </div>
      </article>)}
    </section>
+   <CorrectionTools submissions={submissions}/>
    <AssessmentTools submissions={submissions} questions={questions}/>
    <ObjectionTools submissions={submissions} assessments={assessments} questions={questions} electionId={d.election_id}/>
    <section className="branch-summary"><h2>Candidate-to-candidate branches</h2>{branches.length===0?<p>No contender has published a response yet.</p>:branches.map(b=><p key={b.id}>{b.contender_name} · {submissions.filter(s=>s.branch_id===b.id).length} published contributions · <Link href={"/workspace/media/"+b.id} className="inline-arrow">Candidate media workroom ↗</Link></p>)}
