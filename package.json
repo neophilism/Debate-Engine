@@ -16,7 +16,7 @@
     "check": "npm run typecheck && npm test && npm run build",
     "db:migrate": "node scripts/migrate.mjs",
     "db:check": "node scripts/migrate.mjs --check",
-    "test:db": "node --test tests/db.integration.mjs tests/privacy.db.integration.mjs tests/multimodal.db.integration.mjs tests/uploads.db.integration.mjs",
+    "test:db": "node --test tests/db.integration.mjs tests/privacy.db.integration.mjs tests/multimodal.db.integration.mjs tests/uploads.db.integration.mjs tests/policy-endorsement.db.integration.mjs",
     "worker:render": "node scripts/render-summary.mjs",
     "worker:render:once": "node scripts/render-summary.mjs --once"
   },
