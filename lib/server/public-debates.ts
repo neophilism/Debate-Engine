@@ -1,9 +1,51 @@
 import "server-only";
 import { database } from "./db";
+import {decodeDebateCursor,encodeDebateCursor} from "../../packages/domain/pagination";
+import type {DebateFilters} from "../../packages/domain/discovery";
+
+export type PublicDebateSummary={
+ id:string;title:string;proposition:string;published_at:Date|string;originator:string;
+ office:string;office_slug:string;election_id:string;election_label:string;
+ contribution_count:number;contender_count:number;
+};
+
+/** Public content only: an unpublished draft never enters these search results. */
+export async function listPublicDebatesPage(filters:DebateFilters={},requestedLimit=20){
+ const limit=Math.max(1,Math.min(100,Math.trunc(requestedLimit)));
+ const after=filters.cursor?decodeDebateCursor(filters.cursor):null;
+ const data=await database().query<PublicDebateSummary>(
+  `SELECT d.id,d.title,d.proposition,d.published_at,c.public_name AS originator,
+    o.title AS office,o.slug AS office_slug,e.id AS election_id,e.label AS election_label,
+    (SELECT count(*)::integer FROM submissions s WHERE s.debate_id=d.id AND s.published_at IS NOT NULL) AS contribution_count,
+    (SELECT count(*)::integer FROM debate_branches b WHERE b.debate_id=d.id) AS contender_count
+   FROM debates d JOIN candidacies c ON c.id=d.originator_candidacy_id
+    JOIN election_cycles e ON e.id=d.election_id JOIN offices o ON o.id=e.office_id
+   WHERE d.status='published' AND d.published_at IS NOT NULL
+    AND ($1::text IS NULL OR o.slug=$1)
+    AND ($2::uuid IS NULL OR e.id=$2)
+    AND ($3::text IS NULL
+      OR position(lower($3::text) in lower(concat_ws(' ',d.title,d.proposition,c.public_name)))>0
+      OR EXISTS (SELECT 1 FROM submissions s WHERE s.debate_id=d.id
+        AND s.published_at IS NOT NULL AND s.modality='writing'
+        AND position(lower($3::text) in lower(s.written_content))>0))
+    AND ($4::timestamptz IS NULL OR (d.published_at,d.id)<($4::timestamptz,$5::uuid))
+   ORDER BY d.published_at DESC,d.id DESC LIMIT $6`,
+  [filters.office||null,filters.election||null,filters.q||null,after?.publishedAt||null,after?.id||null,limit+1]);
+ const hasMore=data.rows.length>limit;
+ const debates=data.rows.slice(0,limit);
+ const last=debates.at(-1);
+ return {debates,nextCursor:hasMore&&last?encodeDebateCursor(last.published_at,last.id):null};
+}
+
+/** Preserve the original internal return shape for existing public clients. */
 export async function listPublicDebates(){
- const data=await database().query(
-  "SELECT d.id,d.title,d.proposition,d.published_at,c.public_name AS originator,o.title AS office,e.label AS election_label,(SELECT count(*)::integer FROM submissions s WHERE s.debate_id=d.id AND s.published_at IS NOT NULL) AS contribution_count,(SELECT count(*)::integer FROM debate_branches b WHERE b.debate_id=d.id) AS contender_count FROM debates d JOIN candidacies c ON c.id=d.originator_candidacy_id JOIN election_cycles e ON e.id=d.election_id JOIN offices o ON o.id=e.office_id WHERE d.status='published' ORDER BY d.published_at DESC LIMIT 100");
- return data.rows;
+ return (await listPublicDebatesPage({},100)).debates;
+}
+
+export async function publicDebateFilterOptions(){
+ const result=await database().query<{office_title:string;office_slug:string;election_id:string;election_label:string}>(
+  "SELECT DISTINCT o.title AS office_title,o.slug AS office_slug,e.id AS election_id,e.label AS election_label FROM debates d JOIN election_cycles e ON e.id=d.election_id JOIN offices o ON o.id=e.office_id WHERE d.status='published' ORDER BY office_title,election_label");
+ return result.rows;
 }
 export async function loadPublicDebate(debateId:string){
  const head=await database().query(
