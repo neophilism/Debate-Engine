@@ -339,43 +339,30 @@ BEGIN
   RETURN NEW;
 END; $$;
 
-DROP TRIGGER IF EXISTS pde_publication_events_immutable ON publication_events;
 CREATE TRIGGER pde_publication_events_immutable BEFORE UPDATE OR DELETE ON publication_events
   FOR EACH ROW EXECUTE FUNCTION public.pde_block_any_mutation();
-DROP TRIGGER IF EXISTS pde_assessments_immutable ON assessments;
 CREATE TRIGGER pde_assessments_immutable BEFORE UPDATE OR DELETE ON assessments
   FOR EACH ROW EXECUTE FUNCTION public.pde_block_any_mutation();
-DROP TRIGGER IF EXISTS pde_objections_immutable ON assessment_objections;
 CREATE TRIGGER pde_objections_immutable BEFORE UPDATE OR DELETE ON assessment_objections
   FOR EACH ROW EXECUTE FUNCTION public.pde_block_any_mutation();
-DROP TRIGGER IF EXISTS pde_policy_acceptances_immutable ON policy_acceptances;
 CREATE TRIGGER pde_policy_acceptances_immutable BEFORE UPDATE OR DELETE ON policy_acceptances
   FOR EACH ROW EXECUTE FUNCTION public.pde_block_any_mutation();
-DROP TRIGGER IF EXISTS pde_derivative_approvals_immutable ON derivative_approvals;
 CREATE TRIGGER pde_derivative_approvals_immutable BEFORE UPDATE OR DELETE ON derivative_approvals
   FOR EACH ROW EXECUTE FUNCTION public.pde_block_any_mutation();
-DROP TRIGGER IF EXISTS pde_media_permissions_immutable ON media_permissions;
 CREATE TRIGGER pde_media_permissions_immutable BEFORE UPDATE OR DELETE ON media_permissions
   FOR EACH ROW EXECUTE FUNCTION public.pde_block_any_mutation();
-DROP TRIGGER IF EXISTS pde_audit_events_immutable ON audit_events;
 CREATE TRIGGER pde_audit_events_immutable BEFORE UPDATE OR DELETE ON audit_events
   FOR EACH ROW EXECUTE FUNCTION public.pde_block_any_mutation();
-DROP TRIGGER IF EXISTS pde_published_submissions_immutable ON submissions;
 CREATE TRIGGER pde_published_submissions_immutable BEFORE UPDATE OR DELETE ON submissions
   FOR EACH ROW EXECUTE FUNCTION public.pde_block_published_submission_mutation();
-DROP TRIGGER IF EXISTS pde_published_debates_immutable ON debates;
 CREATE TRIGGER pde_published_debates_immutable BEFORE UPDATE OR DELETE ON debates
   FOR EACH ROW EXECUTE FUNCTION public.pde_block_published_debate_mutation();
-DROP TRIGGER IF EXISTS pde_questions_guard ON questions;
 CREATE TRIGGER pde_questions_guard BEFORE INSERT OR UPDATE OR DELETE ON questions
   FOR EACH ROW EXECUTE FUNCTION public.pde_guard_question_or_answer();
-DROP TRIGGER IF EXISTS pde_answers_guard ON answers;
 CREATE TRIGGER pde_answers_guard BEFORE INSERT OR UPDATE OR DELETE ON answers
   FOR EACH ROW EXECUTE FUNCTION public.pde_guard_question_or_answer();
-DROP TRIGGER IF EXISTS pde_media_guard ON media_assets;
 CREATE TRIGGER pde_media_guard BEFORE UPDATE OR DELETE ON media_assets
   FOR EACH ROW EXECUTE FUNCTION public.pde_guard_media_asset();
-DROP TRIGGER IF EXISTS pde_assessment_authority ON assessments;
 CREATE TRIGGER pde_assessment_authority BEFORE INSERT ON assessments
   FOR EACH ROW EXECUTE FUNCTION public.pde_guard_assessment();
 
