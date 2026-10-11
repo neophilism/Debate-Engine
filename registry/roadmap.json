@@ -1,6 +1,6 @@
 {
   "title": "Public Debate Engine",
-  "version": 2,
+  "version": 3,
   "scope": "All work merged and unmerged shares one roadmap denominator.",
   "source": "docs/DEVELOPMENT_PLAN.md",
   "milestones": [
@@ -426,6 +426,160 @@
       "pullRequests": [],
       "openPullRequests": [],
       "acceptanceNote": "Do not mark complete until production acceptances and operational evidence are present."
+    },
+    {
+      "id": "PDE-31",
+      "title": "Rename GitHub repository and preserve integration continuity",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-32",
+      "title": "Standardize Public Debate Engine product name and repository references",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-33",
+      "title": "Per-debate Video, Audio and Writing selection (video default)",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-34",
+      "title": "Unified submissions and reciprocal protocol across all media",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-35",
+      "title": "Audio upload, processing, playback and preservation",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-36",
+      "title": "Written speeches, answers, publication and immutable revisions",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-37",
+      "title": "Multimodal candidate composer, workspace and public rendering",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-38",
+      "title": "Private preliminary Debate Assistant with bias and reasoning analysis",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-39",
+      "title": "Candidate-controlled suggestion review, revision and confirmation",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-40",
+      "title": "Private final assessment of exactly the approved publication",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-41",
+      "title": "Assessment privacy, access controls, retention and training-consent governance",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-42",
+      "title": "Nondeterministic assistant evaluation and improvement-feedback controls",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-43",
+      "title": "Interlocutor thin branded application integration contract",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
+    },
+    {
+      "id": "PDE-44",
+      "title": "End-to-end multimodal security, privacy, accessibility and production acceptance",
+      "origin": "addition",
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "pullRequests": [],
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     }
   ],
   "production_ready": false,
@@ -442,10 +596,31 @@
   },
   "repository": "neophilism/Debate-Engine",
   "planVerified": true,
-  "plannedPrCount": 30,
+  "plannedPrCount": 44,
   "sourceFiles": [
     "docs/DEVELOPMENT_PLAN.md",
     "registry/roadmap.json"
   ],
-  "canonicalRoadmapNotice": "All new PRs should be appended as distinct approved work units; pending media/writing/assistant features are awaiting owner approval and are NOT counted yet."
+  "canonicalRoadmapNotice": "The 14 approved multimodal/assistant/rebranding work units PDE-31 through PDE-44 are included in the denominator. All mappings must use this file; each unit may map to multiple actual PRs. Production acceptance remains separate.",
+  "approvedAdditions": {
+    "date": "2026-10-11",
+    "count": 14,
+    "ids": [
+      "PDE-31",
+      "PDE-32",
+      "PDE-33",
+      "PDE-34",
+      "PDE-35",
+      "PDE-36",
+      "PDE-37",
+      "PDE-38",
+      "PDE-39",
+      "PDE-40",
+      "PDE-41",
+      "PDE-42",
+      "PDE-43",
+      "PDE-44"
+    ],
+    "summary": "Video/Audio/Writing selection, privacy-preserving Debate Assistant pre/post assessment, Interlocutor integration contract, careful repository rename"
+  }
 }
