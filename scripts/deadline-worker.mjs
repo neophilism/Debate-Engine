@@ -52,6 +52,7 @@ async function processOne(pool) {
       FOR UPDATE OF ro`, [obligationId]);
     if (!obligation.rows.length) throw new Error("Deadline obligation no longer exists.");
     const current = obligation.rows[0];
+    if (!current.effective_due_at) throw new Error("Deadline obligation has no effective due time.");
 
     if (!current.received_at && current.effective_due_at > current.checked_at) {
       await db.query("UPDATE durable_jobs SET state='queued',available_at=$2,leased_until=NULL WHERE id=$1",
