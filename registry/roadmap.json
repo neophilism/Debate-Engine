@@ -1,0 +1,189 @@
+{
+  "title": "Public Debate Engine",
+  "version": 1,
+  "scope": "All work merged and unmerged shares one roadmap denominator.",
+  "source": "docs/DEVELOPMENT_PLAN.md",
+  "milestones": [
+    {
+      "id": "PDE-01",
+      "title": "Plan and cross-account handoff",
+      "state": "documentation_committed_pending_engine_room",
+      "pr": null
+    },
+    {
+      "id": "PDE-02",
+      "title": "Neutral web foundation and CI",
+      "state": "merged_ci_passed",
+      "pr": "https://github.com/neophilism/Debate-Engine/pull/1"
+    },
+    {
+      "id": "PDE-03",
+      "title": "Database schema, migration and integrity",
+      "state": "implementation_open",
+      "pr": null
+    },
+    {
+      "id": "PDE-04",
+      "title": "Authentication and campaign permissions",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-05",
+      "title": "Election and candidacy verification",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-06",
+      "title": "Versioned reciprocal debate rules",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-07",
+      "title": "Secure persistent video uploads",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-08",
+      "title": "Media processing and captions",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-09",
+      "title": "Supporting document versioning",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-10",
+      "title": "Debate initiation and publication",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-11",
+      "title": "Candidate response branches",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-12",
+      "title": "Question assessment and objections",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-13",
+      "title": "Qualified reciprocal sequences",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-14",
+      "title": "Reply deadlines and notifications",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-15",
+      "title": "Full public debate pages",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-16",
+      "title": "Accessible player and transcript search",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-17",
+      "title": "Public discovery and candidate pages",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-18",
+      "title": "Candidate workspace",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-19",
+      "title": "Versioned synthesized policy agreements",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-20",
+      "title": "Media editing and usage permission",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-21",
+      "title": "Summary video production",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-22",
+      "title": "Agreement press packages",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-23",
+      "title": "Authorized dissemination",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-24",
+      "title": "Open API and campaign integration",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-25",
+      "title": "Security and E2EESA applicability review",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-26",
+      "title": "Preservation restrictions and restore",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-27",
+      "title": "Full adversarial browser acceptance",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-28",
+      "title": "Accessibility and performance acceptance",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-29",
+      "title": "Approved Render and Neon production deployment",
+      "state": "not_started",
+      "pr": null
+    },
+    {
+      "id": "PDE-30",
+      "title": "Production release and handoff",
+      "state": "not_started",
+      "pr": null
+    }
+  ],
+  "production_ready": false
+}
