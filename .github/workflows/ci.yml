@@ -48,3 +48,16 @@ jobs:
         run: npm run db:check
       - name: Run transactional database integrity tests
         run: npm run test:db
+
+  real-media:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install FFmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Test real mixed-audio original-to-montage rendering
+        run: node --test tests/media.integration.mjs

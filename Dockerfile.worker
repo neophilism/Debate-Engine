@@ -4,5 +4,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --omit=dev --no-audit --no-fund
 COPY --chown=node:node scripts/render-summary.mjs ./scripts/render-summary.mjs
+COPY --chown=node:node packages/media/render.mjs ./packages/media/render.mjs
 USER node
 CMD ["node","scripts/render-summary.mjs"]

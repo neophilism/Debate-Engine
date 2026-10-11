@@ -10,7 +10,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { mkdtemp, writeFile, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { spawn } from "node:child_process";
+import { runFfmpeg,probeVideo,encodeClip,concatenateClips } from "../packages/media/render.mjs";
 
 const MAX_SOURCE_BYTES=60*1024*1024;
 const MAX_SOURCE_FILES=10;
@@ -25,16 +25,6 @@ const s3=new S3Client({forcePathStyle:true,endpoint:process.env.AWS_ENDPOINT_URL
  credentials:{accessKeyId:process.env.AWS_ACCESS_KEY_ID,secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY}});
 const bucket=process.env.MEDIA_BUCKET;
 
-async function runFfmpeg(args,timeoutMs=180000){
- await new Promise((resolve,reject)=>{
-  const child=spawn("ffmpeg",["-nostdin","-hide_banner","-loglevel","error","-y",...args],{stdio:["ignore","ignore","pipe"]});
-  let err="",finished=false;
-  const timer=setTimeout(()=>{child.kill("SIGKILL");},timeoutMs);
-  child.stderr.on("data",chunk=>{if(err.length<5000)err+=chunk.toString()});
-  child.once("error",e=>{clearTimeout(timer);if(!finished){finished=true;reject(e)}});
-  child.once("close",code=>{clearTimeout(timer);if(!finished){finished=true;code===0?resolve(undefined):reject(Error("FFmpeg failed: "+err.slice(0,300))) }});
- });
-}
 async function claim(){
  const connection=await db.connect();
  try{
@@ -81,20 +71,6 @@ async function heartbeat(job){
  const result=await db.query("UPDATE durable_jobs SET leased_until=now()+interval '8 minutes' WHERE id=$1 AND state='running' AND lease_owner=$2 AND lease_token=$3 RETURNING id",[job.id,workerId,job.leaseToken]);
  if(!result.rowCount)throw Error("The renderer no longer owns this job lease.");
 }
-async function probeFile(path){
- return await new Promise((resolve,reject)=>{
-  const child=spawn("ffprobe",["-v","error","-show_streams","-show_format","-print_format","json",path],{stdio:["ignore","pipe","pipe"]});
-  let output="",err="";
-  const timer=setTimeout(()=>child.kill("SIGKILL"),30000);
-  child.stdout.on("data",chunk=>{if(output.length<300000)output+=String(chunk);});
-  child.stderr.on("data",chunk=>{if(err.length<1500)err+=String(chunk);});
-  child.once("error",e=>{clearTimeout(timer);reject(e);});
-  child.once("close",code=>{clearTimeout(timer);
-   if(code!==0){reject(Error("ffprobe failed: "+err.slice(0,160)));return;}
-   try{resolve(JSON.parse(output));}catch(e){reject(e);}
-  });
- });
-}
 async function fetchSource(key){
  const response=await s3.send(new GetObjectCommand({Bucket:bucket,Key:key}));
  if(!response.Body)throw Error("Source media unavailable");
@@ -114,7 +90,7 @@ async function processJob(job){
    const bytes=await fetchSource(meta.storage_key);
    if(bytes.length!==Number(meta.size_bytes)||createHash("sha256").update(bytes).digest("hex")!==meta.original_sha256)throw Error("Original checksum mismatch. Rendering refused.");
    const p=join(dir,"source-"+inputs.size+".bin");await writeFile(p,bytes,{mode:0o600});
-   const analyzed=await probeFile(p);
+   const analyzed=await probeVideo(p);
    if(!analyzed.streams?.some(stream=>stream.codec_type==="video"))throw Error("Original source lacks a video stream.");
    inputs.set(id,{path:p,hasAudio:analyzed.streams.some(stream=>stream.codec_type==="audio")});
   }
@@ -122,20 +98,11 @@ async function processJob(job){
   for(let i=0;i<m.clips.length;i++){
    const clip=m.clips[i],target=join(dir,"clip-"+i+".mp4");
    const source=inputs.get(clip.mediaAssetId);
-   const args=["-ss",String(clip.startSeconds),"-i",source.path];
-   if(!source.hasAudio)args.push("-f","lavfi","-i","anullsrc=channel_layout=stereo:sample_rate=48000");
-   args.push("-t",String(clip.endSeconds-clip.startSeconds),"-map","0:v:0","-map",source.hasAudio?"0:a:0":"1:a:0",
-    "-c:v","libx264","-preset","veryfast","-crf","24","-pix_fmt","yuv420p",
-    "-vf","scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1",
-    "-c:a","aac","-ar","48000","-ac","2","-af","apad","-movflags","+faststart",target);
-   await runFfmpeg(args,120000);
+   await encodeClip(source,clip,target);
    segments.push(target);
   }
-  const concatList=join(dir,"concat.txt");
-  await writeFile(concatList,segments.map(p=>"file '"+p.replaceAll("'","'\\''")+"'").join("\n"),{mode:0o600});
-  const output=join(dir,"summary.mp4");
-  await runFfmpeg(["-f","concat","-safe","0","-i",concatList,"-c","copy","-movflags","+faststart",output],120000);
-  const analyzedOutput=await probeFile(output);
+  const output=await concatenateClips(segments,dir);
+  const analyzedOutput=await probeVideo(output);
   const measuredDuration=Number(analyzedOutput.format?.duration);
   const maxDuration={master:1200,five_minutes:300,three_minutes:180,one_minute:60,thirty_seconds:30}[m.outputKind];
   const intendedDuration=m.clips.reduce((n,x)=>n+x.endSeconds-x.startSeconds,0);
