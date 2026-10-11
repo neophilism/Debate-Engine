@@ -1,5 +1,6 @@
 import "server-only";
 import {DEBATE_ASSISTANT_INSTRUCTIONS,validateDebateAssistantReport,type DebateAssistantReport} from "../../packages/domain/private-assessment";
+import {groundPrivateReport} from "../../packages/domain/assistant-quality";
 
 /** Remote model inference is opt-in; no provider configuration means no artificial findings. */
 export function assistantProvider(){
@@ -39,5 +40,5 @@ export async function requestPrivateAnalysis(input:{stage:"preliminary"|"final";
  if(!content||content.length>50000)throw Error("ASSISTANT_PROVIDER_INVALID");
  let data:unknown;
  try{data=JSON.parse(content);}catch{throw Error("ASSISTANT_PROVIDER_INVALID");}
- return {provider:provider.provider,model:provider.model,report:validateDebateAssistantReport(data,input.stage)};
+ return {provider:provider.provider,model:provider.model,report:groundPrivateReport(validateDebateAssistantReport(data,input.stage),input.text)};
 }
