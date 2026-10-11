@@ -31,7 +31,7 @@ export default function RespondPage({params}:{params:Promise<{id:string}>}){
    if(!submission)throw Error("Select the contribution you are answering.");
    const newQuestions=questionText.trim()?[{text:questionText.trim(),timestamp:0}]:[];
    const answerRefs=questions.filter(q=>answers[q.id]!==undefined&&answers[q.id]!=="").map(q=>({questionId:q.id,timestamp:Number(answers[q.id])}));
-   const response=await fetch("/api/debates/"+debateId+"/contributions",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({candidacyId,candidateId,mediaAssetId,parentSubmissionId,questions:newQuestions,answers:answerRefs,archiveConsent,sequenceConsent})});
+   const response=await fetch("/api/debates/"+debateId+"/contributions",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({candidacyId:candidateId,mediaAssetId,parentSubmissionId,questions:newQuestions,answers:answerRefs,archiveConsent,sequenceConsent})});
    const result=await response.json();if(!response.ok)throw Error(result.error||"Publication failed.");
    window.location.assign("/debates/"+debateId);
   }catch(error){setMessage(error instanceof Error?error.message:"Could not publish.");}finally{setBusy(false);}
