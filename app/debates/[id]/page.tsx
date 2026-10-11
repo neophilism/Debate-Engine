@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import PublishedContribution from "./published-contribution";
 import AssessmentTools from "./assessment-tools";
 import ObjectionTools from "./objection-tools";
 import PolicyWorkspace from "./policy-workspace";
@@ -24,16 +25,16 @@ export default async function DebateDetail({params}:{params:Promise<{id:string}>
    <p><Link className="button button-dark" href={"/debates/"+id+"/respond"}>Answer or challenge this policy ↗</Link></p>
    {opening&&<section className="featured-video" aria-labelledby="opening-heading"><p className="small-label">ORIGINAL PRESENTATION</p>
      <h2 id="opening-heading">{d.originator_name}</h2>
-     <video controls preload="metadata" playsInline src={"/api/media/"+opening.media_asset_id+"/play"} aria-label={"Opening policy presentation by "+d.originator_name}><track kind="captions" src={"/api/media/"+opening.media_asset_id+"/captions"} srcLang="en" label="English captions" default/>Your browser does not support HTML video.</video>
-     <h3>Questions to competing candidates</h3><ol>{questions.filter(q=>q.submission_id===opening.id).map(q=><li key={q.id}>{q.question_text} <span className="small-label">({Math.round(Number(q.video_timestamp_seconds))}s)</span></li>)}</ol>
+     <PublishedContribution submission={opening} preload="metadata"/>
+     <h3>Questions to competing candidates</h3><ol>{questions.filter(q=>q.submission_id===opening.id).map(q=><li key={q.id}>{q.question_text} <span className="small-label">({(q.written_anchor||Math.round(Number(q.video_timestamp_seconds))+"s")})</span></li>)}</ol>
    </section>}
    <QualifyingSequence data={{originatorId:d.originator_candidacy_id,branches,submissions,questions,answers,assessments}}/>
-   <div className="two-record-views"><article><h2>Complete public record</h2><p>Every published video, including nonqualifying and disputed contributions.</p></article><article><h2>Qualifying sequence</h2><p>Only reciprocal exchanges satisfying the review protocol. Pending obligations remain visible without implying that anyone conceded.</p></article></div>
+   <div className="two-record-views"><article><h2>Complete public record</h2><p>Every published video, audio recording, or written speech, including nonqualifying and disputed contributions.</p></article><article><h2>Qualifying sequence</h2><p>Only reciprocal exchanges satisfying the review protocol. Pending obligations remain visible without implying that anyone conceded.</p></article></div>
    <section className="record-section-list"><h2>Published contributions</h2>
      {submissions.map(s=><article className="submission-item" id={"contribution-"+s.id} key={s.id}>
-       <div><span className="small-label">{s.kind.toUpperCase()} · {s.candidate_name}</span><h3>{s.candidate_name}</h3>{Array.isArray(s.format_issues)&&s.format_issues.length>0&&<div className="format-footnote"><strong>Outside qualifying format — preserved in full</strong><ul>{s.format_issues.map((issue:string,i:number)=><li key={i}>{issue}</li>)}</ul></div>}<p>Published {new Date(s.published_at).toLocaleDateString("en-US")}</p><video controls preload="none" playsInline src={"/api/media/"+s.media_asset_id+"/play"} aria-label={"Video contribution by "+s.candidate_name}><track kind="captions" src={"/api/media/"+s.media_asset_id+"/captions"} srcLang="en" label="English captions" default/>Video player unavailable.</video></div>
+       <div><span className="small-label">{s.kind.toUpperCase()} · {s.candidate_name}</span><h3>{s.candidate_name}</h3>{Array.isArray(s.format_issues)&&s.format_issues.length>0&&<div className="format-footnote"><strong>Outside qualifying format — preserved in full</strong><ul>{s.format_issues.map((issue:string,i:number)=><li key={i}>{issue}</li>)}</ul></div>}<p>Published {new Date(s.published_at).toLocaleDateString("en-US")}</p><PublishedContribution submission={s}/></div>
        <div><h4>Questions</h4>{questions.filter(q=>q.submission_id===s.id).map(q=><p className="question-text" key={q.id}>“{q.question_text}”</p>)}
-       <h4>Questions answered</h4>{answers.filter(a=>a.submission_id===s.id).map(a=><p key={a.id}>Q: {questions.find(q=>q.id===a.question_id)?.question_text||"Question"} · {Math.round(Number(a.video_timestamp_seconds))}s</p>)}
+       <h4>Questions answered</h4>{answers.filter(a=>a.submission_id===s.id).map(a=><p key={a.id}>Q: {questions.find(q=>q.id===a.question_id)?.question_text||"Question"} · {(a.written_anchor||Math.round(Number(a.video_timestamp_seconds))+"s")}</p>)}
        <h4>Responsiveness assessments</h4>{assessments.filter(a=>a.answer_submission_id===s.id).map(a=><div className="assessment" key={a.id}><strong>{a.decision.replace(/_/g," ")}</strong><p>{a.reasoning}</p>{objections.filter(o=>o.assessment_id===a.id).map(o=><p key={o.id}>Objection: {o.objection}</p>)}</div>)}
        </div>
      </article>)}
