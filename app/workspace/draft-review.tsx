@@ -2,8 +2,8 @@
 import {useState} from "react";
 type Finding={id:string;category:string;excerpt:string;explanation:string;suggestion:string;confidence:"low"|"medium"|"high"};
 export type PrivateReview={assessmentId:string;report:{overview:string;strengths:string[];findings:Finding[];limitations:string;stage:string};contentSha256:string};
-export default function DraftReview({review,busy,notice,onRevise,onSkip,onConfirm}:{
- review:PrivateReview|null;busy:boolean;notice:string;onRevise:()=>void;onSkip:()=>void;onConfirm:()=>void;
+export default function DraftReview({review,busy,notice,onRevise,onSkip,onConfirm,onTranscribe}:{
+ review:PrivateReview|null;busy:boolean;notice:string;onRevise:()=>void;onSkip:()=>void;onConfirm:()=>void;onTranscribe?:()=>void;
 }){
  const [choices,setChoices]=useState<Record<string,string>>({});
  async function feedback(findingId:string,choice:"accept"|"reject"){
@@ -30,6 +30,7 @@ export default function DraftReview({review,busy,notice,onRevise,onSkip,onConfir
   <div className="review-actions">
     <button disabled={busy} type="button" className="button button-dark" onClick={onRevise}>Edit my original</button>
     {!review&&<button disabled={busy} type="button" className="button button-dark" onClick={onSkip}>Skip optional assessment</button>}
+    {!review&&onTranscribe&&<button disabled={busy} type="button" className="button button-dark" onClick={onTranscribe}>Transcribe my audio privately</button>}
     <button disabled={busy} type="button" className="button button-dark" onClick={onConfirm}>Approve my final original and publish ↗</button>
   </div>
   <p className="small-label">The final assessment is a separate private analysis, available in your account after publication when a model is configured.</p>
