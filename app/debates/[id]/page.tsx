@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import AssessmentTools from "./assessment-tools";
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import {loadPublicDebate} from "../../../lib/server/public-debates";
@@ -14,6 +15,7 @@ export default async function DebateDetail({params}:{params:Promise<{id:string}>
    <p className="eyebrow dark">PUBLIC DEBATE / {d.office_name} / {d.election_label}</p>
    <h1>{d.title}</h1><p className="interior-lead">{d.proposition}</p>
    <div className="record-explainer"><strong>The complete record is permanent.</strong><p>Published responses remain visible whether or not they qualify for the reciprocal debate sequence. Question assessments are attributed to the candidates who made them.</p></div>
+   <p><Link className="button button-dark" href={"/debates/"+id+"/respond"}>Answer or challenge this policy ↗</Link></p>
    {opening&&<section className="featured-video" aria-labelledby="opening-heading"><p className="small-label">ORIGINAL PRESENTATION</p>
      <h2 id="opening-heading">{d.originator_name}</h2>
      <video controls preload="metadata" playsInline src={"/api/media/"+opening.media_asset_id+"/play"} aria-label={"Opening policy presentation by "+d.originator_name}>Your browser does not support HTML video.</video>
@@ -29,6 +31,7 @@ export default async function DebateDetail({params}:{params:Promise<{id:string}>
        </div>
      </article>)}
    </section>
+   <AssessmentTools submissions={submissions} questions={questions}/>
    <section className="branch-summary"><h2>Candidate-to-candidate branches</h2>{branches.length===0?<p>No contender has published a response yet.</p>:branches.map(b=><p key={b.id}>{b.contender_name} · {submissions.filter(s=>s.branch_id===b.id).length} published contributions</p>)}
    </section>
    <Link href="/debates" className="inline-arrow">← All debates</Link>
