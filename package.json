@@ -15,7 +15,8 @@
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "check": "npm run typecheck && npm test && npm run build",
     "db:migrate": "node scripts/migrate.mjs",
-    "db:check": "node scripts/migrate.mjs --check"
+    "db:check": "node scripts/migrate.mjs --check",
+    "test:db": "node --test tests/db.integration.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "1.2.0",
