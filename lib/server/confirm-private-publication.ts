@@ -61,7 +61,7 @@ export async function confirmPrivatePublication(draftId:string,authSubject:strin
   }
   await database().query(
    "UPDATE private_submission_drafts SET status='published',published_debate_id=$2,published_submission_id=$3,updated_at=now() WHERE id=$1",
-   [draftId,publication.debateId||d.debate_id,publication.submissionId]);
+   [draftId,("debateId" in publication ? publication.debateId : d.debate_id),publication.submissionId]);
  }catch(error){
   const existing=await database().query<{id:string;debate_id:string}>("SELECT id,debate_id FROM submissions WHERE origin_draft_id=$1",[draftId]);
   if(existing.rowCount){
@@ -77,5 +77,5 @@ export async function confirmPrivatePublication(draftId:string,authSubject:strin
   try{await runPrivateAssessment({draftId,authSubject,stage:"final"});finalAssessment="available_privately";}
   catch{finalAssessment="unavailable_retry_from_workspace";}
  }
- return {debateId:publication.debateId||d.debate_id,submissionId:publication.submissionId,alreadyPublished:false,finalAssessment};
+ return {debateId:("debateId" in publication ? publication.debateId : d.debate_id),submissionId:publication.submissionId,alreadyPublished:false,finalAssessment};
 }
