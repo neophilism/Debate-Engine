@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-11T17:41:49.424Z",
+  "observedAt": "2026-10-11T20:21:17.000Z",
   "units": [
     {
       "id": "PDE-01",
@@ -159,7 +159,8 @@
       "origin": "original",
       "prs": [
         14,
-        20
+        20,
+        60
       ]
     },
     {
@@ -404,6 +405,21 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4822045371,
+      "number": 60,
+      "title": "PDE-17: Public debate filters, published-writing search and stable pagination",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/60",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-11T20:19:32Z",
+      "updatedAt": "2026-10-11T20:21:17Z",
+      "closedAt": "2026-10-11T20:21:17Z",
+      "mergedAt": "2026-10-11T20:21:17Z",
+      "headSha": "fbf0a0b06c9e9c79d0a1b653f623acc1fe9a543b",
+      "baseRef": "main",
+      "mergeCommitSha": "296d1852897930cb870ba6932b6cb8c11818e4d9"
+    },
     {
       "id": 4819829020,
       "number": 59,
