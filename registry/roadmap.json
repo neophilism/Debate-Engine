@@ -53,8 +53,7 @@
       "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
-        "https://github.com/neophilism/Debate-Engine/pull/3",
-        "https://github.com/neophilism/Debate-Engine/pull/25"
+        "https://github.com/neophilism/Debate-Engine/pull/3"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Neon Auth and candidate registration work. Delegates and strengthened administrator MFA still missing."
@@ -154,7 +153,8 @@
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/5",
-        "https://github.com/neophilism/Debate-Engine/pull/21"
+        "https://github.com/neophilism/Debate-Engine/pull/21",
+        "https://github.com/neophilism/Debate-Engine/pull/32"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Contender response composer/public ledger implemented; safe nonqualifying archive enhancement in PR32."
@@ -182,7 +182,8 @@
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/5",
-        "https://github.com/neophilism/Debate-Engine/pull/15"
+        "https://github.com/neophilism/Debate-Engine/pull/15",
+        "https://github.com/neophilism/Debate-Engine/pull/32"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Qualifying public sequence projection works; materialized historical manifests still missing."
@@ -211,7 +212,8 @@
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/4",
-        "https://github.com/neophilism/Debate-Engine/pull/15"
+        "https://github.com/neophilism/Debate-Engine/pull/15",
+        "https://github.com/neophilism/Debate-Engine/pull/32"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Large original video, all responses, questions and footnotes shown; full usability acceptance pending."
