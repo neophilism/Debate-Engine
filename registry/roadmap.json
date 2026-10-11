@@ -610,11 +610,10 @@
       "implementation": "not_started",
       "acceptance": "pending",
       "pullRequests": [
-        "https://github.com/neophilism/Debate-Engine/pull/58"
-      ],
-      "openPullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/58",
         "https://github.com/neophilism/Debate-Engine/pull/56"
       ],
+      "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     }
   ],
