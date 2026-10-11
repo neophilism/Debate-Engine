@@ -32,6 +32,7 @@ export interface RecordedAnswer {
   questionId: string;
   candidateId: string;
   videoTimestampSeconds: number;
+  writtenAnchor?: string;
 }
 export interface ExchangeInput {
   originatorId: string;
@@ -80,8 +81,8 @@ function recordedAnswer(
   return answers.some(
     (a) => a.questionId === questionId &&
       a.candidateId === expectedCandidate &&
-      Number.isFinite(a.videoTimestampSeconds) &&
-      a.videoTimestampSeconds >= 0,
+      ((Number.isFinite(a.videoTimestampSeconds) && a.videoTimestampSeconds >= 0) ||
+       (typeof a.writtenAnchor === "string" && /^char:[0-9]+$/.test(a.writtenAnchor))),
   );
 }
 
