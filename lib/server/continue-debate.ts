@@ -7,7 +7,7 @@ import {verifiedCandidateSource,validateReference,type ContributionSource,type A
 
 
 export type ContinuationInput={debateId:string;candidateId:string;authSubject:string;parentSubmissionId:string;
-  source:ContributionSource;questions:AnchoredQuestion[];answers:AnchoredAnswer[];
+  source:ContributionSource;questions:AnchoredQuestion[];answers:AnchoredAnswer[];draftId:string;
 };
 
 export async function publishContinuation(input:ContinuationInput){
@@ -58,8 +58,8 @@ export async function publishContinuation(input:ContinuationInput){
   if((await db.query("SELECT 1 FROM submissions WHERE media_asset_id=$1",[input.source.mediaAssetId])).rowCount)
     throw new HttpError(409,"Original media already belongs to another public contribution.");
   const row=await db.query<{id:string}>(
-   "INSERT INTO submissions(debate_id,branch_id,candidacy_id,parent_submission_id,media_asset_id,kind,modality,written_content,format_issues) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9::jsonb) RETURNING id",
-   [input.debateId,branchId,input.candidateId,prev.id,input.source.mediaAssetId,kind,input.source.modality,input.source.writtenContent,JSON.stringify(formatIssues)]);
+   "INSERT INTO submissions(debate_id,branch_id,candidacy_id,parent_submission_id,media_asset_id,kind,modality,written_content,format_issues,origin_draft_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9::jsonb,$10) RETURNING id",
+   [input.debateId,branchId,input.candidateId,prev.id,input.source.mediaAssetId,kind,input.source.modality,input.source.writtenContent,JSON.stringify(formatIssues),input.draftId]);
   const sid=row.rows[0].id;
   for(let i=0;i<input.questions.length;i++){
    const q=input.questions[i],pos=mappedQuestions[i];
