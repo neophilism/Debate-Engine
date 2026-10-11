@@ -12,7 +12,7 @@
     "start": "next start --hostname 0.0.0.0",
     "worker:deadlines": "node scripts/deadline-worker.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test tests/*.test.ts tests/upload-maintenance.test.mjs",
+    "test": "node --experimental-strip-types --test tests/*.test.ts tests/upload-maintenance.test.mjs tests/pr-registry.test.mjs",
     "check": "npm run typecheck && npm test && npm run build",
     "db:migrate": "node scripts/migrate.mjs",
     "db:check": "node scripts/migrate.mjs --check",
@@ -20,7 +20,8 @@
     "worker:render": "node scripts/render-summary.mjs",
     "worker:render:once": "node scripts/render-summary.mjs --once",
     "worker:uploads:cleanup": "node scripts/cleanup-uploads.mjs",
-    "worker:uploads:cleanup:dry-run": "node scripts/cleanup-uploads.mjs --dry-run"
+    "worker:uploads:cleanup:dry-run": "node scripts/cleanup-uploads.mjs --dry-run",
+    "registry:sync": "node scripts/sync-pr-registry.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "1.2.0",
