@@ -11,6 +11,7 @@ export async function privateReportHistory(draftId:string,authSubject:string){
 }
 export async function runPrivateAssessment(input:{draftId:string;authSubject:string;stage:"preliminary"|"final"}){
  const draft=await loadPrivateDraft(input.draftId,input.authSubject);
+ if(draft.privacy_erased_at)throw new HttpError(410,"Private assessment data has been erased.");
  if(!draft.provider_consent)throw new HttpError(403,"Explicit consent to send this speech to the model provider is required.");
  if(input.stage==="preliminary"&&!["draft","reviewed"].includes(draft.status))
   throw new HttpError(409,"This draft can no longer undergo preliminary review.");
@@ -29,7 +30,7 @@ export async function runPrivateAssessment(input:{draftId:string;authSubject:str
  }
  return transaction(async db=>{
   const fresh=await loadPrivateDraft(input.draftId,input.authSubject,true,db);
-  if(fresh.content_sha256!==draft.content_sha256||fresh.status!==draft.status)
+  if(fresh.privacy_erased_at||fresh.content_sha256!==draft.content_sha256||fresh.status!==draft.status)
    throw new HttpError(409,"Speech was edited while assessment was running. Review the current draft again.");
   const record=await db.query<{id:string}>(
    "INSERT INTO private_debate_assessments(draft_id,owner_account_id,stage,content_sha256,model_provider,model_name,findings) VALUES($1,$2,$3,$4,$5,$6,$7::jsonb) RETURNING id",
