@@ -12,7 +12,7 @@
     "start": "next start --hostname 0.0.0.0",
     "worker:deadlines": "node scripts/deadline-worker.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test tests/*.test.ts tests/upload-maintenance.test.mjs tests/pr-registry.test.mjs tests/archive-audit-query.test.mjs",
+    "test": "node --experimental-strip-types --test tests/*.test.ts tests/upload-maintenance.test.mjs tests/pr-registry.test.mjs tests/archive-audit-query.test.mjs tests/request-origin.test.ts",
     "check": "npm run typecheck && npm test && npm run build",
     "db:migrate": "node scripts/migrate.mjs",
     "db:check": "node scripts/migrate.mjs --check",

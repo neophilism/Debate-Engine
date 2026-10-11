@@ -2,6 +2,7 @@ import "server-only";
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUser, isPlatformAdmin } from "../auth/server";
 import { database } from "./db";
+import {isTrustedMutationOrigin} from "../../packages/domain/request-origin";
 
 export class HttpError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -15,13 +16,14 @@ export function jsonError(error: unknown) {
 }
 /** Cookie-authenticated requests require same-origin browser provenance. */
 export function requireSameOrigin(request: NextRequest) {
-  const origin = request.headers.get("origin");
-  const host = request.headers.get("x-forwarded-host") || request.headers.get("host");
-  if (!origin || !host) throw new HttpError(403,"A same-origin browser request is required.");
-  try {
-    if (new URL(origin).host !== host || !["https:", "http:"].includes(new URL(origin).protocol))
-      throw new Error("Bad origin");
-  } catch { throw new HttpError(403,"Cross-origin mutation denied."); }
+  if(!isTrustedMutationOrigin({
+    origin:request.headers.get("origin"),
+    host:request.headers.get("host"),
+    forwardedHost:request.headers.get("x-forwarded-host"),
+    forwardedProto:request.headers.get("x-forwarded-proto"),
+    canonicalOrigin:process.env.PUBLIC_APP_ORIGIN,
+    environment:process.env.NODE_ENV
+  }))throw new HttpError(403,"A genuine same-origin browser request is required.");
 }
 export async function parseJson(request: NextRequest): Promise<unknown> {
   if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json"))
