@@ -46,7 +46,7 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
  const updatedQuestions=kind==="opening"?questions.map(q=>({text:q.text,[mode==="writing"?"characterOffset":"timestamp"]:Number(q.position)})):
   myQuestion.trim()?[{text:myQuestion.trim(),[mode==="writing"?"characterOffset":"timestamp"]:Number(myQuestionPosition)}]:[];
  function payload(sourceId:string|null){
-  return {candidacyId,modality:mode,mediaAssetId:mode==="writing"?null:sourceId,writtenContent:mode==="writing"?speech:null,
+  return {candidacyId:candidateId,modality:mode,mediaAssetId:mode==="writing"?null:sourceId,writtenContent:mode==="writing"?speech:null,
    transcriptText:mode==="writing"?null:transcript,questions:updatedQuestions,archiveConsent,sequenceConsent,
    ...(kind==="opening"?{title,proposition,allowedModalities:enabled,maxResponseSeconds:Number(duration),replyWindowHours:Number(windowHours)}:
     {answers:pendingQuestions.filter(q=>answers[q.id]!==undefined&&answers[q.id]!=="").map(q=>({questionId:q.id,[mode==="writing"?"characterOffset":"timestamp"]:Number(answers[q.id])}))})};
@@ -72,7 +72,7 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
    const currentPayload=payload(sourceId);
    const endpoint=draft?"/api/private/drafts/"+draft.draftId:"/api/private/drafts";
    const r=await fetch(endpoint,{method:draft?"PATCH":"POST",headers:{"content-type":"application/json"},body:JSON.stringify(draft?{payload:currentPayload,transcriptText:transcript||null}:{
-    kind,candidacyId,debateId:kind==="response"?debateId:null,parentSubmissionId:kind==="response"?parentId:null,
+    kind,candidacyId:candidateId,debateId:kind==="response"?debateId:null,parentSubmissionId:kind==="response"?parentId:null,
     payload:currentPayload,transcriptText:mode==="writing"?null:transcript||null,providerConsent,improvementConsent
    })});
    const j=await r.json();if(!r.ok)throw Error(j.error||"Private draft preparation failed.");
