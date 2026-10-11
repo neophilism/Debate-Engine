@@ -1,8 +1,15 @@
 import {NextRequest,NextResponse} from "next/server";
 import {jsonError,HttpError,requireIdentity,requireSameOrigin,parseJson,record,field,uuid} from "../../../../../lib/server/http";
 import {submitEditorialPlan} from "../../../../../lib/server/derivative-rights";
+import {branchArtifactDirectory} from "../../../../../lib/server/derivative-directory";
 import type {EditorialManifest,SourceClip} from "../../../../../packages/domain/rights";
 export const runtime="nodejs";export const dynamic="force-dynamic";
+export async function GET(_request:Request,{params}:{params:Promise<{id:string}>}){
+ try{
+  const branchId=uuid((await params).id,"branch id");
+  return NextResponse.json(await branchArtifactDirectory(branchId),{headers:{"Cache-Control":"private, no-store"}});
+ }catch(error){return jsonError(error);}
+}
 export async function POST(request:NextRequest,{params}:{params:Promise<{id:string}>}){
  try{
   requireSameOrigin(request);const user=await requireIdentity(true);
