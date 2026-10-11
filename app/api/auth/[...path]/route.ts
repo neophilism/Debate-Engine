@@ -5,10 +5,10 @@ export const runtime="nodejs";
 export const dynamic="force-dynamic";
 type Verb = "GET"|"POST"|"PUT"|"PATCH"|"DELETE";
 function handler(verb:Verb) {
-  return async function authRoute(request:NextRequest) {
+  return async function authRoute(request:NextRequest, context:{params:Promise<{path:string[]}>}) {
     const auth=getAuthServer();
     if (!auth) return NextResponse.json({error:"Authentication service not configured."},{status:503});
-    return auth.handler()[verb](request);
+    return auth.handler()[verb](request,context);
   };
 }
 export const GET=handler("GET");
