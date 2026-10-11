@@ -7,8 +7,13 @@ export type DebateAssistantReport={
  stage:"preliminary"|"final";overview:string;strengths:string[];findings:DebateFinding[];
  limitations:string;
 };
+function stableJson(x:unknown):unknown{
+ if(Array.isArray(x))return x.map(stableJson);
+ if(x&&typeof x==="object")return Object.fromEntries(Object.entries(x).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>[k,stableJson(v)]));
+ return x;
+}
 export function draftFingerprint(payload:unknown,transcript:string|null){
- return createHash("sha256").update(JSON.stringify({payload,transcript:transcript||null})).digest("hex");
+ return createHash("sha256").update(JSON.stringify(stableJson({payload,transcript:transcript||null}))).digest("hex");
 }
 export function validateDebateAssistantReport(value:unknown,stage:"preliminary"|"final"):DebateAssistantReport{
  if(!value||typeof value!=="object"||Array.isArray(value))throw Error("Invalid assistant response.");
