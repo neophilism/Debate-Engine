@@ -73,7 +73,7 @@ export default function CandidateWorkspace({displayName,admin,verifiedEmail}:{di
  return <div className="interior-page">
    <p className="eyebrow dark">PRIVATE WORKSPACE</p><h1>Hello,<br/><em>{displayName}.</em></h1>
    {!verifiedEmail&&<p role="alert" className="form-alert">Your email is not yet verified. Publication privileges will remain unavailable until verification.</p>}
-   <p className="interior-lead">Manage your candidacy and future policy debates. Public debate records are never editable from this private workspace.</p>
+   <p className="interior-lead">Manage your candidacy and future policy debates. Public debate records are never editable from this private workspace.</p><p><Link href="/workspace/delegates" className="inline-arrow">Manage campaign delegates ↗</Link></p>
    <div className="workspace-grid">
      <section className="workspace-panel"><p className="small-label">YOUR CANDIDACIES</p>
        {loading?<p>Loading…</p>:candidacies.length===0?<p>No candidacy registered yet.</p>:candidacies.map(c=><article className="mini-card" key={c.id}><strong>{c.public_name} · {c.office_title}</strong><p>{c.label} · {c.verification_status}</p>{c.verification_status==="verified"&&<Link href="/workspace/new" className="inline-arrow">Prepare a debate ↗</Link>}{c.verification_status==="rejected"&&<div className="verification-appeal">
