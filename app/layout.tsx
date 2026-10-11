@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <span>PUBLIC<br/>DEBATE ENGINE</span>
         </Link>
         <nav aria-label="Main navigation" className="nav-links">
-          <Link href="/debates">Debates</Link><Link href="/candidates">Candidates</Link><Link href="/protocol">The protocol</Link>
+          <Link href="/debates">Debates</Link><Link href="/candidates">Candidates</Link><Link href="/press">Agreements</Link><Link href="/protocol">The protocol</Link>
         </nav>
         <Link href="/debates" className="nav-action">Explore debates <span aria-hidden="true">↗</span></Link>
       </header>
