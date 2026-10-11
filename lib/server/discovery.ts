@@ -9,7 +9,7 @@ export async function candidateDirectory(office:string|null, election:string|nul
 }
 export async function candidateProfile(candidateId:string){
  const result=await database().query(
-  "SELECT c.id,c.public_name,c.affiliation,c.verified_at,o.title AS office_title,o.slug AS office_slug,e.label AS election_label FROM candidacies c JOIN election_cycles e ON e.id=c.election_id JOIN offices o ON o.id=e.office_id WHERE c.id=$1 AND c.verification_status='verified'",[candidateId]);
+  "SELECT c.id,c.public_name,c.affiliation,c.verified_at,c.verification_status,o.title AS office_title,o.slug AS office_slug,e.label AS election_label FROM candidacies c JOIN election_cycles e ON e.id=c.election_id JOIN offices o ON o.id=e.office_id WHERE c.id=$1 AND (c.verification_status='verified' OR EXISTS(SELECT 1 FROM submissions s WHERE s.candidacy_id=c.id AND s.published_at IS NOT NULL))",[candidateId]);
  if(!result.rowCount)return null;
  const debates=await database().query(
   "SELECT d.id,d.title,d.published_at,s.id AS submission_id,s.kind FROM submissions s JOIN debates d ON d.id=s.debate_id WHERE s.candidacy_id=$1 AND s.published_at IS NOT NULL AND d.status='published' ORDER BY s.published_at DESC LIMIT 100",[candidateId]);
