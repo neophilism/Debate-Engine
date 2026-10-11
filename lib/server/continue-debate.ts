@@ -1,6 +1,7 @@
 import "server-only";
 import {transaction} from "./db";
 import {HttpError} from "./http";
+import {recordPublishedContinuationObligations} from "./obligations";
 
 type QuestionInput={text:string;timestamp:number};
 type AnswerInput={questionId:string;timestamp:number;explanation?:string};
@@ -62,7 +63,14 @@ export async function publishContinuation(input:ContinuationInput){
   for(let i=0;i<input.questions.length;i++)await db.query("INSERT INTO questions(submission_id,asked_by_candidacy_id,ordinal,question_text,video_timestamp_seconds) VALUES($1,$2,$3,$4,$5)",[sid,input.candidateId,i+1,input.questions[i].text.trim(),input.questions[i].timestamp]);
   for(const a of input.answers)await db.query("INSERT INTO answers(submission_id,question_id,video_timestamp_seconds,explanation) VALUES($1,$2,$3,$4)",[sid,a.questionId,a.timestamp,a.explanation||null]);
   await db.query("INSERT INTO media_permissions(candidate_id,media_asset_id,permission) VALUES($1,$2,'archive'),($1,$2,'sequence')",[input.candidateId,input.mediaAssetId]);
-  await db.query("UPDATE submissions SET published_at=now() WHERE id=$1",[sid]);
+  if(!branchId)throw new HttpError(500,"Published continuation is missing a branch.");
+  const published=await db.query<{published_at:Date}>("UPDATE submissions SET published_at=now() WHERE id=$1 RETURNING published_at",[sid]);
+  await recordPublishedContinuationObligations(db,{
+    debateId:input.debateId,branchId,sourceSubmissionId:sid,parentSubmissionId:prev.id,
+    publishingCandidacyId:input.candidateId,obligatedCandidacyId:prev.candidacy_id,
+    publishedAt:published.rows[0].published_at,replyWindowHours:rule.reply_window_hours,
+    opensReview:input.answers.length>0,opensReply:input.questions.length>0,
+  });
   await db.query("INSERT INTO publication_events(debate_id,branch_id,actor_candidacy_id,kind,object_id,payload) VALUES($1,$2,$3,'contribution_published',$4,$5::jsonb)",[input.debateId,branchId,input.candidateId,sid,JSON.stringify({parentSubmissionId:prev.id})]);
   await db.query("INSERT INTO audit_events(actor_account_id,action,target_kind,target_id) VALUES($1,'contribution_published','submission',$2)",[actor.rows[0].account_id,sid]);
   return {submissionId:sid,branchId,published:true};

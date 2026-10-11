@@ -1,6 +1,7 @@
 import {NextRequest,NextResponse} from "next/server";
 import {requireIdentity,requireSameOrigin,parseJson,record,uuid,field,jsonError,HttpError} from "../../../lib/server/http";
 import {transaction} from "../../../lib/server/db";
+import {fulfillReviewObligation} from "../../../lib/server/obligations";
 export const runtime="nodejs";export const dynamic="force-dynamic";
 export async function POST(request:NextRequest){
  try{
@@ -20,6 +21,7 @@ export async function POST(request:NextRequest){
    const made=await db.query<{id:string}>(
     "INSERT INTO assessments(question_id,answer_submission_id,reviewer_candidacy_id,decision,reasoning,supersedes_assessment_id) VALUES($1,$2,$3,$4,$5,$6) RETURNING id",
     [questionId,answerSubmissionId,candidacyId,decision,reasoning,supersedes]);
+   await fulfillReviewObligation(db,{sourceSubmissionId:answerSubmissionId,obligatedCandidacyId:candidacyId});
    await db.query("INSERT INTO publication_events(debate_id,branch_id,actor_candidacy_id,kind,object_id,payload) VALUES($1,$2,$3,'question_assessed',$4,$5::jsonb)",[relation.rows[0].debate_id,relation.rows[0].branch_id,candidacyId,made.rows[0].id,JSON.stringify({questionId,answerSubmissionId,decision})]);
    return made.rows[0];
   });
