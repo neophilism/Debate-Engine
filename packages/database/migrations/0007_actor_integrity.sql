@@ -4,7 +4,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS pde_one_submission_per_source ON submissions(m
 
 CREATE OR REPLACE FUNCTION public.pde_guard_submission_actor() RETURNS trigger LANGUAGE plpgsql AS $$
 DECLARE
-  election_id uuid;
+  debate_election_id uuid;
   originator_id uuid;
   asset_owner uuid;
   branch_responder uuid;
@@ -14,12 +14,12 @@ DECLARE
   parent_branch uuid;
   parent_kind text;
 BEGIN
-  SELECT d.election_id,d.originator_candidacy_id INTO election_id,originator_id FROM debates d WHERE d.id=NEW.debate_id;
+  SELECT d.election_id,d.originator_candidacy_id INTO debate_election_id,originator_id FROM debates d WHERE d.id=NEW.debate_id;
   SELECT m.owner_candidacy_id INTO asset_owner FROM media_assets m WHERE m.id=NEW.media_asset_id;
   IF asset_owner IS DISTINCT FROM NEW.candidacy_id THEN
     RAISE EXCEPTION 'Source media must belong to its credited candidate.' USING ERRCODE='23514';
   END IF;
-  IF NOT EXISTS (SELECT 1 FROM candidacies c WHERE c.id=NEW.candidacy_id AND c.election_id=election_id) THEN
+  IF NOT EXISTS (SELECT 1 FROM candidacies c WHERE c.id=NEW.candidacy_id AND c.election_id=debate_election_id) THEN
     RAISE EXCEPTION 'Candidate is not a participant in the debate election.' USING ERRCODE='23514';
   END IF;
   IF NEW.kind='opening' THEN
