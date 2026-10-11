@@ -61,9 +61,15 @@ export async function publishContinuation(input:ContinuationInput){
    "INSERT INTO submissions(debate_id,branch_id,candidacy_id,parent_submission_id,media_asset_id,kind,modality,written_content,format_issues) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9::jsonb) RETURNING id",
    [input.debateId,branchId,input.candidateId,prev.id,input.source.mediaAssetId,kind,input.source.modality,input.source.writtenContent,JSON.stringify(formatIssues)]);
   const sid=row.rows[0].id;
-  for(let i=0;i<input.questions.length;i++)await db.query("INSERT INTO questions(submission_id,asked_by_candidacy_id,ordinal,question_text,video_timestamp_seconds) VALUES($1,$2,$3,$4,$5)",[sid,input.candidateId,i+1,input.questions[i].text.trim(),input.questions[i].timestamp]);
-  for(const a of input.answers)await db.query("INSERT INTO answers(submission_id,question_id,video_timestamp_seconds,explanation) VALUES($1,$2,$3,$4)",[sid,a.questionId,a.timestamp,a.explanation||null]);
-  await db.query("INSERT INTO media_permissions(candidate_id,media_asset_id,permission) VALUES($1,$2,'archive'),($1,$2,'sequence')",[input.candidateId,input.source.mediaAssetId]);
+  for(let i=0;i<input.questions.length;i++){
+   const q=input.questions[i],pos=mappedQuestions[i];
+   await db.query("INSERT INTO questions(submission_id,asked_by_candidacy_id,ordinal,question_text,video_timestamp_seconds,written_anchor) VALUES($1,$2,$3,$4,$5,$6)",[sid,input.candidateId,i+1,q.text.trim(),pos.timestamp,pos.anchor]);
+  }
+  for(let i=0;i<input.answers.length;i++){
+   const a=input.answers[i],pos=mappedAnswers[i];
+   await db.query("INSERT INTO answers(submission_id,question_id,video_timestamp_seconds,written_anchor,explanation) VALUES($1,$2,$3,$4,$5)",[sid,a.questionId,pos.timestamp,pos.anchor,a.explanation||null]);
+  }
+  if(input.source.mediaAssetId)await db.query("INSERT INTO media_permissions(candidate_id,media_asset_id,permission) VALUES($1,$2,'archive'),($1,$2,'sequence')",[input.candidateId,input.source.mediaAssetId]);
   if(!branchId)throw new HttpError(500,"Published continuation is missing a branch.");
   const published=await db.query<{published_at:Date}>("UPDATE submissions SET published_at=now() WHERE id=$1 RETURNING published_at",[sid]);
   await recordPublishedContinuationObligations(db,{
@@ -72,7 +78,7 @@ export async function publishContinuation(input:ContinuationInput){
     publishedAt:published.rows[0].published_at,replyWindowHours:rule.reply_window_hours,
     opensReview:input.answers.length>0,opensReply:input.questions.length>0,
   });
-  await db.query("INSERT INTO publication_events(debate_id,branch_id,actor_candidacy_id,kind,object_id,payload) VALUES($1,$2,$3,'contribution_published',$4,$5::jsonb)",[input.debateId,branchId,input.candidateId,sid,JSON.stringify({parentSubmissionId:prev.id,formatIssues})]);
+  await db.query("INSERT INTO publication_events(debate_id,branch_id,actor_candidacy_id,kind,object_id,payload) VALUES($1,$2,$3,'contribution_published',$4,$5::jsonb)",[input.debateId,branchId,input.candidateId,sid,JSON.stringify({parentSubmissionId:prev.id,formatIssues,modality:input.source.modality})]);
   await db.query("INSERT INTO audit_events(actor_account_id,action,target_kind,target_id) VALUES($1,'contribution_published','submission',$2)",[actor.rows[0].account_id,sid]);
   return {submissionId:sid,branchId,published:true,qualifyingFormat:formatIssues.length===0,formatIssues};
  });
