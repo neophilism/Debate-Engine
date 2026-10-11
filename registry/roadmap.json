@@ -1,6 +1,6 @@
 {
   "title": "Public Debate Engine",
-  "version": 4,
+  "version": 5,
   "scope": "All work merged and unmerged shares one roadmap denominator.",
   "source": "docs/DEVELOPMENT_PLAN.md",
   "milestones": [
@@ -644,5 +644,9 @@
       "PDE-44"
     ],
     "summary": "Video/Audio/Writing selection, privacy-preserving Debate Assistant pre/post assessment, Interlocutor integration contract, careful repository rename"
-  }
+  },
+  "approvedAdditionsDate": "2026-10-11",
+  "previousRepositoryNames": [
+    "Debate-Engine"
+  ]
 }
