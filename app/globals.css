@@ -46,3 +46,10 @@
 .published-audio audio{display:block;width:100%;min-width:0}
 .qualifying-player .published-writing{color:#18252e}.qualifying-player .published-audio{color:#18252e}
 @media(max-width:650px){.private-review,.assistant-results,.featured-writing{padding:22px 18px}.review-actions .button{min-width:unset}}
+
+
+.private-privacy-controls{margin-top:30px;border-top:1px solid #bdc6c0;padding-top:20px}
+.private-privacy-controls h2{font:normal 26px Georgia,serif}
+.private-privacy-controls p{max-width:700px;line-height:1.75}
+.private-privacy-controls button{border:1px solid #9c9f99;background:#fbfaf7;color:#17212d;padding:13px 15px;margin:8px 8px 8px 0;cursor:pointer;font-size:13px}
+.private-privacy-controls button:disabled{cursor:not-allowed;opacity:.5}
