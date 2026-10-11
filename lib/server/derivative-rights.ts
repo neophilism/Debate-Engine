@@ -2,8 +2,11 @@ import "server-only";
 import {transaction} from "./db";
 import {HttpError} from "./http";
 import {exactManifestHash,validateManifest,type EditorialManifest} from "../../packages/domain/rights";
+import {summaryDurationErrors} from "../../packages/domain/summary";
 export async function submitEditorialPlan(input:{manifest:EditorialManifest;candidateId:string;authSubject:string}){
- const errors=validateManifest(input.manifest);if(errors.length)throw new HttpError(400,errors[0]);
+ const errors=[...validateManifest(input.manifest),...summaryDurationErrors(input.manifest)];
+ if(input.manifest.clips.length>80)errors.push("At most 80 source clips may be submitted for rendering.");
+ if(errors.length)throw new HttpError(400,errors[0]);
  const hash=exactManifestHash(input.manifest);
  return transaction(async db=>{
   const participants=await db.query<{originator_candidacy_id:string;responder_candidacy_id:string}>(
