@@ -5,7 +5,7 @@ import {validateRules} from "../../packages/domain/debate";
 import {parseModalities,type DebateModality} from "../../packages/domain/modalities";
 import {verifiedCandidateSource,validateReference,type ContributionSource,type AnchoredQuestion} from "./contribution-source";
 export type OpeningInput={
- candidateId:string;authSubject:string;title:string;proposition:string;
+ candidateId:string;authSubject:string;title:string;proposition:string;draftId:string;
  source:ContributionSource;allowedModalities:DebateModality[];
  maxResponseSeconds:number;replyWindowHours:number|null;questions:AnchoredQuestion[];
 };
@@ -27,8 +27,8 @@ export async function publishOpening(input:OpeningInput){
    [candidate.election_id,input.candidateId,input.title,input.proposition,input.maxResponseSeconds,input.replyWindowHours,allowed]);
   const debateId=debate.rows[0].id;
   const submission=await db.query<{id:string}>(
-   "INSERT INTO submissions(debate_id,candidacy_id,media_asset_id,modality,written_content,kind) VALUES($1,$2,$3,$4,$5,'opening') RETURNING id",
-   [debateId,input.candidateId,input.source.mediaAssetId,input.source.modality,input.source.writtenContent]);
+   "INSERT INTO submissions(debate_id,candidacy_id,media_asset_id,modality,written_content,kind,origin_draft_id) VALUES($1,$2,$3,$4,$5,'opening',$6) RETURNING id",
+   [debateId,input.candidateId,input.source.mediaAssetId,input.source.modality,input.source.writtenContent,input.draftId]);
   const sid=submission.rows[0].id;
   for(let i=0;i<input.questions.length;i++){
    const q=input.questions[i],p=positions[i];
