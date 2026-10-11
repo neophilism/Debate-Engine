@@ -6,7 +6,7 @@ export const runtime="nodejs";export const dynamic="force-dynamic";
 export async function GET(_request:Request,{params}:{params:Promise<{id:string}>}){
  try{
   const id=uuid((await params).id,"branch id");
-  const q=await database().query("SELECT p.id,p.content_sha256,p.policy_body,p.created_at,p.parent_version_id,c.public_name AS proposer,
+  const q=await database().query(`SELECT p.id,p.content_sha256,p.policy_body,p.created_at,p.parent_version_id,c.public_name AS proposer,
   (SELECT count(*)::integer FROM policy_acceptances a WHERE a.policy_version_id=p.id) AS historical_approval_count,
   (SELECT count(*)::integer FROM (
     SELECT DISTINCT ON (candidate_id) candidate_id,action FROM policy_endorsement_events e
