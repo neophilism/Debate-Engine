@@ -1,0 +1,78 @@
+openapi: 3.1.0
+info:
+  title: Public Debate Engine public records API
+  version: 1.0.0
+  description: >-
+    Read-only, neutral archive of published candidate debates.
+    Participant assessment labels are not independent judgments of factual truth.
+servers:
+  - url: /
+paths:
+  /api/v1/debates:
+    get:
+      operationId: listPublishedDebates
+      summary: Cursor-paginated published debate index
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+        - name: cursor
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Public page; no draft or unverified debates
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [schemaVersion, items, nextCursor]
+                properties:
+                  schemaVersion: { type: string, const: '1.0.0' }
+                  items: { type: array, items: { $ref: '#/components/schemas/DebateSummary' } }
+                  nextCursor: { type: [string, 'null'] }
+        '400':
+          description: Invalid pagination arguments
+  /api/v1/debates/{id}:
+    get:
+      operationId: getPublishedDebateRecord
+      summary: Full public record, including nonqualifying responses and hashes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: All published material, attributed assessments, sources and events
+        '404':
+          description: No such published debate
+  /api/v1/branches/{id}/press-kit:
+    get:
+      operationId: getMutuallyAgreedPolicyEvidence
+      summary: Policy mutually accepted by both participants and original evidence
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Exact policy and provenance manifest
+        '409':
+          description: There is no jointly accepted policy yet
+components:
+  schemas:
+    DebateSummary:
+      type: object
+      required: [id, title, proposition, published_at, originator]
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        proposition: { type: string }
+        published_at: { type: string, format: date-time }
+        originator: { type: string }
+        office: { type: string }
+        election_label: { type: string }
+        contribution_count: { type: integer }
+        contender_count: { type: integer }
