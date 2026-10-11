@@ -1,0 +1,9 @@
+"use client";
+import Link from "next/link";
+import {useState,type FormEvent} from "react";
+export default function ElectionAdminPage(){
+ const[title,setTitle]=useState("");const[slug,setSlug]=useState("");const[jurisdiction,setJurisdiction]=useState("");const[label,setLabel]=useState("");const[date,setDate]=useState("");const[message,setMessage]=useState("");
+ async function submit(event:FormEvent){event.preventDefault();setMessage("");try{const r=await fetch("/api/admin/elections",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({title,slug,jurisdiction,label,date})});const d=await r.json();if(!r.ok)throw Error(d.error||"Could not add election.");setMessage("Election cycle registered.");}catch(e){setMessage(e instanceof Error?e.message:"Request failed.");}}
+ return <div className="interior-page"><p className="eyebrow dark">PLATFORM ADMIN / ELECTIONS</p><h1>Register an<br/><em>election.</em></h1><p className="interior-lead">Only approved administrators can add election cycles. Creating a cycle does not establish that any individual is a verified candidate.</p>
+ <form className="action-form" onSubmit={submit}><label>Office title<input required value={title} onChange={e=>setTitle(e.target.value)}/></label><label>Office slug<input required placeholder="united-states-president" value={slug} onChange={e=>setSlug(e.target.value)}/></label><label>Jurisdiction<input required value={jurisdiction} onChange={e=>setJurisdiction(e.target.value)}/></label><label>Election label<input required value={label} onChange={e=>setLabel(e.target.value)}/></label><label>Election date<input required type="date" value={date} onChange={e=>setDate(e.target.value)}/></label><button className="button button-dark">Add election cycle ↗</button></form>{message&&<p role="status">{message}</p>}<p><Link href="/workspace" className="inline-arrow">Return to workspace</Link></p></div>;
+}
