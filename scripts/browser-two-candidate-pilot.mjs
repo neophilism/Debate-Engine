@@ -107,11 +107,17 @@ try{
   label:"Fictional pilot 2032",date:"2032-11-02"
  },201);
  const electionId=election.id;
+ assert.equal((await request(a,"GET","/api/account/me")).user.id,actorId.a);
+ assert.equal((await request(b,"GET","/api/account/me")).user.id,actorId.b);
  const pageA=await pageAt(a,"/workspace"),pageB=await pageAt(b,"/workspace");
  for(const [page,name] of [[pageA,candidateNameA],[pageB,candidateNameB]]){
-  await page.getByLabel("Election",{exact:true}).selectOption(electionId);
-  await page.getByLabel("Public candidate name").fill(name);
-  await page.getByRole("button",{name:/Request verification/}).click();
+  // The native HTML label wraps the select and its option text. Exact label
+  // matching can include option content; target the actual election form.
+  const form=page.locator(".workspace-panel").filter({hasText:"REGISTER FOR AN ELECTION"}).locator("form");
+  try{await form.locator("select").selectOption(electionId,{timeout:15000});}
+  catch{throw Error("Workspace election picker unavailable: "+(await page.locator("main").innerText()).slice(0,1200));}
+  await form.getByLabel("Public candidate name").fill(name);
+  await form.getByRole("button",{name:/Request verification/}).click();
   await page.getByText(/Candidate registration submitted/).waitFor({timeout:20000});
  }
  const mineA=(await request(a,"GET","/api/account/me")).candidacies;
