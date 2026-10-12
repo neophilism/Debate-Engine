@@ -28,6 +28,13 @@ await check("/api/ready",200,{validate:(_r,text)=>{
  assert.equal(j.status,"ready");
  assert.equal(j.database,"connected");
 }});
+await check("/api/capabilities",200,{validate:(_r,text)=>{
+ const value=JSON.parse(text);
+ assert.ok(["online","unavailable"].includes(value.mediaScanner));
+ assert.ok(["blocked","available_for_validation"].includes(value.newMediaUploadPreflight));
+ assert.equal(typeof value.mediaStorageConfigured,"boolean");
+ assert.equal(value.productionMediaAcceptance,"pending");
+}});
 await check("/api/elections",200,{validate:(_r,text)=>assert.ok(Array.isArray(JSON.parse(text).elections))});
 await check("/api/debates",200,{validate:(_r,text)=>assert.ok(Array.isArray(JSON.parse(text).debates))});
 await check("/api/account/me",401);

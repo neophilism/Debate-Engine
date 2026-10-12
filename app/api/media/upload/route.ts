@@ -4,7 +4,7 @@ import {requireSameOrigin,requireIdentity,uuid,jsonError,HttpError} from "../../
 import {database,transaction} from "../../../../lib/server/db";
 import {examineVideo} from "../../../../lib/server/video";
 import {examineAudio} from "../../../../lib/server/audio";
-import {scanOriginalBeforeValidation} from "../../../../lib/server/malware";
+import {scanOriginalBeforeValidation,requireScannerPreflight} from "../../../../lib/server/malware";
 import {storeOriginal} from "../../../../lib/server/storage";
 export const runtime="nodejs";export const dynamic="force-dynamic";
 const MAX_REQUEST=63*1024*1024;
@@ -12,6 +12,7 @@ export async function POST(request:NextRequest){
  try{
   requireSameOrigin(request);const user=await requireIdentity(true);
   if(Number(request.headers.get("content-length"))>MAX_REQUEST)throw new HttpError(413,"Maximum upload is 60 MiB.");
+  await requireScannerPreflight();
   const form=await request.formData();
   const cand=uuid(form.get("candidacyId"),"candidacyId");
   const modality=form.get("modality")??"video";
