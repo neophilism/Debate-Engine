@@ -3,8 +3,9 @@ import {createConnection} from "node:net";
 /** ClamAV's local Unix-socket INSTREAM protocol, with bounded input and timeout. */
 export type ScanVerdict={scanner:"clamav";verdict:"clean"};
 export class ScanFailure extends Error{
- constructor(public readonly reason:"detected"|"unavailable",message:string){
-  super(message);this.name="ScanFailure";
+ readonly reason:"detected"|"unavailable";
+ constructor(reason:"detected"|"unavailable",message:string){
+  super(message);this.name="ScanFailure";this.reason=reason;
  }
 }
 export function scanWithClamd(data:Buffer,socketPath:string):Promise<ScanVerdict>{
