@@ -53,7 +53,9 @@
       "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
-        "https://github.com/neophilism/Debate-Engine/pull/3"
+        "https://github.com/neophilism/Debate-Engine/pull/3",
+        "https://github.com/neophilism/Debate-Engine/pull/34",
+        "https://github.com/neophilism/Debate-Engine/pull/35"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Neon Auth and candidate registration work. Delegates and strengthened administrator MFA still missing."
@@ -96,7 +98,9 @@
       "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
-        "https://github.com/neophilism/Debate-Engine/pull/4"
+        "https://github.com/neophilism/Debate-Engine/pull/4",
+        "https://github.com/neophilism/Debate-Engine/pull/62",
+        "https://github.com/neophilism/Debate-Engine/pull/64"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Originals stored with SHA-256 and server validation, but upload limited to 60MiB and not resumable."
@@ -113,7 +117,8 @@
         "https://github.com/neophilism/Debate-Engine/pull/13",
         "https://github.com/neophilism/Debate-Engine/pull/17",
         "https://github.com/neophilism/Debate-Engine/pull/29",
-        "https://github.com/neophilism/Debate-Engine/pull/30"
+        "https://github.com/neophilism/Debate-Engine/pull/30",
+        "https://github.com/neophilism/Debate-Engine/pull/71"
       ],
       "openPullRequests": [],
       "acceptanceNote": "FFmpeg source worker and captions implemented; isolated production worker not hosted and virus scanning incomplete."
@@ -139,7 +144,8 @@
       "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
-        "https://github.com/neophilism/Debate-Engine/pull/4"
+        "https://github.com/neophilism/Debate-Engine/pull/4",
+        "https://github.com/neophilism/Debate-Engine/pull/70"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Candidate opening composer and transactional publish implemented; multi-user authenticated pilot pending."
@@ -241,7 +247,8 @@
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/14",
         "https://github.com/neophilism/Debate-Engine/pull/20",
-        "https://github.com/neophilism/Debate-Engine/pull/60"
+        "https://github.com/neophilism/Debate-Engine/pull/60",
+        "https://github.com/neophilism/Debate-Engine/pull/61"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Candidate directory and profiles plus merged office/election/topic and published-writing search with stable cursor pagination (PR #60). Live browser/mobile, >20 record paging and performance acceptance pending."
@@ -271,7 +278,8 @@
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/9",
-        "https://github.com/neophilism/Debate-Engine/pull/10"
+        "https://github.com/neophilism/Debate-Engine/pull/10",
+        "https://github.com/neophilism/Debate-Engine/pull/63"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Hash-bound, versioned, joint policy acceptance implemented; scoped partial agreements and withdrawals pending."
@@ -302,7 +310,9 @@
         "https://github.com/neophilism/Debate-Engine/pull/16",
         "https://github.com/neophilism/Debate-Engine/pull/17",
         "https://github.com/neophilism/Debate-Engine/pull/29",
-        "https://github.com/neophilism/Debate-Engine/pull/30"
+        "https://github.com/neophilism/Debate-Engine/pull/30",
+        "https://github.com/neophilism/Debate-Engine/pull/25",
+        "https://github.com/neophilism/Debate-Engine/pull/26"
       ],
       "openPullRequests": [],
       "acceptanceNote": "FFmpeg worker source, test footage, review UI, lease safety. Worker hosting/media pilot remain unverified."
@@ -358,7 +368,8 @@
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/18",
         "https://github.com/neophilism/Debate-Engine/pull/22",
-        "https://github.com/neophilism/Debate-Engine/pull/29"
+        "https://github.com/neophilism/Debate-Engine/pull/29",
+        "https://github.com/neophilism/Debate-Engine/pull/68"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Negative SQL authorization tests and source integrity rules; external E2EESA/security audit missing."
@@ -373,7 +384,8 @@
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/18",
         "https://github.com/neophilism/Debate-Engine/pull/22",
-        "https://github.com/neophilism/Debate-Engine/pull/31"
+        "https://github.com/neophilism/Debate-Engine/pull/31",
+        "https://github.com/neophilism/Debate-Engine/pull/67"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Read-only checksum audit and immutable SQL constraints; offsite backup/recovery and safety restriction process missing."
@@ -388,7 +400,8 @@
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/18",
         "https://github.com/neophilism/Debate-Engine/pull/23",
-        "https://github.com/neophilism/Debate-Engine/pull/30"
+        "https://github.com/neophilism/Debate-Engine/pull/30",
+        "https://github.com/neophilism/Debate-Engine/pull/69"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Real PostgreSQL CI, FFmpeg CI and Render smoke; genuine two-user browser acceptance pending."
@@ -396,11 +409,13 @@
     {
       "id": "PDE-28",
       "title": "Accessibility and performance acceptance",
-      "state": "pending",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
       "pr": null,
       "implementation": "partial",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/74"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Visual/mobile and WCAG/media manual acceptance not performed."
     },
@@ -420,11 +435,15 @@
     {
       "id": "PDE-30",
       "title": "Production release and handoff",
-      "state": "pending",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
       "pr": null,
       "implementation": "partial",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/33",
+        "https://github.com/neophilism/Debate-Engine/pull/65",
+        "https://github.com/neophilism/Debate-Engine/pull/75"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Do not mark complete until production acceptances and operational evidence are present."
     },
@@ -432,10 +451,12 @@
       "id": "PDE-31",
       "title": "Rename GitHub repository and preserve integration continuity",
       "origin": "addition",
-      "state": "approved_not_started",
-      "implementation": "not_started",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
       "acceptance": "pending",
-      "pullRequests": [],
+      "pullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/40"
+      ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
     },
@@ -455,11 +476,12 @@
       "title": "Per-debate Video, Audio and Writing selection (video default)",
       "origin": "addition",
       "state": "implementation_merged_acceptance_pending",
-      "implementation": "not_started",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/37",
-        "https://github.com/neophilism/Debate-Engine/pull/43"
+        "https://github.com/neophilism/Debate-Engine/pull/43",
+        "https://github.com/neophilism/Debate-Engine/pull/47"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
@@ -469,7 +491,7 @@
       "title": "Unified submissions and reciprocal protocol across all media",
       "origin": "addition",
       "state": "implementation_merged_acceptance_pending",
-      "implementation": "not_started",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/37",
@@ -483,7 +505,7 @@
       "title": "Audio upload, processing, playback and preservation",
       "origin": "addition",
       "state": "implementation_merged_acceptance_pending",
-      "implementation": "not_started",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/38"
@@ -496,10 +518,11 @@
       "title": "Written speeches, answers, publication and immutable revisions",
       "origin": "addition",
       "state": "implementation_merged_acceptance_pending",
-      "implementation": "not_started",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
-        "https://github.com/neophilism/Debate-Engine/pull/38"
+        "https://github.com/neophilism/Debate-Engine/pull/38",
+        "https://github.com/neophilism/Debate-Engine/pull/66"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
@@ -508,8 +531,8 @@
       "id": "PDE-37",
       "title": "Multimodal candidate composer, workspace and public rendering",
       "origin": "addition",
-      "state": "implementation_open",
-      "implementation": "not_started",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/42",
@@ -523,8 +546,8 @@
       "id": "PDE-38",
       "title": "Private preliminary Debate Assistant with bias and reasoning analysis",
       "origin": "addition",
-      "state": "implementation_open",
-      "implementation": "not_started",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/39",
@@ -538,8 +561,8 @@
       "id": "PDE-39",
       "title": "Candidate-controlled suggestion review, revision and confirmation",
       "origin": "addition",
-      "state": "implementation_open",
-      "implementation": "not_started",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/48"
@@ -551,8 +574,8 @@
       "id": "PDE-40",
       "title": "Private final assessment of exactly the approved publication",
       "origin": "addition",
-      "state": "implementation_open",
-      "implementation": "not_started",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/39",
@@ -565,14 +588,15 @@
       "id": "PDE-41",
       "title": "Assessment privacy, access controls, retention and training-consent governance",
       "origin": "addition",
-      "state": "approved_not_started",
-      "implementation": "not_started",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/39",
         "https://github.com/neophilism/Debate-Engine/pull/50",
         "https://github.com/neophilism/Debate-Engine/pull/54",
-        "https://github.com/neophilism/Debate-Engine/pull/57"
+        "https://github.com/neophilism/Debate-Engine/pull/57",
+        "https://github.com/neophilism/Debate-Engine/pull/51"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"
@@ -581,8 +605,8 @@
       "id": "PDE-42",
       "title": "Nondeterministic assistant evaluation and improvement-feedback controls",
       "origin": "addition",
-      "state": "approved_not_started",
-      "implementation": "not_started",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/52"
@@ -594,8 +618,8 @@
       "id": "PDE-43",
       "title": "Interlocutor thin branded application integration contract",
       "origin": "addition",
-      "state": "approved_not_started",
-      "implementation": "not_started",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/49"
@@ -607,12 +631,13 @@
       "id": "PDE-44",
       "title": "End-to-end multimodal security, privacy, accessibility and production acceptance",
       "origin": "addition",
-      "state": "approved_not_started",
-      "implementation": "not_started",
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/58",
-        "https://github.com/neophilism/Debate-Engine/pull/56"
+        "https://github.com/neophilism/Debate-Engine/pull/56",
+        "https://github.com/neophilism/Debate-Engine/pull/73"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Approved 2026-10-11; acceptance pending"

@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-12T13:41:38.203Z",
+  "observedAt": "2026-10-12T13:47:27.626Z",
   "units": [
     {
       "id": "PDE-01",
@@ -296,7 +296,8 @@
       "origin": "original",
       "prs": [
         33,
-        65
+        65,
+        75
       ]
     },
     {
@@ -430,6 +431,21 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4830298103,
+      "number": 75,
+      "title": "PDE-30: Automatic milestone implementation reconciliation from GitHub",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/75",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-12T13:45:03Z",
+      "updatedAt": "2026-10-12T13:47:11Z",
+      "closedAt": "2026-10-12T13:47:11Z",
+      "mergedAt": "2026-10-12T13:47:11Z",
+      "headSha": "8c574d06843c11db345629bb05ee7885a7834bd0",
+      "baseRef": "main",
+      "mergeCommitSha": "ac32600b75e6775a31dcb28e83745adcfdbc992d"
+    },
     {
       "id": 4830200270,
       "number": 74,
