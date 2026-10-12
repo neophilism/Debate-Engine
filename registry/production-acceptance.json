@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": null,
+  "gates": [
+    {
+      "id": "candidateIdentity",
+      "status": "pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "evidenceUrl": null
+    },
+    {
+      "id": "browserPilot",
+      "status": "pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "evidenceUrl": null
+    },
+    {
+      "id": "workerDeployment",
+      "status": "pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "evidenceUrl": null
+    },
+    {
+      "id": "externalDistribution",
+      "status": "pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "evidenceUrl": null
+    },
+    {
+      "id": "independentBackupRestore",
+      "status": "pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "evidenceUrl": null
+    },
+    {
+      "id": "securityReview",
+      "status": "pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "evidenceUrl": null
+    },
+    {
+      "id": "productionRelease",
+      "status": "pending",
+      "reviewer": null,
+      "reviewedAt": null,
+      "evidenceUrl": null
+    }
+  ]
+}
