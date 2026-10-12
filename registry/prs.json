@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-12T15:06:17.879Z",
+  "observedAt": "2026-10-12T15:16:18.729Z",
   "units": [
     {
       "id": "PDE-01",
@@ -262,7 +262,8 @@
         22,
         31,
         67,
-        77
+        77,
+        80
       ]
     },
     {
@@ -282,7 +283,8 @@
       "origin": "original",
       "prs": [
         72,
-        74
+        74,
+        81
       ]
     },
     {
@@ -434,6 +436,36 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4831350353,
+      "number": 81,
+      "title": "PDE-28: Automated WCAG 2.2 A/AA accessibility audits on public interfaces",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/81",
+      "state": "open",
+      "draft": false,
+      "createdAt": "2026-10-12T15:12:20Z",
+      "updatedAt": "2026-10-12T15:15:01Z",
+      "closedAt": null,
+      "mergedAt": null,
+      "headSha": "85b6fe8db4c960fbb78a699b10fd299be325ae30",
+      "baseRef": "main",
+      "mergeCommitSha": "2f29843b7561323d3ee1d99d8baadbe10ffd2034"
+    },
+    {
+      "id": 4831300973,
+      "number": 80,
+      "title": "PDE-26: Zero-cost S3 media backup, corruption detection, and complete restore rehearsal",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/80",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-12T15:08:14Z",
+      "updatedAt": "2026-10-12T15:16:10Z",
+      "closedAt": "2026-10-12T15:16:10Z",
+      "mergedAt": "2026-10-12T15:16:10Z",
+      "headSha": "a1eb1bd9fe5cd08ee88a68537386d95daf96e7ae",
+      "baseRef": "main",
+      "mergeCommitSha": "6f07fecd89a4b237e43060fbcc983e3a92b7b082"
+    },
     {
       "id": 4831235508,
       "number": 79,

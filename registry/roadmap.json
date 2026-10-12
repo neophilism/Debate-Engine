@@ -388,7 +388,8 @@
         "https://github.com/neophilism/Debate-Engine/pull/22",
         "https://github.com/neophilism/Debate-Engine/pull/31",
         "https://github.com/neophilism/Debate-Engine/pull/67",
-        "https://github.com/neophilism/Debate-Engine/pull/77"
+        "https://github.com/neophilism/Debate-Engine/pull/77",
+        "https://github.com/neophilism/Debate-Engine/pull/80"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Read-only checksum audit and immutable SQL constraints; offsite backup/recovery and safety restriction process missing."
@@ -417,9 +418,12 @@
       "implementation": "partial",
       "acceptance": "pending",
       "pullRequests": [
-        "https://github.com/neophilism/Debate-Engine/pull/74"
+        "https://github.com/neophilism/Debate-Engine/pull/74",
+        "https://github.com/neophilism/Debate-Engine/pull/81"
       ],
-      "openPullRequests": [],
+      "openPullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/81"
+      ],
       "acceptanceNote": "Visual/mobile and WCAG/media manual acceptance not performed."
     },
     {
