@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-12T12:06:26.222Z",
+  "observedAt": "2026-10-12T13:33:33.962Z",
   "units": [
     {
       "id": "PDE-01",
@@ -277,7 +277,9 @@
       "id": "PDE-28",
       "title": "Accessibility and performance acceptance",
       "origin": "original",
-      "prs": []
+      "prs": [
+        72
+      ]
     },
     {
       "id": "PDE-29",
@@ -421,11 +423,42 @@
       "origin": "addition",
       "prs": [
         56,
-        58
+        58,
+        73
       ]
     }
   ],
   "pullRequests": [
+    {
+      "id": 4830145662,
+      "number": 73,
+      "title": "PDE-44: Fail-closed production release evidence gate",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/73",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-12T13:31:44Z",
+      "updatedAt": "2026-10-12T13:33:21Z",
+      "closedAt": "2026-10-12T13:33:21Z",
+      "mergedAt": "2026-10-12T13:33:21Z",
+      "headSha": "036c8d76c8d7e835ee925e727fe950f22a013641",
+      "baseRef": "main",
+      "mergeCommitSha": "34d8e1c58dda678012d618ac7d1f3c74f43aa5d6"
+    },
+    {
+      "id": 4829173863,
+      "number": 72,
+      "title": "PDE-28: Real Chromium desktop, mobile and keyboard browser acceptance in CI",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/72",
+      "state": "open",
+      "draft": false,
+      "createdAt": "2026-10-12T12:08:33Z",
+      "updatedAt": "2026-10-12T12:08:33Z",
+      "closedAt": null,
+      "mergedAt": null,
+      "headSha": "eb513e91367552fc499b11157992bff76218e4ff",
+      "baseRef": "main",
+      "mergeCommitSha": "24048e5105bab321dc7b5c8c3bdb88f101b37f24"
+    },
     {
       "id": 4829144087,
       "number": 71,
@@ -434,12 +467,12 @@
       "state": "open",
       "draft": false,
       "createdAt": "2026-10-12T12:05:58Z",
-      "updatedAt": "2026-10-12T12:05:58Z",
+      "updatedAt": "2026-10-12T12:09:12Z",
       "closedAt": null,
       "mergedAt": null,
-      "headSha": "27ce71af60458cb9530b285149fb42117be526bb",
+      "headSha": "5aeb5055ff4e71c493618bd7c1f410f803967d63",
       "baseRef": "main",
-      "mergeCommitSha": "7bef3eedaa8c47cc8d4305057ae08e2b00247680"
+      "mergeCommitSha": "255b4ff7bda422eb1ff972fe56d72c7252830fe1"
     },
     {
       "id": 4829113720,
