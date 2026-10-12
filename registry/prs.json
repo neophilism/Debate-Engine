@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-12T13:47:27.626Z",
+  "observedAt": "2026-10-12T14:20:18.918Z",
   "units": [
     {
       "id": "PDE-01",
@@ -431,6 +431,21 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4830397747,
+      "number": 76,
+      "title": "Track E2EESA implementation, full testing and independent expert review",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/76",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-12T13:52:53Z",
+      "updatedAt": "2026-10-12T14:20:10Z",
+      "closedAt": "2026-10-12T14:20:10Z",
+      "mergedAt": "2026-10-12T14:20:10Z",
+      "headSha": "0db5a9976e7177af20b4681190813ee9ecf4e432",
+      "baseRef": "main",
+      "mergeCommitSha": "e52814704ecbae6094c232b35d95767fce3bfd80"
+    },
     {
       "id": 4830298103,
       "number": 75,
