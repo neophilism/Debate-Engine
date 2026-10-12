@@ -11,7 +11,7 @@ export type PrivateDraft={
  id:string;kind:DraftKind;candidacy_id:string;owner_account_id:string;debate_id:string|null;
  parent_submission_id:string|null;modality:"video"|"audio"|"writing";payload:Record<string,unknown>;
  transcript_text:string|null;content_sha256:string;provider_consent:boolean;improvement_consent:boolean;
- skipped_preliminary:boolean;status:string;published_debate_id:string|null;published_submission_id:string|null;privacy_erased_at:Date|null;
+ skipped_preliminary:boolean;status:string;updated_at:Date;published_debate_id:string|null;published_submission_id:string|null;privacy_erased_at:Date|null;
 };
 export async function privateOwner(db:PoolClient,candidacyId:string,authSubject:string){
  const r=await db.query<{account_id:string;election_id:string}>(
