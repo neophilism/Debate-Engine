@@ -18,7 +18,7 @@ import {
 
 if(process.env.GITHUB_ACTIONS!=="true"||process.env.PDE_S3_RECOVERY_FIXTURES!=="true")
  throw Error("Real storage is prohibited. Only the ephemeral GitHub fixture job may run this rehearsal.");
-const run=promisify(execFile), image="quay.io/minio/minio:RELEASE.2025-09-06T17-38-46Z";
+const run=promisify(execFile), image="minio/minio:RELEASE.2025-07-23T15-54-02Z";
 const accessKeyId="pdefixtureadmin",secretAccessKey="temporary-only-fake-ci-secret-2026";
 const source={name:"pde-primary-"+randomUUID().slice(0,8),port:19100,bucket:"pde-fixture-primary"};
 const independent={name:"pde-backup-"+randomUUID().slice(0,8),port:19101,bucket:"pde-fixture-backup"};
