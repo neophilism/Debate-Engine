@@ -30,7 +30,7 @@ test("public debate and branch policy read queries can be planned against real m
    assert.ok(match[1].includes("policy_endorsement_events"));
    assert.ok(match[1].includes("candidacy_id"),"Read query must use candidacy_id.");
    const result=await db.query("EXPLAIN "+match[1],[placeholder]);
-   assert.ok(result.rowCount,"PostgreSQL must successfully parse and plan "+item.context);
+   assert.ok(result.rows.length>0,"PostgreSQL must successfully parse and plan "+item.context);
   }
  }finally{await db.end()}
 });
