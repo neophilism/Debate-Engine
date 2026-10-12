@@ -111,3 +111,18 @@ jobs:
           exit 1
       - name: Test desktop, mobile and keyboard interactions in Chromium
         run: npm run test:browser
+
+  clamav-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install actual ClamAV daemon (free GitHub-hosted runner)
+        run: sudo apt-get update -qq && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends clamav-daemon
+      - name: Launch isolated ClamAV with CI-only synthetic signature
+        run: bash scripts/start-ci-clamd.sh
+      - name: Verify real native ClamAV scan, detection and outage fail-closed
+        run: node --experimental-strip-types --test tests/clamav-live.integration.ts
