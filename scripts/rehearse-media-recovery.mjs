@@ -22,6 +22,7 @@ const run=promisify(execFile), image="rustfs/rustfs:1.0.0-rc.6";
 const accessKeyId="pdefixtureadmin",secretAccessKey="temporary-only-fake-ci-secret-2026";
 const source={name:"pde-primary-"+randomUUID().slice(0,8),port:19100,bucket:"pde-fixture-primary"};
 const independent={name:"pde-backup-"+randomUUID().slice(0,8),port:19101,bucket:"pde-fixture-backup"};
+const replacement={name:"pde-restored-"+randomUUID().slice(0,8),port:19100,bucket:"pde-fixture-primary"};
 const active=new Set();
 const sha=bytes=>createHash("sha256").update(bytes).digest("hex");
 const docker=async(...args)=>run("docker",args,{timeout:120000,maxBuffer:512*1024});
@@ -125,8 +126,8 @@ try{
  // Destroy the original primary container. The recovered server has new empty storage.
  primary.destroy();primary=null;
  await stop(source);
- await start(source);
- primary=s3(source);
+ await start(replacement);
+ primary=s3(replacement);
  await bucket(primary,source.bucket);
  const empty=await primary.send(new ListObjectsV2Command({Bucket:source.bucket}));
  assert.equal(empty.KeyCount||0,0,"Primary must really be lost before restoration.");
@@ -139,6 +140,6 @@ try{
   manifestSha256,originalPrimaryDestroyed:true,corruptionDetected:true,anonymousAccessDenied:true}));
 }finally{
  primary?.destroy();backup?.destroy();
- for(const server of [source,independent])await stop(server).catch(()=>{});
+ for(const server of [source,independent,replacement])await stop(server).catch(()=>{});
  if(dir)await rm(dir,{recursive:true,force:true}).catch(()=>{});
 }
