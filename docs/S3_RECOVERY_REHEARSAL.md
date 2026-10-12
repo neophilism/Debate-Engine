@@ -1,0 +1,9 @@
+# $0 media-object loss and recovery rehearsal (PDE-26)
+
+The \`s3-recovery\` CI job now runs **two independent disposable RustFS processes**, bound only to loopback and using synthetic test credentials. It generates an actual one-second MP4, a one-second WAV and a fictional policy text file. They are stored as private S3 objects with SHA-256 metadata. The rehearsal copies them to a separate backup server, checks every digest, deliberately corrupts one backup, proves the verification rejects it, then restores the clean backup.
+
+The original primary storage container is **destroyed**, not merely renamed. CI starts a brand-new empty primary, confirms it contains zero objects, restores all three objects from the independent fixture backup, verifies the original hashes and byte counts, and confirms anonymous HTTP reads are denied. Each test creates and destroys its own isolated servers. Neither public GitHub nor external object storage receives candidate content.
+
+This is a **real S3-compatible API backup/restore exercise**, but it does NOT satisfy the production independent-backup gate. Actual production acceptance still requires independently governed encrypted retention of approved database and media objects, separate access controls, protected immutable manifests, tested disaster recovery of the complete linked database and S3 objects, and independently recorded review. No live customer data or Neon credentials may ever be copied into this public CI job.
+
+Runner requirements: free GitHub Actions Ubuntu with Docker, FFmpeg and \`rustfs/rustfs:1.0.0-rc.6\` pinned from the upstream RustFS published Docker Compose example. The rehearsal refuses any execution except the explicit ephemeral CI context. This job makes no production writes or paid resource allocation.

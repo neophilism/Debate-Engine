@@ -126,3 +126,19 @@ jobs:
         run: bash scripts/start-ci-clamd.sh
       - name: Verify real native ClamAV scan, detection and outage fail-closed
         run: node --experimental-strip-types --test tests/clamav-live.integration.ts
+
+  s3-recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - name: Install FFmpeg for real but fictional MP4 and WAV fixture bytes
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Destroy primary MinIO, restore from independent fixture backup, and verify privacy and checksums
+        env:
+          PDE_S3_RECOVERY_FIXTURES: "true"
+        run: npm run test:s3:restore-rehearsal
