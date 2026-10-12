@@ -189,6 +189,10 @@ try{
   answerSubmissionId:responseId,decision:"answered",
   reasoning:"The responder gave a specific method for independent checks and public records."},201);
  const secondPublic=await request(anonymous,"GET","/api/debates/"+debateId);
+ const responseBranchId=secondPublic.branches.find(b=>b.responder_candidacy_id===candidateB)?.id;
+ assert.ok(responseBranchId,"A published contender must own a discoverable debate branch.");
+ const currentPolicyList=await request(anonymous,"GET","/api/branches/"+responseBranchId+"/policies");
+ assert.deepEqual(currentPolicyList.policies,[],"The policy endpoint must use real endorsement schema and return no invented agreements.");
  const qB=secondPublic.questions.find(q=>q.submission_id===responseId)?.id;
  assert.ok(qB,"Responder's reciprocal question must be attributed and public");
  await pageA.goto(origin+"/debates/"+debateId+"/respond");
