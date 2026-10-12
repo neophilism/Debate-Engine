@@ -9,6 +9,7 @@ import {database,transaction} from "./db";
 import {HttpError} from "./http";
 import {examineVideo} from "./video";
 import {examineAudio} from "./audio";
+import {scanOriginalBeforeValidation} from "./malware";
 import {MEDIA_PART_BYTES,partCount,expectedPartSize,completionParts} from "../../packages/domain/upload-parts";
 
 type Modality="video"|"audio";
@@ -109,12 +110,14 @@ async function persistedOriginal(s:Session){
   throw new HttpError(422,"The stored original was incomplete.");
  const actual=createHash("sha256").update(data).digest("hex");
  if(actual!==s.expected_sha256)throw new HttpError(422,"The stored original does not match the selected file. Start a fresh session.");
+ const scanner=await scanOriginalBeforeValidation(data);
  const info=s.modality==="audio"?examineAudio(data,s.claimed_mime):examineVideo(data,s.claimed_mime);
  if(!info.mime.startsWith(s.modality+"/"))throw new HttpError(415,"The uploaded container has the wrong medium.");
  await transaction(async db=>{
   const inserted=await db.query(
    "INSERT INTO media_assets(id,owner_candidacy_id,storage_key,original_sha256,size_bytes,mime_type,duration_seconds,processing_status) VALUES($1,$2,$3,$4,$5,$6,$7,'ready') ON CONFLICT(id) DO NOTHING",
    [s.media_asset_id,s.owner_candidacy_id,s.storage_key,actual,data.length,info.mime,info.duration]);
+  if(inserted.rowCount)await db.query("INSERT INTO media_scan_attestations(media_asset_id,original_sha256,scanner,verdict) VALUES($1,$2,$3,$4)",[s.media_asset_id,actual,scanner.scanner,scanner.verdict]);
   await db.query("UPDATE media_upload_sessions SET status='completed',completed_at=now() WHERE id=$1 AND status IN ('finalizing','completed')",[s.id]);
   if(inserted.rowCount){
    await db.query(
