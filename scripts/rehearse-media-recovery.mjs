@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Zero-cost, no-secret object-storage loss/recovery exercise. Two separate,
- * ephemeral, localhost-only S3-compatible MinIO servers. Never connect to
+ * ephemeral, localhost-only S3-compatible RustFS servers. Never connect to
  * actual Neon storage or import private candidate material.
  */
 import assert from "node:assert/strict";
@@ -18,7 +18,7 @@ import {
 
 if(process.env.GITHUB_ACTIONS!=="true"||process.env.PDE_S3_RECOVERY_FIXTURES!=="true")
  throw Error("Real storage is prohibited. Only the ephemeral GitHub fixture job may run this rehearsal.");
-const run=promisify(execFile), image="minio/minio:RELEASE.2025-07-23T15-54-02Z";
+const run=promisify(execFile), image="rustfs/rustfs:1.0.0-rc.6";
 const accessKeyId="pdefixtureadmin",secretAccessKey="temporary-only-fake-ci-secret-2026";
 const source={name:"pde-primary-"+randomUUID().slice(0,8),port:19100,bucket:"pde-fixture-primary"};
 const independent={name:"pde-backup-"+randomUUID().slice(0,8),port:19101,bucket:"pde-fixture-backup"};
@@ -32,7 +32,7 @@ function s3(server){
 async function waitFor(server){
  for(let i=0;i<90;i++){
   try{
-   const response=await fetch("http://127.0.0.1:"+server.port+"/minio/health/ready",
+   const response=await fetch("http://127.0.0.1:"+server.port+"/health",
     {signal:AbortSignal.timeout(1500)});
    if(response.ok)return;
   }catch{}
@@ -45,9 +45,11 @@ async function start(server){
  // -p binds only to loopback. --rm removes ephemeral, anonymous data volumes.
  await docker("run","--detach","--rm","--name",server.name,"--publish",
   "127.0.0.1:"+server.port+":9000",
-  "--env","MINIO_ROOT_USER="+accessKeyId,
-  "--env","MINIO_ROOT_PASSWORD="+secretAccessKey,
-  image,"server","/data");
+  "--env","RUSTFS_ACCESS_KEY="+accessKeyId,
+  "--env","RUSTFS_SECRET_KEY="+secretAccessKey,
+  "--env","RUSTFS_ADDRESS=:9000",
+  "--env","RUSTFS_CONSOLE_ENABLE=false",
+  image,"/data");
  active.add(server.name);
  await waitFor(server);
 }
