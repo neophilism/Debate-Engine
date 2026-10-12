@@ -142,3 +142,57 @@ jobs:
         env:
           PDE_S3_RECOVERY_FIXTURES: "true"
         run: npm run test:s3:restore-rehearsal
+
+  candidate-pilot:
+    name: Two distinct signed-session browser candidate pilot
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: debate_ci
+          POSTGRES_PASSWORD: test_only_password
+          POSTGRES_DB: debate_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U debate_ci -d debate_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      DATABASE_URL: postgresql://debate_ci:test_only_password@localhost:5432/debate_ci
+      PDE_BROWSER_URL: http://127.0.0.1:3100
+      PDE_CI_PILOT_RUN: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install production application and browser test dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install Chromium browser for real candidate sessions
+        run: npx playwright install --with-deps chromium
+      - name: Apply all migrations to disposable PostgreSQL only
+        run: npm run db:migrate
+      - name: Create unlogged ephemeral HMAC key and install isolated CI auth fixture
+        run: |
+          echo "PDE_CI_AUTH_KEY=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+      - name: Replace auth module inside THIS CI checkout only
+        run: node scripts/install-ci-pilot-auth.mjs
+      - name: Compile actual production Next.js application in isolated runner
+        run: npm run build
+      - name: Start the complete localhost Next.js application
+        run: |
+          npm run start -- --port 3100 > /tmp/pde-candidate-pilot-server.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:3100/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          tail -n 110 /tmp/pde-candidate-pilot-server.log
+          exit 1
+      - name: Complete two-account candidate registration, reviewed publication, reciprocal sequence and privacy browser pilot
+        run: node scripts/browser-two-candidate-pilot.mjs
