@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-12T11:59:30.678Z",
+  "observedAt": "2026-10-12T12:06:26.222Z",
   "units": [
     {
       "id": "PDE-01",
@@ -81,7 +81,8 @@
         13,
         17,
         29,
-        30
+        30,
+        71
       ]
     },
     {
@@ -97,7 +98,8 @@
       "title": "Debate initiation and publication",
       "origin": "original",
       "prs": [
-        4
+        4,
+        70
       ]
     },
     {
@@ -424,6 +426,36 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4829144087,
+      "number": 71,
+      "title": "PDE-08: Fail-closed ClamAV scanning and immutable original-hash attestations",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/71",
+      "state": "open",
+      "draft": false,
+      "createdAt": "2026-10-12T12:05:58Z",
+      "updatedAt": "2026-10-12T12:05:58Z",
+      "closedAt": null,
+      "mergedAt": null,
+      "headSha": "27ce71af60458cb9530b285149fb42117be526bb",
+      "baseRef": "main",
+      "mergeCommitSha": "7bef3eedaa8c47cc8d4305057ae08e2b00247680"
+    },
+    {
+      "id": 4829113720,
+      "number": 70,
+      "title": "PDE-10: Recover crashed publication confirmations without duplicate speeches",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/70",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-12T12:03:18Z",
+      "updatedAt": "2026-10-12T12:06:11Z",
+      "closedAt": "2026-10-12T12:06:11Z",
+      "mergedAt": "2026-10-12T12:06:11Z",
+      "headSha": "39f92dc3f8a3e6c78353069ab066e887e112ba72",
+      "baseRef": "main",
+      "mergeCommitSha": "9bc3455ea373c33250f73e003f9866953b857bb6"
+    },
     {
       "id": 4829043748,
       "number": 69,
