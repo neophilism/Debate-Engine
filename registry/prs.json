@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-12T15:16:18.729Z",
+  "observedAt": "2026-10-12T15:25:20.727Z",
   "units": [
     {
       "id": "PDE-01",
@@ -250,7 +250,8 @@
         18,
         22,
         29,
-        68
+        68,
+        82
       ]
     },
     {
@@ -263,7 +264,8 @@
         31,
         67,
         77,
-        80
+        80,
+        83
       ]
     },
     {
@@ -437,6 +439,36 @@
   ],
   "pullRequests": [
     {
+      "id": 4831494637,
+      "number": 83,
+      "title": "PDE-26: Remove container cleanup race in S3 disaster-recovery rehearsal",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/83",
+      "state": "open",
+      "draft": false,
+      "createdAt": "2026-10-12T15:24:45Z",
+      "updatedAt": "2026-10-12T15:24:45Z",
+      "closedAt": null,
+      "mergedAt": null,
+      "headSha": "c4fa9e725d18779eb15e2a269e39f0bb908fe367",
+      "baseRef": "main",
+      "mergeCommitSha": "90aa8648c72b74676c2837e75bacaee0ed9a1cff"
+    },
+    {
+      "id": 4831443083,
+      "number": 82,
+      "title": "PDE-25: Free CodeQL static analysis and dependency vulnerability checks",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/82",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-12T15:20:11Z",
+      "updatedAt": "2026-10-12T15:25:10Z",
+      "closedAt": "2026-10-12T15:25:10Z",
+      "mergedAt": "2026-10-12T15:25:10Z",
+      "headSha": "35d150babf84cdd6fae70c34b304a8a32b1ee945",
+      "baseRef": "main",
+      "mergeCommitSha": "f0371305f05380eb697ca48ccc4d13f7bfb0daf2"
+    },
+    {
       "id": 4831350353,
       "number": 81,
       "title": "PDE-28: Automated WCAG 2.2 A/AA accessibility audits on public interfaces",
@@ -444,12 +476,12 @@
       "state": "open",
       "draft": false,
       "createdAt": "2026-10-12T15:12:20Z",
-      "updatedAt": "2026-10-12T15:15:01Z",
+      "updatedAt": "2026-10-12T15:21:49Z",
       "closedAt": null,
       "mergedAt": null,
-      "headSha": "85b6fe8db4c960fbb78a699b10fd299be325ae30",
+      "headSha": "52331a57df9309b7130c5aa3e6508131b6a4aec1",
       "baseRef": "main",
-      "mergeCommitSha": "2f29843b7561323d3ee1d99d8baadbe10ffd2034"
+      "mergeCommitSha": "56f9727a43d8206eed0210dd135e48a94b35bd00"
     },
     {
       "id": 4831300973,

@@ -371,7 +371,8 @@
         "https://github.com/neophilism/Debate-Engine/pull/18",
         "https://github.com/neophilism/Debate-Engine/pull/22",
         "https://github.com/neophilism/Debate-Engine/pull/29",
-        "https://github.com/neophilism/Debate-Engine/pull/68"
+        "https://github.com/neophilism/Debate-Engine/pull/68",
+        "https://github.com/neophilism/Debate-Engine/pull/82"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Negative SQL authorization tests and source integrity rules; external E2EESA/security audit missing."
@@ -389,9 +390,12 @@
         "https://github.com/neophilism/Debate-Engine/pull/31",
         "https://github.com/neophilism/Debate-Engine/pull/67",
         "https://github.com/neophilism/Debate-Engine/pull/77",
-        "https://github.com/neophilism/Debate-Engine/pull/80"
+        "https://github.com/neophilism/Debate-Engine/pull/80",
+        "https://github.com/neophilism/Debate-Engine/pull/83"
       ],
-      "openPullRequests": [],
+      "openPullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/83"
+      ],
       "acceptanceNote": "Read-only checksum audit and immutable SQL constraints; offsite backup/recovery and safety restriction process missing."
     },
     {
