@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-12T15:05:30.415Z",
+  "observedAt": "2026-10-12T15:06:17.879Z",
   "units": [
     {
       "id": "PDE-01",
@@ -439,15 +439,15 @@
       "number": 79,
       "title": "PDE-07: Reject uploads before transferring bytes when scanner is offline",
       "url": "https://github.com/neophilism/Debate-Engine/pull/79",
-      "state": "open",
+      "state": "closed",
       "draft": false,
       "createdAt": "2026-10-12T15:03:03Z",
-      "updatedAt": "2026-10-12T15:03:03Z",
-      "closedAt": null,
-      "mergedAt": null,
+      "updatedAt": "2026-10-12T15:06:07Z",
+      "closedAt": "2026-10-12T15:06:07Z",
+      "mergedAt": "2026-10-12T15:06:07Z",
       "headSha": "cef8969d2c8b1ae840041b35b981d279d9751125",
       "baseRef": "main",
-      "mergeCommitSha": "c4846d1c62d837225363761e8d2dbe6d5da56345"
+      "mergeCommitSha": "5717ea92105aa321b3c16d63eba0293c20124eea"
     },
     {
       "id": 4831181759,

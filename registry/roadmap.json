@@ -103,9 +103,7 @@
         "https://github.com/neophilism/Debate-Engine/pull/64",
         "https://github.com/neophilism/Debate-Engine/pull/79"
       ],
-      "openPullRequests": [
-        "https://github.com/neophilism/Debate-Engine/pull/79"
-      ],
+      "openPullRequests": [],
       "acceptanceNote": "Originals stored with SHA-256 and server validation, but upload limited to 60MiB and not resumable."
     },
     {
