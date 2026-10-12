@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-11T22:56:25.642Z",
+  "observedAt": "2026-10-12T11:59:30.678Z",
   "units": [
     {
       "id": "PDE-01",
@@ -267,7 +267,8 @@
       "prs": [
         18,
         23,
-        30
+        30,
+        69
       ]
     },
     {
@@ -423,6 +424,21 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4829043748,
+      "number": 69,
+      "title": "PDE-27: Three-candidate reciprocal debate end-to-end transactional pilot",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/69",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-12T11:57:27Z",
+      "updatedAt": "2026-10-12T11:59:20Z",
+      "closedAt": "2026-10-12T11:59:20Z",
+      "mergedAt": "2026-10-12T11:59:20Z",
+      "headSha": "95fff7247852c88e409fdc123679997d47e0f610",
+      "baseRef": "main",
+      "mergeCommitSha": "07e10b2cb33cb0a86e795b01217ceb4fab19ce21"
+    },
     {
       "id": 4823011344,
       "number": 68,
