@@ -163,7 +163,7 @@ jobs:
           --health-retries 20
     env:
       DATABASE_URL: postgresql://debate_ci:test_only_password@localhost:5432/debate_ci
-      PDE_BROWSER_URL: http://127.0.0.1:3100
+      PDE_BROWSER_URL: https://127.0.0.1:3443
       PDE_CI_PILOT_RUN: "true"
     steps:
       - uses: actions/checkout@v4
@@ -178,7 +178,9 @@ jobs:
         run: npm run db:migrate
       - name: Create unlogged ephemeral HMAC key and install isolated CI auth fixture
         run: |
-          echo "PDE_CI_AUTH_KEY=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+          TEST_KEY="$(openssl rand -hex 32)"
+          echo "::add-mask::$TEST_KEY"
+          echo "PDE_CI_AUTH_KEY=$TEST_KEY" >> "$GITHUB_ENV"
       - name: Replace auth module inside THIS CI checkout only
         run: node scripts/install-ci-pilot-auth.mjs
       - name: Compile actual production Next.js application in isolated runner
@@ -193,6 +195,24 @@ jobs:
             sleep 2
           done
           tail -n 110 /tmp/pde-candidate-pilot-server.log
+          exit 1
+      - name: Generate one-day CI-only self-signed HTTPS certificate
+        run: |
+          openssl req -x509 -nodes -newkey rsa:2048 -days 1 \
+            -subj "/CN=localhost" \
+            -addext "subjectAltName=IP:127.0.0.1,DNS:localhost" \
+            -keyout /tmp/pde-ci-tls-key.pem -out /tmp/pde-ci-tls-cert.pem > /dev/null 2>&1
+          chmod 600 /tmp/pde-ci-tls-key.pem
+      - name: Start CI-only HTTPS origin without changing application security rules
+        run: |
+          node scripts/ci-local-https-proxy.mjs > /tmp/pde-ci-proxy.log 2>&1 &
+          for attempt in $(seq 1 40); do
+            if curl --insecure --fail --silent https://127.0.0.1:3443/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          tail -n 80 /tmp/pde-ci-proxy.log
           exit 1
       - name: Complete two-account candidate registration, reviewed publication, reciprocal sequence and privacy browser pilot
         run: node scripts/browser-two-candidate-pilot.mjs
