@@ -27,7 +27,8 @@
     "test:browser": "node scripts/browser-acceptance.mjs",
     "roadmap:sync": "node scripts/sync-roadmap-evidence.mjs",
     "test:db:restore-rehearsal": "node scripts/rehearse-postgres-restore.mjs",
-    "test:clamav:live": "node --experimental-strip-types --test tests/clamav-live.integration.ts"
+    "test:clamav:live": "node --experimental-strip-types --test tests/clamav-live.integration.ts",
+    "test:s3:restore-rehearsal": "node scripts/rehearse-media-recovery.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "1.2.0",
