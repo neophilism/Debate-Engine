@@ -10,7 +10,7 @@ import {createHmac,randomUUID} from "node:crypto";
 import {chromium} from "playwright";
 const origin=process.env.PDE_BROWSER_URL;
 if(process.env.GITHUB_ACTIONS!=="true"||process.env.PDE_CI_PILOT_RUN!=="true"||
-   origin!=="http://127.0.0.1:3100"||
+   origin!=="https://127.0.0.1:3443"||
    process.env.DATABASE_URL!=="postgresql://debate_ci:test_only_password@localhost:5432/debate_ci"||
    !/^[0-9a-f]{64}$/.test(process.env.PDE_CI_AUTH_KEY||""))
  throw Error("The candidate pilot may run only on its disposable localhost CI database.");
@@ -30,11 +30,11 @@ function signedCookie(actor){
  return actor+"."+createHmac("sha256",key).update("ci-session:"+actor).digest("hex");
 }
 async function contextFor(actor){
- const context=await browser.newContext({viewport:{width:1250,height:900},locale:"en-US"});
+ const context=await browser.newContext({viewport:{width:1250,height:900},locale:"en-US",ignoreHTTPSErrors:true});
  contexts.push(context);
  if(actor){
   await context.addCookies([{name:"pde_ci_session",value:signedCookie(actor),
-   url:origin,httpOnly:true,sameSite:"Lax",secure:false}]);
+   url:origin,httpOnly:true,sameSite:"Lax",secure:true}]);
  }
  return context;
 }
