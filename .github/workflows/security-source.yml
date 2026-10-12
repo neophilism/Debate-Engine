@@ -32,18 +32,19 @@ jobs:
       - name: Analyze and publish source findings
         uses: github/codeql-action/analyze@v4
 
-  dependency-review:
-    name: Reject newly introduced high-severity dependencies
-    if: github.event_name == 'pull_request'
+  dependency-audit:
+    name: Audit runtime dependencies for high-severity vulnerabilities
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     permissions:
       contents: read
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-      - name: Review all changed dependencies
-        uses: actions/dependency-review-action@v5
+      - uses: actions/setup-node@v4
         with:
-          fail-on-severity: high
-          license-check: false
+          node-version: '22'
+      - name: Resolve exact production dependency lock for this ephemeral audit
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Refuse high or critical runtime dependency advisories
+        run: npm audit --omit=dev --audit-level=high
