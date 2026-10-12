@@ -7,7 +7,7 @@ import {join} from "node:path";
 import {scanWithClamd,ScanFailure} from "../packages/media/clamav.ts";
 
 const source=Buffer.from("fictional binary source validation ".repeat(8));
-async function withScanner(answer,fn){
+async function withScanner(answer:string,fn:(socketPath:string)=>Promise<void>){
  const dir=await mkdtemp(join(tmpdir(),"pde-scantest-")),path=join(dir,"daemon.sock");
  const server=createServer(socket=>{
   let buffer=Buffer.alloc(0),started=false,received=Buffer.alloc(0);
@@ -32,7 +32,7 @@ async function withScanner(answer,fn){
    }
   });
  });
- await new Promise((resolve,reject)=>{server.once("error",reject);server.listen(path,resolve)});
+ await new Promise((resolve,reject)=>{server.once("error",reject);server.listen(path,()=>resolve())});
  try{await fn(path)}
  finally{await new Promise(resolve=>server.close(resolve));await rm(dir,{force:true,recursive:true})}
 }
