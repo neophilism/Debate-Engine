@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-12T15:27:47.275Z",
+  "observedAt": "2026-10-12T15:58:36.668Z",
   "units": [
     {
       "id": "PDE-01",
@@ -473,15 +473,15 @@
       "number": 81,
       "title": "PDE-28: Automated WCAG 2.2 A/AA accessibility audits on public interfaces",
       "url": "https://github.com/neophilism/Debate-Engine/pull/81",
-      "state": "open",
+      "state": "closed",
       "draft": false,
       "createdAt": "2026-10-12T15:12:20Z",
-      "updatedAt": "2026-10-12T15:21:49Z",
-      "closedAt": null,
-      "mergedAt": null,
-      "headSha": "52331a57df9309b7130c5aa3e6508131b6a4aec1",
+      "updatedAt": "2026-10-12T15:58:26Z",
+      "closedAt": "2026-10-12T15:58:25Z",
+      "mergedAt": "2026-10-12T15:58:25Z",
+      "headSha": "918c54f41291caec15007459d3a5015c65e33159",
       "baseRef": "main",
-      "mergeCommitSha": "56f9727a43d8206eed0210dd135e48a94b35bd00"
+      "mergeCommitSha": "73a2f10a09db9a55c27100aa1461ebbeda5c1916"
     },
     {
       "id": 4831300973,
