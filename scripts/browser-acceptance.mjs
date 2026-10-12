@@ -2,6 +2,7 @@
 /** Actual Chromium browser acceptance of the public, anonymous user experience. */
 import assert from "node:assert/strict";
 import {chromium} from "playwright";
+import AxeBuilder from "@axe-core/playwright";
 const base=process.env.PDE_BROWSER_URL;
 if(!base||!/^(http:\/\/127\.0\.0\.1(:[0-9]+)?|https:\/\/[a-z0-9.-]+)\/?$/.test(base))
  throw Error("Set an explicit local or HTTPS test origin in PDE_BROWSER_URL.");
@@ -52,6 +53,23 @@ try{
     "Horizontal overflow at "+path+" on "+width+"px viewport: "+JSON.stringify(scroll));
   }
  }
+ // Automated WCAG 2.0/2.1/2.2 A and AA checks on the built application.
+ // These do not replace manual testing by users of assistive technology.
+ const wcagTags=["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22a","wcag22aa"];
+ const accessibilityFailures=[];
+ for(const width of [1365,375]){
+  await page.setViewportSize({width,height:860});
+  for(const path of ["/","/debates","/candidates","/protocol","/sign-in"]){
+   await visit(path);
+   const result=await new AxeBuilder({page}).withTags(wcagTags).analyze();
+   for(const violation of result.violations){
+    const targets=violation.nodes.map(node=>node.target.join(" ")).slice(0,7).join(", ");
+    accessibilityFailures.push(path+" / "+width+"px: "+violation.id+" ["+violation.impact+"] "+targets+" :: "+violation.help);
+   }
+  }
+ }
+ assert.deepEqual(accessibilityFailures,[],"Automated WCAG A/AA violations:\n"+accessibilityFailures.join("\n"));
+ console.log("PASS: automated WCAG 2.0/2.1/2.2 A/AA rules on five public pages at two viewport widths");
  assert.deepEqual(failures,[],"No uncaught browser runtime exceptions are permitted.");
  console.log("PASS: desktop and mobile Chromium public navigation, archive filters, keyboard focus and account form");
 }finally{
