@@ -46,3 +46,32 @@ export function scanWithClamd(data:Buffer,socketPath:string):Promise<ScanVerdict
   client.once("close",()=>finish(new ScanFailure("unavailable","Scanner closed without a completed verdict.")));
  });
 }
+
+
+/**
+ * Minimal liveness probe for a locally configured scanner. PONG proves only
+ * that the daemon can accept requests; it does not prove current signatures,
+ * malware detection quality, storage availability or production acceptance.
+ */
+export async function probeClamd(socketPath:string,timeoutMs=2000):Promise<boolean>{
+ if(!socketPath.startsWith("/")||socketPath.includes("\0")||socketPath.length>512||
+    !Number.isInteger(timeoutMs)||timeoutMs<100||timeoutMs>5000)return false;
+ return new Promise(resolve=>{
+  const socket=createConnection({path:socketPath});
+  let finished=false,reply=Buffer.alloc(0);
+  const finish=(healthy:boolean)=>{
+   if(finished)return;finished=true;socket.destroy();resolve(healthy);
+  };
+  socket.setTimeout(timeoutMs);
+  socket.once("connect",()=>socket.write(Buffer.from("zPING\0")));
+  socket.on("data",chunk=>{
+   reply=Buffer.concat([reply,chunk]);
+   if(reply.length>64){finish(false);return;}
+   const terminator=reply.indexOf(0);
+   if(terminator>=0)finish(reply.subarray(0,terminator).toString("ascii")==="PONG");
+  });
+  socket.once("timeout",()=>finish(false));
+  socket.once("error",()=>finish(false));
+  socket.once("close",()=>finish(false));
+ });
+}

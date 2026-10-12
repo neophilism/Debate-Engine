@@ -25,6 +25,7 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
  const [draft,setDraft]=useState<Draft|null>(null),[review,setReview]=useState<PrivateReview|null>(null),[phase,setPhase]=useState<"edit"|"review">("edit");
  const [busy,setBusy]=useState(false),[notice,setNotice]=useState("");
  const [uploadProgress,setUploadProgress]=useState("");
+ const [scannerStatus,setScannerStatus]=useState<"checking"|"online"|"offline">("checking");
  useEffect(()=>{
   Promise.all([fetch("/api/account/me",{cache:"no-store"}).then(r=>r.json()),debateId?fetch("/api/debates/"+debateId,{cache:"no-store"}).then(r=>r.json()):Promise.resolve(null)])
   .then(([account,debate])=>{
@@ -33,6 +34,13 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
    if(debate?.debate?.allowed_modalities?.length){setEnabled(debate.debate.allowed_modalities);setMode(debate.debate.allowed_modalities[0]);}
   }).catch(()=>setNotice("Cannot load eligible candidate details."));
  },[debateId]);
+ useEffect(()=>{
+  let mounted=true;
+  fetch("/api/capabilities",{cache:"no-store"}).then(r=>r.json()).then(j=>{
+   if(mounted)setScannerStatus(j.newMediaUploadPreflight==="available_for_validation"?"online":"offline");
+  }).catch(()=>{if(mounted)setScannerStatus("offline");});
+  return ()=>{mounted=false;};
+ },[]);
  const parents=useMemo(()=>{
   if(!record||!candidateId)return [];
   return record.submissions.filter(s=>{
@@ -203,7 +211,9 @@ export default function DraftComposer({kind,debateId}:{kind:"opening"|"response"
    <label className="checkline"><input type="checkbox" required checked={sequenceConsent} onChange={e=>setSequenceConsent(e.target.checked)}/>I authorize unedited inclusion when the reciprocal debate requirements are met.</label>
    <label className="checkline"><input type="checkbox" checked={providerConsent} onChange={e=>setProviderConsent(e.target.checked)}/>I consent to sending my speech text or supplied transcript to the configured private AI provider for optional assessment.</label>
    <label className="checkline"><input type="checkbox" checked={improvementConsent} onChange={e=>setImprovementConsent(e.target.checked)}/>I opt in to the use of my assessment feedback to improve the assistant, subject to the privacy policy.</label>
-   <button className="button button-dark" disabled={busy||!candidateId}>{busy?"Preparing…":"Prepare private assessment ↗"}</button>
+   {mode!=="writing"&&scannerStatus!=="online"&&!mediaId&&
+    <p role="status" aria-live="polite">{scannerStatus==="checking"?"Checking required media scanning service…":"Media uploads are unavailable because required scanning is offline. Choose Writing for a text-only contribution; your work will not be uploaded unscanned."}</p>}
+   <button className="button button-dark" disabled={busy||!candidateId||(mode!=="writing"&&!mediaId&&scannerStatus!=="online")}>{busy?"Preparing…":"Prepare private assessment ↗"}</button>
    {mode!=="writing"&&uploadProgress&&<p role="status" aria-live="polite">{uploadProgress}</p>}
    {notice&&<p role="alert" className="form-alert">{notice}</p>}
   </form>}

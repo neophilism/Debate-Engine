@@ -9,7 +9,7 @@ import {database,transaction} from "./db";
 import {HttpError} from "./http";
 import {examineVideo} from "./video";
 import {examineAudio} from "./audio";
-import {scanOriginalBeforeValidation} from "./malware";
+import {scanOriginalBeforeValidation,requireScannerPreflight} from "./malware";
 import {MEDIA_PART_BYTES,partCount,expectedPartSize,completionParts} from "../../packages/domain/upload-parts";
 
 type Modality="video"|"audio";
@@ -47,6 +47,7 @@ export async function createMediaSession(input:{
   "SELECT 1 FROM candidacies c JOIN accounts a ON a.id=c.account_id WHERE c.id=$1 AND c.verification_status='verified' AND a.identity_provider='neon-auth' AND a.external_subject=$2",
   [input.candidacyId,input.authSubject]);
  if(!owner.rowCount)throw new HttpError(403,"Only a verified candidate may upload their original.");
+ await requireScannerPreflight();
  const id=randomUUID(),mediaId=randomUUID();
  const key="originals/"+input.candidacyId+"/"+mediaId+"/source";
  const {client,bucket}=objectStorage();
