@@ -32,7 +32,7 @@ async function withScanner(answer:string,fn:(socketPath:string)=>Promise<void>){
    }
   });
  });
- await new Promise((resolve,reject)=>{server.once("error",reject);server.listen(path,()=>resolve())});
+ await new Promise<void>((resolve,reject)=>{server.once("error",reject);server.listen(path,()=>resolve())});
  try{await fn(path)}
  finally{await new Promise(resolve=>server.close(resolve));await rm(dir,{force:true,recursive:true})}
 }
