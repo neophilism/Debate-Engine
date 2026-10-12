@@ -385,7 +385,8 @@
         "https://github.com/neophilism/Debate-Engine/pull/18",
         "https://github.com/neophilism/Debate-Engine/pull/22",
         "https://github.com/neophilism/Debate-Engine/pull/31",
-        "https://github.com/neophilism/Debate-Engine/pull/67"
+        "https://github.com/neophilism/Debate-Engine/pull/67",
+        "https://github.com/neophilism/Debate-Engine/pull/77"
       ],
       "openPullRequests": [],
       "acceptanceNote": "Read-only checksum audit and immutable SQL constraints; offsite backup/recovery and safety restriction process missing."
