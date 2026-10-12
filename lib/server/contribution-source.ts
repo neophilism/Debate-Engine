@@ -34,9 +34,9 @@ export async function verifiedCandidateSource(
  if(electionId&&user.election_id!==electionId)throw new HttpError(403,"Only candidates for the same election may respond.");
  if(input.source.modality==="writing")return {...user,duration:null as number|null};
  const m=await db.query<{duration_seconds:string;mime_type:string}>(
-  "SELECT m.duration_seconds,m.mime_type FROM media_assets m WHERE m.id=$1 AND m.owner_candidacy_id=$2 AND m.processing_status='ready' FOR UPDATE OF m",
+  "SELECT m.duration_seconds,m.mime_type FROM media_assets m JOIN media_scan_attestations attest ON attest.media_asset_id=m.id AND attest.original_sha256=m.original_sha256 AND attest.verdict='clean' WHERE m.id=$1 AND m.owner_candidacy_id=$2 AND m.processing_status='ready' FOR UPDATE OF m",
   [input.source.mediaAssetId,input.candidateId]);
- if(!m.rowCount)throw new HttpError(403,"Validated original media must be owned by the candidate.");
+ if(!m.rowCount)throw new HttpError(403,"An attested clean original must be owned by the candidate.");
  if(!m.rows[0].mime_type.startsWith(input.source.modality+"/"))
   throw new HttpError(400,"The media asset has a different format.");
  if((await db.query("SELECT 1 FROM submissions WHERE media_asset_id=$1",[input.source.mediaAssetId])).rowCount)

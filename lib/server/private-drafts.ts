@@ -38,7 +38,7 @@ export async function createPrivateDraft(input:{
  return transaction(async db=>{
   const owner=await privateOwner(db,input.candidateId,input.authSubject);
   if(mode!=="writing"){
-   const media=await db.query("SELECT 1 FROM media_assets WHERE id=$1 AND owner_candidacy_id=$2 AND processing_status='ready' AND mime_type LIKE $3",[content,input.candidateId,mode+"/%"]);
+   const media=await db.query("SELECT 1 FROM media_assets m JOIN media_scan_attestations attest ON attest.media_asset_id=m.id AND attest.original_sha256=m.original_sha256 AND attest.verdict='clean' WHERE m.id=$1 AND m.owner_candidacy_id=$2 AND m.processing_status='ready' AND m.mime_type LIKE $3",[content,input.candidateId,mode+"/%"]);
    if(!media.rowCount)throw new HttpError(403,"Original media must be validated and belong to the candidate.");
   }
   if(input.kind==="response"){
