@@ -27,14 +27,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: node scripts/sync-pr-registry.mjs
-      - name: Commit changed machine-readable PR data
+      - name: Reconcile roadmap implementation evidence without accepting production gates
+        run: node scripts/sync-roadmap-evidence.mjs
+      - name: Commit changed machine-readable PR and roadmap data
         run: |
-          if git diff --quiet -- registry/prs.json; then
+          if git diff --quiet -- registry/prs.json registry/roadmap.json; then
             echo "No PR registry changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add registry/prs.json
+          git add registry/prs.json registry/roadmap.json
           git commit -m "data: sync PR evidence from GitHub [skip ci]"
           git push origin HEAD:main
