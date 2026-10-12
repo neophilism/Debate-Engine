@@ -100,9 +100,12 @@
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/4",
         "https://github.com/neophilism/Debate-Engine/pull/62",
-        "https://github.com/neophilism/Debate-Engine/pull/64"
+        "https://github.com/neophilism/Debate-Engine/pull/64",
+        "https://github.com/neophilism/Debate-Engine/pull/79"
       ],
-      "openPullRequests": [],
+      "openPullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/79"
+      ],
       "acceptanceNote": "Originals stored with SHA-256 and server validation, but upload limited to 60MiB and not resumable."
     },
     {
@@ -118,7 +121,8 @@
         "https://github.com/neophilism/Debate-Engine/pull/17",
         "https://github.com/neophilism/Debate-Engine/pull/29",
         "https://github.com/neophilism/Debate-Engine/pull/30",
-        "https://github.com/neophilism/Debate-Engine/pull/71"
+        "https://github.com/neophilism/Debate-Engine/pull/71",
+        "https://github.com/neophilism/Debate-Engine/pull/78"
       ],
       "openPullRequests": [],
       "acceptanceNote": "FFmpeg source worker and captions implemented; isolated production worker not hosted and virus scanning incomplete."
