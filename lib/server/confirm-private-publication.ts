@@ -7,6 +7,7 @@ import {publishOpening} from "./publish-debate";
 import {publishContinuation} from "./continue-debate";
 import {readQuestionItem,readAnswerItem} from "./contribution-source";
 import {parseModalities} from "../../packages/domain/modalities";
+import {mayRecoverConfirmation} from "../../packages/domain/confirmation";
 
 export async function confirmPrivatePublication(draftId:string,authSubject:string,expectedSha256:string){
  const saved=await transaction(async db=>{
@@ -15,15 +16,21 @@ export async function confirmPrivatePublication(draftId:string,authSubject:strin
   if(d.status==="published"&&d.published_submission_id)
    return {draft:d,alreadyPublished:true};
   if(d.status==="confirming"){
+   // A killed request can leave a draft confirming forever. A confirmed publication
+   // already recorded in the ledger always wins; no second publication is created.
    const existing=await db.query("SELECT id,debate_id FROM submissions WHERE origin_draft_id=$1",[draftId]);
    if(existing.rowCount){
     await db.query("UPDATE private_submission_drafts SET status='published',published_submission_id=$2,published_debate_id=$3,updated_at=now() WHERE id=$1",
      [draftId,existing.rows[0].id,existing.rows[0].debate_id]);
     return {draft:{...d,status:"published",published_submission_id:existing.rows[0].id,published_debate_id:existing.rows[0].debate_id},alreadyPublished:true};
    }
-   throw new HttpError(409,"An earlier confirmation is still processing. Retry once its result is known.");
+   if(!mayRecoverConfirmation(d.updated_at))
+    throw new HttpError(409,"An earlier confirmation is still processing. Retry when the five-minute recovery window has elapsed.");
+   // Revalidate the SAME immutable fingerprint, assessment/explicit skip,
+   // candidacy and publication permissions before trying again.
   }
-  if(d.status!=="reviewed")throw new HttpError(409,"Run the preliminary review or explicitly choose to skip it before confirmation.");
+  if(d.status!=="reviewed"&&d.status!=="confirming")
+   throw new HttpError(409,"Run the preliminary review or explicitly choose to skip it before confirmation.");
   if(!d.skipped_preliminary){
    const r=await db.query("SELECT 1 FROM private_debate_assessments WHERE draft_id=$1 AND stage='preliminary' AND content_sha256=$2 LIMIT 1",[draftId,d.content_sha256]);
    if(!r.rowCount)throw new HttpError(409,"The current speech has no matching preliminary assessment.");
