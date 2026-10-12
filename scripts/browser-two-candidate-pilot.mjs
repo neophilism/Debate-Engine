@@ -70,11 +70,11 @@ async function publishFromComposer(page,label){
  assert.ok(id,label+" must resolve to a private draft receipt");
  return id;
 }
-function consent(page){
- return Promise.all([
-  page.getByRole("checkbox",{name:/I authorize permanent public archiving/}).check(),
-  page.getByRole("checkbox",{name:/I authorize unedited inclusion/}).check()
- ]);
+async function consent(page){
+ // React updates each independently controlled checkbox; real users do not
+ // click both simultaneously. Concurrent automation can race component rerenders.
+ await page.getByRole("checkbox",{name:/I authorize permanent public archiving/}).check();
+ await page.getByRole("checkbox",{name:/I authorize unedited inclusion/}).check();
 }
 async function waitVerified(page,id){
  await page.goto(origin+"/workspace",{waitUntil:"domcontentloaded"});
