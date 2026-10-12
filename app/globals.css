@@ -62,3 +62,13 @@
 .discovery-form .button{border:0;cursor:pointer;min-width:140px;height:45px;justify-content:center}
 .discovery-next{display:flex;justify-content:center;margin:34px 0}
 @media(max-width:600px){.discovery-form{padding:16px}.discovery-form label{flex-basis:100%}.discovery-form .button{width:100%}}
+
+/* PDE-28: preserve all navigation links while allowing narrow-screen reflow. */
+@media(max-width:540px){
+ .site-header{height:auto;min-height:80px;display:flex;align-items:center;flex-wrap:wrap;row-gap:12px;padding:14px 5%}
+ .site-header .brand{min-width:0;max-width:100%;overflow-wrap:anywhere}
+ .site-header .nav-links{flex:1 1 100%;min-width:0;max-width:100%;flex-wrap:wrap;justify-content:flex-start;gap:12px 18px}
+ .site-header .nav-links a{min-width:0}
+ .hero-copy,.interior-page,.section-pad{min-width:0}
+ .hero h1,.interior-page h1{overflow-wrap:break-word}
+}

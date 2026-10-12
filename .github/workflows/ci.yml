@@ -61,3 +61,49 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - name: Test real mixed-audio original-to-montage rendering
         run: node --test tests/media.integration.mjs
+
+  chromium-public:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: debate_ci
+          POSTGRES_PASSWORD: test_only_password
+          POSTGRES_DB: debate_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U debate_ci -d debate_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      DATABASE_URL: postgresql://debate_ci:test_only_password@localhost:5432/debate_ci
+      PDE_BROWSER_URL: http://127.0.0.1:3100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - name: Install headless Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Migrate disposable test database
+        run: npm run db:migrate
+      - name: Build actual web application
+        run: npm run build
+      - name: Start live local Next.js HTTP server
+        run: |
+          npm run start -- --port 3100 > /tmp/pde-browser-server.log 2>&1 &
+          for attempt in $(seq 1 50); do
+            if curl --fail --silent http://127.0.0.1:3100/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          tail -n 100 /tmp/pde-browser-server.log
+          exit 1
+      - name: Test desktop, mobile and keyboard interactions in Chromium
+        run: npm run test:browser
