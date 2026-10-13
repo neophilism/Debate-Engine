@@ -1,9 +1,54 @@
 {
-  "schemaVersion": 1,
+  "title": "Public Debate Engine",
+  "scope": "All work merged and unmerged shares one roadmap denominator.",
+  "source": "docs/DEVELOPMENT_PLAN.md",
+  "production_ready": false,
+  "lastReviewed": "2026-10-11",
+  "implementationNote": "PR references show source work, not security/operational acceptance. The milestone count is not equal to individual PR counts.\nPDE-33–40 explicit PR evidence mapped. PDE-31 slug rename requires repository Settings authority; PDE-41/42/43/44 remain unfulfilled. Do not conflate merged code with operational acceptance.",
+  "operationalAcceptance": {
+    "candidateIdentity": "pending",
+    "browserPilot": "pending",
+    "workerDeployment": "blocked_paid_worker",
+    "externalDistribution": "unconfigured",
+    "independentBackupRestore": "pending",
+    "securityReview": "pending",
+    "productionRelease": "not_authorized"
+  },
   "repository": "neophilism/Debate-Engine",
-  "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
+  "sourceFiles": [
+    "docs/DEVELOPMENT_PLAN.md",
+    "registry/roadmap.json"
+  ],
+  "canonicalRoadmapNotice": "The 14 approved multimodal/assistant/rebranding work units PDE-31 through PDE-44 are included in the denominator. All mappings must use this file; each unit may map to multiple actual PRs. Production acceptance remains separate.",
+  "approvedAdditions": {
+    "date": "2026-10-11",
+    "count": 14,
+    "ids": [
+      "PDE-31",
+      "PDE-32",
+      "PDE-33",
+      "PDE-34",
+      "PDE-35",
+      "PDE-36",
+      "PDE-37",
+      "PDE-38",
+      "PDE-39",
+      "PDE-40",
+      "PDE-41",
+      "PDE-42",
+      "PDE-43",
+      "PDE-44"
+    ],
+    "summary": "Video/Audio/Writing selection, privacy-preserving Debate Assistant pre/post assessment, Interlocutor integration contract, careful repository rename"
+  },
+  "approvedAdditionsDate": "2026-10-11",
+  "previousRepositoryNames": [
+    "Debate-Engine"
+  ],
+  "schemaVersion": 1,
+  "roadmapVersion": 6,
   "observedAt": "2026-10-13T19:21:17.823Z",
   "units": [
     {
@@ -12,7 +57,16 @@
       "origin": "original",
       "prs": [
         1
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Full source plan exists; Engine Room onboarding not independently verified.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-02",
@@ -20,7 +74,16 @@
       "origin": "original",
       "prs": [
         1
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": "https://github.com/neophilism/Debate-Engine/pull/1",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Source foundation, public shell, test/build CI merged.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-03",
@@ -30,7 +93,16 @@
         2,
         18,
         22
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "PostgreSQL schema + real migration/immutability CI; Neon development branch migrated.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-04",
@@ -40,7 +112,16 @@
         3,
         34,
         35
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Neon Auth and candidate registration work. Delegates and strengthened administrator MFA still missing.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-05",
@@ -50,7 +131,16 @@
         3,
         27,
         28
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Verified candidate workflow, decision reasons and independent appeals in source. Real human verification policy missing.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-06",
@@ -60,7 +150,16 @@
         1,
         5,
         18
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Core reciprocal rules exist, but explicit immutable rule-version negotiations and terminal-turn protocol are incomplete.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-07",
@@ -71,7 +170,16 @@
         62,
         64,
         79
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Originals stored with SHA-256 and server validation, but upload limited to 60MiB and not resumable.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-08",
@@ -85,7 +193,16 @@
         30,
         71,
         78
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "FFmpeg source worker and captions implemented; isolated production worker not hosted and virus scanning incomplete.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-09",
@@ -93,7 +210,16 @@
       "origin": "original",
       "prs": [
         12
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Append-only PDFs/TXT/DOCX; comprehensive malware scanning and corrections still incomplete.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-10",
@@ -102,7 +228,16 @@
       "prs": [
         4,
         70
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Candidate opening composer and transactional publish implemented; multi-user authenticated pilot pending.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-11",
@@ -112,7 +247,16 @@
         5,
         21,
         32
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Contender response composer/public ledger implemented; safe nonqualifying archive enhancement in PR32.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-12",
@@ -121,7 +265,16 @@
       "prs": [
         5,
         21
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Attributed assessments and respondent objections implemented; video corrections not completed.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-13",
@@ -131,7 +284,16 @@
         5,
         15,
         32
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Qualifying public sequence projection works; materialized historical manifests still missing.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-14",
@@ -141,7 +303,16 @@
         6,
         7,
         8
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": "https://github.com/neophilism/Debate-Engine/pull/8",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Database-backed obligations and deadline worker source implemented; no external notification adapter deployed.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-15",
@@ -151,7 +322,16 @@
         4,
         15,
         32
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Large original video, all responses, questions and footnotes shown; full usability acceptance pending.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-16",
@@ -159,7 +339,16 @@
       "origin": "original",
       "prs": [
         13
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Public WebVTT and transcript search; independent caption review, manual accessibility testing pending.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-17",
@@ -170,7 +359,16 @@
         20,
         60,
         61
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Candidate directory and profiles plus merged office/election/topic and published-writing search with stable cursor pagination (PR #60). Live browser/mobile, >20 record paging and performance acceptance pending.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-18",
@@ -181,7 +379,16 @@
         8,
         26,
         28
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Candidate workspace, obligations and media review available; delegates and draft/resume flow incomplete.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-19",
@@ -191,7 +398,16 @@
         9,
         10,
         63
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Hash-bound, versioned, joint policy acceptance implemented; scoped partial agreements and withdrawals pending.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-20",
@@ -201,7 +417,16 @@
         11,
         25,
         26
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Original-owner clip permission and exact rendered-file approvals implemented; revocation and full consent acceptance pending.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-21",
@@ -214,7 +439,16 @@
         26,
         29,
         30
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "FFmpeg worker source, test footage, review UI, lease safety. Worker hosting/media pilot remain unverified.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-22",
@@ -223,7 +457,16 @@
       "prs": [
         19,
         20
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Downloadable press evidence ZIP, public press room and RSS implemented; operational acceptance pending.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-23",
@@ -231,7 +474,16 @@
       "origin": "original",
       "prs": [
         20
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Passive RSS only; no externally authorized email/social provider or delivery evidence.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-24",
@@ -240,7 +492,16 @@
       "prs": [
         20,
         24
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Versioned OpenAPI read-only SDK and embeds; separate downstream campaign integration pending.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-25",
@@ -252,7 +513,16 @@
         29,
         68,
         82
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Negative SQL authorization tests and source integrity rules; external E2EESA/security audit missing.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-26",
@@ -266,7 +536,16 @@
         77,
         80,
         83
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Read-only checksum audit and immutable SQL constraints; offsite backup/recovery and safety restriction process missing.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-27",
@@ -277,7 +556,16 @@
         23,
         30,
         69
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Real PostgreSQL CI, FFmpeg CI and Render smoke; genuine two-user browser acceptance pending.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-28",
@@ -288,7 +576,16 @@
         74,
         81,
         84
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Visual/mobile and WCAG/media manual acceptance not performed.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-29",
@@ -296,7 +593,16 @@
       "origin": "original",
       "prs": [
         23
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Only Render preview and Neon development resources wired. Production deployment not approved or completed.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-30",
@@ -306,7 +612,16 @@
         33,
         65,
         75
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "pr": null,
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Do not mark complete until production acceptances and operational evidence are present.",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-31",
@@ -314,13 +629,29 @@
       "origin": "addition",
       "prs": [
         40
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-32",
       "title": "Standardize Public Debate Engine product name and repository references",
       "origin": "addition",
-      "prs": []
+      "prs": [],
+      "state": "approved_not_started",
+      "implementation": "not_started",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-33",
@@ -330,7 +661,15 @@
         37,
         43,
         47
-      ]
+      ],
+      "state": "implementation_merged_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-34",
@@ -339,7 +678,15 @@
       "prs": [
         37,
         38
-      ]
+      ],
+      "state": "implementation_merged_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-35",
@@ -347,7 +694,15 @@
       "origin": "addition",
       "prs": [
         38
-      ]
+      ],
+      "state": "implementation_merged_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-36",
@@ -356,7 +711,15 @@
       "prs": [
         38,
         66
-      ]
+      ],
+      "state": "implementation_merged_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-37",
@@ -368,7 +731,15 @@
         44,
         45,
         48
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-38",
@@ -378,7 +749,15 @@
         39,
         48,
         53
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-39",
@@ -387,7 +766,15 @@
       "prs": [
         46,
         48
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-40",
@@ -396,7 +783,15 @@
       "prs": [
         39,
         48
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-41",
@@ -409,7 +804,15 @@
         51,
         54,
         57
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-42",
@@ -417,7 +820,15 @@
       "origin": "addition",
       "prs": [
         52
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-43",
@@ -425,7 +836,15 @@
       "origin": "addition",
       "prs": [
         49
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "PDE-44",
@@ -435,7 +854,15 @@
         56,
         58,
         73
-      ]
+      ],
+      "state": "implementation_partially_merged_operational_acceptance_pending",
+      "implementation": "partial",
+      "acceptance": "pending",
+      "openPullRequests": [],
+      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     }
   ],
   "pullRequests": [
