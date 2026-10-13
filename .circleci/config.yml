@@ -1,0 +1,200 @@
+version: 2.1
+
+# Port of all functional lanes of ci.yml and dependency audit in security-source.yml.
+# GitHub CodeQL publication remains a separate required provider-specific check.
+jobs:
+  full-types-unit-build:
+    docker:
+      - image: cimg/node:22.20.0
+    resource_class: large
+    steps:
+      - checkout
+      - run: npm install --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  postgres-migration-recovery:
+    machine:
+      image: ubuntu-2404:current
+    resource_class: medium
+    environment:
+      DATABASE_URL: postgresql://debate_ci:test_only_password@127.0.0.1:5432/debate_ci
+    steps:
+      - checkout
+      - run:
+          name: Install Node 22 and start isolated PostgreSQL 18 Docker container
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+            docker run -d --name pde-postgres -e POSTGRES_USER=debate_ci -e POSTGRES_PASSWORD=test_only_password -e POSTGRES_DB=debate_ci -p 127.0.0.1:5432:5432 postgres:18
+            for i in $(seq 1 30); do
+              if docker exec pde-postgres pg_isready -U debate_ci -d debate_ci; then break; fi
+              sleep 2
+            done
+            docker exec pde-postgres pg_isready -U debate_ci -d debate_ci
+      - run: npm install --no-audit --no-fund
+      - run: npm run db:migrate
+      - run: npm run db:check
+      - run: npm run test:db
+      - run:
+          name: Rehearse real PostgreSQL backup and restore
+          command: |
+            export PDE_TEST_POSTGRES_CONTAINER="$(docker inspect --format '{{.Id}}' pde-postgres)"
+            npm run test:db:restore-rehearsal
+
+  mixed-media-ffmpeg:
+    docker:
+      - image: cimg/node:22.20.0
+    resource_class: medium
+    steps:
+      - checkout
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: node --test tests/media.integration.mjs
+
+  desktop-mobile-keyboard-browser:
+    docker:
+      - image: cimg/node:22.20.0-browsers
+      - image: postgres:18-alpine
+        environment:
+          POSTGRES_USER: debate_ci
+          POSTGRES_PASSWORD: test_only_password
+          POSTGRES_DB: debate_ci
+    resource_class: large
+    environment:
+      DATABASE_URL: postgresql://debate_ci:test_only_password@127.0.0.1:5432/debate_ci
+      PDE_BROWSER_URL: http://127.0.0.1:3100
+      CI: "true"
+    steps:
+      - checkout
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: npm run db:migrate
+      - run: npm run build
+      - run:
+          name: Start real disposable Next.js app
+          command: |
+            npm run start -- --port 3100 > /tmp/pde-browser-server.log 2>&1 &
+            for attempt in $(seq 1 50); do
+              if curl --fail --silent http://127.0.0.1:3100/ >/dev/null; then exit 0; fi
+              sleep 2
+            done
+            tail -n 100 /tmp/pde-browser-server.log
+            exit 1
+      - run: npm run test:browser
+      - store_artifacts:
+          path: test-results
+
+  clamav-fail-closed:
+    docker:
+      - image: cimg/node:22.20.0
+    resource_class: medium
+    steps:
+      - checkout
+      - run: sudo apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends clamav-daemon
+      - run: bash scripts/start-ci-clamd.sh
+      - run: node --experimental-strip-types --test tests/clamav-live.integration.ts
+
+  s3-disaster-rehearsal:
+    machine:
+      image: ubuntu-2404:current
+    resource_class: medium
+    environment:
+      PDE_S3_RECOVERY_FIXTURES: "true"
+    steps:
+      - checkout
+      - run:
+          name: Install Node 22 and FFmpeg for media recovery
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+            sudo apt-get install -y nodejs ffmpeg
+      - run: npm install --no-audit --no-fund
+      - run: npm run test:s3:restore-rehearsal
+
+  two-candidate-https-pilot:
+    docker:
+      - image: cimg/node:22.20.0-browsers
+      - image: postgres:18-alpine
+        environment:
+          POSTGRES_USER: debate_ci
+          POSTGRES_PASSWORD: test_only_password
+          POSTGRES_DB: debate_ci
+    resource_class: large
+    environment:
+      DATABASE_URL: postgresql://debate_ci:test_only_password@127.0.0.1:5432/debate_ci
+      PDE_BROWSER_URL: https://127.0.0.1:3443
+      PDE_CI_PILOT_RUN: "true"
+      CI: "true"
+    steps:
+      - checkout
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: npm run db:migrate
+      - run:
+          name: Generate isolated one-run HMAC key and install fixture
+          command: |
+            TEST_KEY="$(openssl rand -hex 32)"
+            printf 'export PDE_CI_AUTH_KEY=%s\n' "$TEST_KEY" >> "$BASH_ENV"
+            export PDE_CI_AUTH_KEY="$TEST_KEY"
+            node scripts/install-ci-pilot-auth.mjs
+      - run: npm run build
+      - run:
+          name: Start local Next.js server
+          command: |
+            npm run start -- --port 3100 > /tmp/pde-pilot.log 2>&1 &
+            for i in $(seq 1 60); do
+              if curl --fail --silent http://127.0.0.1:3100/ >/dev/null; then exit 0; fi
+              sleep 2
+            done
+            tail -n 110 /tmp/pde-pilot.log
+            exit 1
+      - run:
+          name: Self-signed one-day test-only HTTPS certificate
+          command: |
+            openssl req -x509 -nodes -newkey rsa:2048 -days 1 -subj "/CN=localhost" -addext "subjectAltName=IP:127.0.0.1,DNS:localhost" -keyout /tmp/pde-ci-tls-key.pem -out /tmp/pde-ci-tls-cert.pem >/dev/null 2>&1
+            chmod 600 /tmp/pde-ci-tls-key.pem
+      - run:
+          name: Start CI-only TLS origin
+          command: |
+            node scripts/ci-local-https-proxy.mjs > /tmp/pde-ci-proxy.log 2>&1 &
+            for i in $(seq 1 40); do
+              if curl --insecure --fail --silent https://127.0.0.1:3443/ >/dev/null; then exit 0; fi
+              sleep 2
+            done
+            tail -n 80 /tmp/pde-ci-proxy.log
+            exit 1
+      - run:
+          name: Two candidate identity, submission and privacy pilot
+          command: node scripts/browser-two-candidate-pilot.mjs
+      - store_artifacts:
+          path: artifacts/browser
+
+  high-severity-production-audit:
+    docker:
+      - image: cimg/node:22.20.0
+    resource_class: small
+    steps:
+      - checkout
+      - run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - run: npm audit --omit=dev --audit-level=high
+
+  security-status-record:
+    docker:
+      - image: cimg/python:3.12
+    resource_class: small
+    steps:
+      - checkout
+      - run: python3 scripts/validate_e2eesa_status.py
+
+workflows:
+  required-ci:
+    jobs:
+      - full-types-unit-build
+      - postgres-migration-recovery
+      - mixed-media-ffmpeg
+      - desktop-mobile-keyboard-browser
+      - clamav-fail-closed
+      - s3-disaster-rehearsal
+      - two-candidate-https-pilot
+      - high-severity-production-audit
+      - security-status-record
