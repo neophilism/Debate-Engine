@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-12T15:58:36.668Z",
+  "observedAt": "2026-10-13T00:36:41.830Z",
   "units": [
     {
       "id": "PDE-01",
@@ -286,7 +286,8 @@
       "prs": [
         72,
         74,
-        81
+        81,
+        84
       ]
     },
     {
@@ -438,6 +439,21 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4831996370,
+      "number": 84,
+      "title": "PDE-28: Full-stack two-candidate browser pilot with isolated signed test sessions",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/84",
+      "state": "open",
+      "draft": false,
+      "createdAt": "2026-10-12T16:08:10Z",
+      "updatedAt": "2026-10-12T16:25:08Z",
+      "closedAt": null,
+      "mergedAt": null,
+      "headSha": "08efd5ebbe7237e341c0cade9c4673b7822282b8",
+      "baseRef": "main",
+      "mergeCommitSha": "4618dcd450f7f7ca8843e997b47e2c201b2f9a3f"
+    },
     {
       "id": 4831494637,
       "number": 83,

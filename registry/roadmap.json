@@ -421,9 +421,12 @@
       "acceptance": "pending",
       "pullRequests": [
         "https://github.com/neophilism/Debate-Engine/pull/74",
-        "https://github.com/neophilism/Debate-Engine/pull/81"
+        "https://github.com/neophilism/Debate-Engine/pull/81",
+        "https://github.com/neophilism/Debate-Engine/pull/84"
       ],
-      "openPullRequests": [],
+      "openPullRequests": [
+        "https://github.com/neophilism/Debate-Engine/pull/84"
+      ],
       "acceptanceNote": "Visual/mobile and WCAG/media manual acceptance not performed."
     },
     {
