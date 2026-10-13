@@ -5,7 +5,7 @@
  * actual Neon storage or import private candidate material.
  */
 import assert from "node:assert/strict";
-import {execFile} from "node:child_process";
+import {execFile,spawnSync} from "node:child_process";
 import {promisify} from "node:util";
 import {createHash,randomUUID} from "node:crypto";
 import {mkdtemp,readFile,rm} from "node:fs/promises";
@@ -25,7 +25,16 @@ const independent={name:"pde-backup-"+randomUUID().slice(0,8),port:19101,bucket:
 const replacement={name:"pde-restored-"+randomUUID().slice(0,8),port:19100,bucket:"pde-fixture-primary"};
 const active=new Set();
 const sha=bytes=>createHash("sha256").update(bytes).digest("hex");
-const docker=async(...args)=>run("docker",args,{timeout:120000,maxBuffer:512*1024});
+// A detached container can inherit file descriptors and cause execFile's async
+// completion promise to remain unsettled after Docker itself has returned.
+// A bounded synchronous CLI invocation avoids Node's exit-13 TLA race.
+const docker=async(...args)=>{
+ const child=spawnSync("docker",args,{encoding:"utf8",timeout:120000,maxBuffer:512*1024,
+  stdio:["ignore","pipe","pipe"]});
+ if(child.error)throw child.error;
+ if(child.status!==0)throw Error("docker "+args[0]+" failed: "+String(child.stderr||"").slice(-1200));
+ return {stdout:child.stdout||"",stderr:child.stderr||""};
+};
 function s3(server){
  return new S3Client({endpoint:"http://127.0.0.1:"+server.port,region:"us-east-1",
   forcePathStyle:true,credentials:{accessKeyId,secretAccessKey}});
