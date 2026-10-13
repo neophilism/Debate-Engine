@@ -4,7 +4,7 @@
   "roadmapVersion": 6,
   "planVerified": true,
   "plannedPrCount": 44,
-  "observedAt": "2026-10-13T05:12:52.302Z",
+  "observedAt": "2026-10-13T19:21:17.823Z",
   "units": [
     {
       "id": "PDE-01",
@@ -439,6 +439,21 @@
     }
   ],
   "pullRequests": [
+    {
+      "id": 4848120024,
+      "number": 85,
+      "title": "Owner policy: proceed with AI security review; defer external audit",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/85",
+      "state": "closed",
+      "draft": false,
+      "createdAt": "2026-10-13T19:05:41Z",
+      "updatedAt": "2026-10-13T19:21:07Z",
+      "closedAt": "2026-10-13T19:21:06Z",
+      "mergedAt": "2026-10-13T19:21:06Z",
+      "headSha": "421c75b6072eafc389cd7682b9ef88437d9ced3e",
+      "baseRef": "main",
+      "mergeCommitSha": "52cfef2fb60a75b8ecbee317679b2ea18b8960e7"
+    },
     {
       "id": 4831996370,
       "number": 84,
