@@ -6,9 +6,10 @@ A reusable, candidate-neutral platform for asynchronous, policy-centered debates
 
 ## Authoritative development materials
 
-- [Full 30-milestone development plan](docs/DEVELOPMENT_PLAN.md)
+- [Full 44-unit development plan](docs/DEVELOPMENT_PLAN.md)
 - [Normative debate protocol](docs/DEBATE_PROTOCOL.md)
 - [Infrastructure and operations](docs/INFRASTRUCTURE.md)
+- [Canonical 44-unit PR registry](registry/prs.json)
 - [Agent handoff](AGENTS.md)
 
 ## Development status

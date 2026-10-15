@@ -49,7 +49,7 @@
   ],
   "schemaVersion": 1,
   "roadmapVersion": 6,
-  "observedAt": "2026-10-13T19:21:17.823Z",
+  "observedAt": "2026-10-15T09:36:49Z",
   "units": [
     {
       "id": "PDE-01",
@@ -643,12 +643,16 @@
       "id": "PDE-32",
       "title": "Standardize Public Debate Engine product name and repository references",
       "origin": "addition",
-      "prs": [],
-      "state": "approved_not_started",
-      "implementation": "not_started",
+      "prs": [
+        87
+      ],
+      "state": "in_progress",
+      "implementation": "implemented",
       "acceptance": "pending",
-      "openPullRequests": [],
-      "acceptanceNote": "Approved 2026-10-11; acceptance pending",
+      "openPullRequests": [
+        87
+      ],
+      "acceptanceNote": "PR #87 implements canonical product and registry identity; hosted validation pending.",
       "dependsOn": [],
       "externalDependencies": [],
       "externalPrerequisites": []
@@ -2140,6 +2144,21 @@
       "headSha": "e94384eb05ec1cec7724c8c249fde98323827ab4",
       "baseRef": "main",
       "mergeCommitSha": "fc76857af95f0eace3e61c93e9706e0430dee3a2"
+    },
+    {
+      "id": 4871203754,
+      "number": 87,
+      "title": "PDE-32: Standardize Public Debate Engine identity",
+      "url": "https://github.com/neophilism/Debate-Engine/pull/87",
+      "state": "open",
+      "draft": true,
+      "createdAt": "2026-10-15T09:36:49Z",
+      "updatedAt": "2026-10-15T09:36:49Z",
+      "closedAt": null,
+      "mergedAt": null,
+      "headSha": "50819966ddfacf4786883314056851aeace36a16",
+      "baseRef": "main",
+      "mergeCommitSha": "25ab1eef1a1ae889a5d99aed72cda736627f12f7"
     }
   ]
 }

@@ -1,6 +1,6 @@
-# Current development and handoff status
+# Public Debate Engine current development and handoff status
 
-**Reviewed:** October 11, 2026. **Repository:** [Debate-Engine](https://github.com/neophilism/Debate-Engine).
+**Reviewed:** October 15, 2026. **Product:** Public Debate Engine. **Current repository:** [`neophilism/Debate-Engine`](https://github.com/neophilism/Debate-Engine) (the approved administrative rename is still pending).
 
 ## Canonical resources
 
@@ -30,4 +30,4 @@ Authentication, candidate verification, same-office debate initiation, permanent
 9. Confirm Render/Neon **production** deployment and operational health after authorization; do not copy development credentials into public production.
 10. Update Engine Room and final release registry with **actual** operational evidence. No milestone can be marked accepted solely because its source PR merged.
 
-See `registry/roadmap.json` for each milestone's source PR links and remaining operational caveat, and `docs/DEVELOPMENT_PLAN.md` for the normative original plan. A different agent can continue from these files without access to any prior ChatGPT memory.
+See `registry/prs.json` for the canonical 44-unit plan and real source PR links, and `docs/DEVELOPMENT_PLAN.md` for the normative detailed plan. `registry/roadmap.json` is a retired redirect and must not be treated as a second roadmap. A different agent can continue from these files without access to any prior ChatGPT memory.
