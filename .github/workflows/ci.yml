@@ -175,7 +175,7 @@ jobs:
         with:
           node-version: '22'
       - name: Install production application and browser test dependencies
-        run: npm install --no-audit --no-fund
+        run: npm install --global npm@11.19.1 && npm install --no-audit --no-fund
       - name: Install Chromium browser for real candidate sessions
         run: npx playwright install --with-deps chromium
       - name: Apply all migrations to disposable PostgreSQL only
