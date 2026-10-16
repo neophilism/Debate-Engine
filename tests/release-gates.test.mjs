@@ -17,3 +17,13 @@ test("missing, duplicated, malformed or unreviewed evidence fails closed",()=>{
  assert.throws(()=>evaluateRelease({roadmap,evidence:{schemaVersion:1,gates:[gates[0],gates[0]]}}));
  assert.throws(()=>evaluateRelease({roadmap:{...roadmap,plannedPrCount:3},evidence:{schemaVersion:1,gates}}));
 });
+
+test("AI security reviewer can satisfy the review gate without external auditor signoff",()=>{
+ const accepted=REQUIRED_GATES.map(id=>({id,status:"accepted",reviewer:id==="securityReview"?"AI-assisted source security reviewer":"Operational reviewer",reviewedAt:"2026-10-12T12:00:00Z",evidenceUrl:"https://github.com/neophilism/Debate-Engine/issues/1"}));
+ const completePlan={...roadmap,operationalAcceptance:Object.fromEntries(REQUIRED_GATES.map(id=>[id,"accepted"]))};
+ assert.equal(evaluateRelease({roadmap:completePlan,evidence:{schemaVersion:1,gates:accepted}}).ready,true);
+ accepted.find(item=>item.id==="securityReview").evidenceUrl=null;
+ const blocked=evaluateRelease({roadmap:completePlan,evidence:{schemaVersion:1,gates:accepted}});
+ assert.equal(blocked.ready,false);
+ assert.match(blocked.unaccepted.find(item=>item.gate==="securityReview").reason,/independent human audit is not required/i);
+});
