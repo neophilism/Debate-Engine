@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: npm install --global npm@11.19.1
       - run: npm install --no-audit --no-fund
       - run: npm run typecheck
       - run: npm test
@@ -41,6 +42,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: npm install --global npm@11.19.1
       - run: npm install --no-audit --no-fund
       - name: Apply every numbered database migration
         run: npm run db:migrate
@@ -91,6 +93,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: npm install --global npm@11.19.1
       - run: npm install --no-audit --no-fund
       - name: Install headless Chromium
         run: npx playwright install --with-deps chromium
@@ -135,6 +138,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: npm install --global npm@11.19.1
       - run: npm install --no-audit --no-fund
       - name: Install FFmpeg for real but fictional MP4 and WAV fixture bytes
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
@@ -171,7 +175,7 @@ jobs:
         with:
           node-version: '22'
       - name: Install production application and browser test dependencies
-        run: npm install --no-audit --no-fund
+        run: npm install --global npm@11.19.1 && npm install --no-audit --no-fund
       - name: Install Chromium browser for real candidate sessions
         run: npx playwright install --with-deps chromium
       - name: Apply all migrations to disposable PostgreSQL only
